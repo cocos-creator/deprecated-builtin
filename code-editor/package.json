@@ -2,7 +2,7 @@
   "name": "code-editor",
   "version": "0.1.0",
   "description": "The code editor plugin for Fireball Editor",
-  "author": "KamiSama <1457434343@qq.com>",
+  "author": "Firebox Technology",
   "fireball": {
     "main": "editor/main.js",
     "panels": {

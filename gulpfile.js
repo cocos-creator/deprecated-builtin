@@ -1,37 +1,22 @@
 ﻿var gulp = require('gulp');
 var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
-var concat = require('gulp-concat');
 var stylus = require('gulp-stylus');
-var rename = require('gulp-rename');
 var vulcanize = require('gulp-vulcanize');
 var del = require('del');
-var minifyCSS = require('gulp-minify-css');
-
-var path = require('path');
-var es = require('event-stream');
 var stylish = require('jshint-stylish');
 
 var header = require('gulp-header');
+var fb = require('gulp-fb');
+
+var fs = require('fs');
 
 // clean
 gulp.task('clean', function() {
     del('bin/');
 });
 
-/////////////////////////////////////////////////////////////////////////////
-// build
-/////////////////////////////////////////////////////////////////////////////
-
-function wrapScope () {
-    var header = new Buffer("(function () {\n");
-    var footer = new Buffer("})();\n");
-    return es.through(function (file) {
-        file.contents = Buffer.concat([header, file.contents, footer]);
-        this.emit('data', file);
-    });
-}
-
+// package tasks
 var task_copy_deps = [];
 var task_min_deps = [];
 var task_dev_deps = [];
@@ -42,21 +27,66 @@ var task_package = function ( name ) {
     var destBinPath = 'bin/' + name + '/';
 
     var task_copy = 'package-' + name + '-copy';
+    var task_js = 'package-' + name + '-js';
+    var task_styl = 'package-' + name + '-styl';
 
     task_copy_deps.push(task_copy);
-    task_min_deps.push(task_copy);
-    task_dev_deps.push(task_copy);
+    task_min_deps.push(task_copy, task_js, task_styl);
+    task_dev_deps.push(task_copy, task_js, task_styl);
+
+    var copy_files = [
+        basePath + '**/*',
+        '!' + basePath + '**/*.js',
+        '!' + basePath + '**/*.styl',
+        basePath + '**/ext/**/*',
+    ];
+
+    var js_files = [
+        basePath + '**/*.js',
+        '!' + basePath + '**/ext/**/*'
+    ];
+
+    var styl_files = [
+        basePath + '**/*.styl',
+        '!' + basePath + '**/ext/**/*'
+    ];
 
     var watcher = {
-        all: { files: basePath + '**/*', tasks: [task_copy] },
+        copy: { files: copy_files, tasks: [task_copy] },
+        js: { files: js_files, tasks: [task_js] },
+        styl: { files: styl_files, tasks: [task_styl]}
     };
     package_wartchers.push(watcher);
 
     // copy
     gulp.task(task_copy, function() {
-        return gulp.src( watcher.all.files, {base: basePath} )
+        return gulp.src( watcher.copy.files, {base: basePath} )
         .pipe(gulp.dest(destBinPath))
         ;
+    });
+
+    // js
+    gulp.task(task_js, function() {
+        return gulp.src(js_files)
+        .pipe(fb.wrapScope())
+        .pipe(jshint({
+            multistr: true,
+            smarttabs: false,
+            loopfunc: true,
+            esnext: true,
+        }))
+        .pipe(jshint.reporter(stylish))
+        .pipe(gulp.dest(destBinPath))
+        ;
+    });
+
+    // styl
+    gulp.task( task_styl, function() {
+        return gulp.src(styl_files)
+        .pipe(stylus({
+            compress: false,
+        }))
+        .pipe(gulp.dest(destBinPath));
     });
 };
 
@@ -65,17 +95,13 @@ var task_package = function ( name ) {
 /////////////////////////////////////////////////////////////////////////////
 
 // task panels
-var builtins = [
-    "asset-db-debugger",
-    "atlas",
-    "auto-updater",
-    "build-settings",
-    "code-editor",
-    "fire-about",
-
-    "sprite-animation",
-];
-builtins.forEach(function(name) {
+fs.readdirSync('./').forEach(function(name) {
+    if ( name === 'bin' ||
+         name[0] === '.' ||
+         fs.statSync(name).isDirectory() === false )
+    {
+        return;
+    }
     task_package(name);
 });
 
@@ -88,7 +114,9 @@ gulp.task('default', task_min_deps );
 gulp.task('watch', function() {
     for ( var i = 0; i < package_wartchers.length; ++i ) {
         var watcher = package_wartchers[i];
-        gulp.watch( watcher.all.files, watcher.all.tasks ).on ( 'error', gutil.log );
+        gulp.watch( watcher.copy.files, watcher.copy.tasks ).on ( 'error', gutil.log );
+        gulp.watch( watcher.js.files, watcher.js.tasks ).on ( 'error', gutil.log );
+        gulp.watch( watcher.styl.files, watcher.styl.tasks ).on ( 'error', gutil.log );
     }
 });
 

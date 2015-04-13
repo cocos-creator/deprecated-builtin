@@ -2,7 +2,7 @@
   "name": "build-settings",
   "version": "0.1.0",
   "description": "The build settings for Fireball Engine",
-  "author": "KamiSama <kamisama.lwh@qq.com>",
+  "author": "Firebox Technology",
   "fireball": {
     "main": "editor/main.js",
     "menus": [
@@ -14,7 +14,7 @@
     "panels": {
       "default": {
         "type": "fixed-size",
-        "view": "editor/build-settings.html",
+        "view": "editor/panel/build-settings.html",
         "ctor": "BuildSettings",
         "title": "Build Settings",
         "width": 500,
