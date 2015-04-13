@@ -1,0 +1,92 @@
+<polymer-element
+    name="build-settings"
+    constructor="BuildSettings"
+    on-query-scene-results="ipcQuerySceneResults"
+    >
+<template>
+    <link rel="stylesheet" href="build-settings.css">
+    <div class="title">
+        <h2>Build Settings</h2>
+        <span class="tip" id="tip">
+            Please enter the correct data!
+        </span>
+    </div>
+    <div class="section">
+        <div flex-row class="prop">
+            <fire-ui-label flex-1>Project Name</fire-ui-label>
+            <fire-ui-text-input
+                value="{{settings.projectName}}"
+                invalid="{{!isProjectNameValid}}"
+                placeholder="Project Name"
+                flex-2
+                ></fire-ui-text-input>
+        </div>
+
+        <div flex-row class="prop">
+            <fire-ui-label flex-1>Platform</fire-ui-label>
+            <fire-ui-select flex-2 value="{{settings.platform}}" options={{platformList}}></fire-ui-select>
+        </div>
+
+        <div flex-row class="prop">
+            <fire-ui-label flex-1>Build Path</fire-ui-label>
+            <div flex-row flex-2>
+                    <fire-ui-text-input
+                        value="{{settings.buildPath}}"
+                        invalid="{{!isBuildPathValid}}"
+                        placeholder="Building Path"
+                        flex-4
+                        >
+                    </fire-ui-text-input>
+                    <fire-ui-button style="margin-left: 5px" on-click="{{chooseDistPath}}" >...</fire-ui-button>
+            </div>
+        </div>
+
+        <div flex-row class="prop">
+            <fire-ui-label flex-1>Show in {{finderOrExplorer}}</fire-ui-label>
+            <div flex-row flex-2>
+                <span flex-4 class="path">{{settings.buildPath}}</span>
+                <fire-ui-button on-click="{{showInFinder}}" >Show in {{finderOrExplorer}}</fire-ui-button>
+            </div>
+        </div>
+
+        <div flex-row class="prop">
+            <fire-ui-label id="test" flex-1>Start Scene</fire-ui-label>
+            <fire-ui-select flex-2 value="{{settings.defaultScene}}" options={{settings.sceneList}}></fire-ui-select>
+        </div>
+
+        <div flex-row class="prop item-box">
+            <fire-ui-label  flex-1>Scenes In Build</fire-ui-label>
+            <div flex-2 class="items">
+                <div class="box-border">
+                    <template repeat="{{item in settings.sceneList}}">
+                        <fire-ui-checkbox disabled="{{item.value == settings.defaultScene}}" on-click="{{itemClickAction}}" value="{{item.checked}}" id="{{item.value}}">{{item.name}}</fire-ui-checkbox>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <div flex-row class="prop">
+            <fire-ui-label flex-1>Debug Mode</fire-ui-label>
+            <fire-ui-checkbox flex-2 value="{{settings.isDebug}}"></fire-ui-checkbox>
+        </div>
+
+        <div flex-row class="prop">
+            <fire-ui-label flex-1>Preview</fire-ui-label>
+            <div flex-row flex-2>
+                <span class="link" flex-4 on-click="{{previewAction}}">http://localhost:7456</span>
+                <fire-ui-button on-click="{{previewAction}}">Open in Browser</fire-ui-button>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="btn-group">
+        <button class="green" on-mouseenter="{{buildButtonHoverInAction}}" on-mouseleave="{{buildButtonHoverOutAction}}" on-click="{{buildAction}}">
+            <span class="{{hoverBuildButton? 'hide':''}}">Build</span>
+            <li class="fa fa-download {{!hoverBuildButton? 'hide':''}}"></li>
+        </button>
+        <button class="red" on-click="{{closeAction}}">Close</button>
+    </div>
+</template>
+<script type="text/javascript" src="build-settings.js"></script>
+</polymer-element>

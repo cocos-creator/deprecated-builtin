@@ -1,0 +1,161 @@
+:host {
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif
+}
+
+.load {
+    width: 100px
+    height: 100px
+    float: left
+    svg {
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        stroke-dasharray: 1%, 300%
+        stroke-dashoffset: 0%
+        stroke: #DDDDDD
+        stroke-linecap:round
+        fill: none
+        display: none
+        transform: rotate(-90deg)
+    }
+}
+
+.showAnimate {
+    -webkit-animation:animate 3s 0 linear infinite
+}
+
+@-webkit-keyframes animate
+{
+    0%   {stroke-dasharray: 0%, 250%;stroke-dashoffset: 0%;}
+    50%  {stroke-dasharray: 250%, 250%;stroke-dashoffset: 0%;}
+    100% {stroke-dasharray: 250%, 250%;stroke-dashoffset: -250%;}
+}
+
+.logo {
+    position: absolute
+    width: 45px
+    margin-left: 30px
+    margin-top: 25px
+}
+
+.tip {
+    position: fixed
+    font-size: 12px
+    margin-left: 100px
+    margin-top: 10px
+    color: rgb(248, 252, 99)
+}
+
+.updateurl {
+    font-size: 12px
+    color: black
+    -webkit-user-select: initial
+    text-decoration: underline
+    cursor: pointer
+    &:hover {
+        color: white
+    }
+}
+
+.topbar {
+    width: 100%
+    height: 120px
+    background: rgb(113,164,196)
+    float: left
+}
+
+.title {
+    font-size: 45px
+    line-height: 100px
+    color: white
+}
+.version {
+    font-size: 14px
+}
+
+.pace {
+  -webkit-pointer-events: none
+  pointer-events: none
+  -webkit-user-select: none
+  -moz-user-select: none
+  user-select: none
+}
+
+.progress {
+    position: fixed
+    width: 100%
+    height: 4px
+    background: rgb(110, 110, 110)
+    background-image:
+                linear-gradient(45deg,rgba(255,255,255,0.15) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255,255,255,0.15) 50%,
+                rgba(255,255,255,0.15) 75%,
+                transparent 75%,transparent)
+    background-size: 20px 20px
+    -webkit-animation: progress-bar-stripes 2s linear infinite
+}
+
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0
+  }
+  to {
+    background-position: 0 0
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0
+  }
+  to {
+    background-position: 0 0
+  }
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-activity {
+  display: block
+  position: fixed
+  z-index: 2000
+  top: 15px
+  right: 15px
+  width: 14px
+  height: 14px
+  border: solid 2px transparent
+  border-top-color: #FFFFFF
+  border-left-color: #FFFFFF
+  border-radius: 10px
+  -webkit-animation: pace-spinner 400ms linear infinite
+  -moz-animation: pace-spinner 400ms linear infinite
+  -ms-animation: pace-spinner 400ms linear infinite
+  -o-animation: pace-spinner 400ms linear infinite
+  animation: pace-spinner 400ms linear infinite
+}
+
+@-webkit-keyframes pace-spinner {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-moz-keyframes pace-spinner {
+  0% { -moz-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-o-keyframes pace-spinner {
+  0% { -o-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-ms-keyframes pace-spinner {
+  0% { -ms-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes pace-spinner {
+  0% { transform: rotate(0deg); transform: rotate(0deg); }
+  100% { transform: rotate(360deg); transform: rotate(360deg); }
+}

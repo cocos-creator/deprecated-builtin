@@ -1,0 +1,29 @@
+<polymer-element
+    name="auto-updater"
+    constructor="AutoUpdater"
+    on-status-changed="ipcStatusChanged"
+    >
+<template>
+<link rel="stylesheet" href="auto-updater.css">
+    <div class="pace  pace-inactive" style="display: {{progressAnimate ? 'block':'none'}}">
+        <div class="progress"></div>
+        <div class="pace-activity"></div>
+    </div>
+    <span class="tip">{{statusTip}}
+        <span class="updateurl" on-click="{{goToUpdateUrl}}" style="{{winUpdate ? '':'display:none'}}"> ➤ Click to Download</span>
+    </span>
+    <div class="topbar">
+        <div class="load">
+            <img class="logo" id="logo" src="img/logo.png">
+            <svg id="svgForStroke" class="{{playing ? 'showAnimate':''}}" style="display: {{playing ? 'block':'none'}}" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50%" cy="50%" r="40%" stroke-width="1%"/>
+            </svg>
+        </div>
+        <span class="title">
+            Fireball
+        </span>
+        <span class="version">version:{{version}}</span>
+    </div>
+</template>
+<script type="text/javascript" src="auto-updater.js"></script>
+</polymer-element>

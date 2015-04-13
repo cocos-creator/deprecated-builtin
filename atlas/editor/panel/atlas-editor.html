@@ -1,0 +1,52 @@
+<polymer-element
+    name="atlas-editor"
+    constructor="AtlasEditor"
+    on-drop-area-enter="{{dropAreaEnterAction}}"
+    on-drop-area-leave="{{dropAreaLeaveAction}}"
+    on-drop-area-accept="{{dropAreaAcceptAction}}"
+    on-open="{{ipcOpen}}"
+    >
+<template>
+
+    <link rel="stylesheet" href="atlas-editor.css">
+
+    <div id="view" flex-1>
+        <canvas id="canvas" class="{{highlighted ? 'active' : ''}}"></canvas>
+    </div>
+
+    <div class="right-panel">
+        <div flex-row class="tool-box">
+            <fire-ui-slider value="{{zoom}}" flex-1></fire-ui-slider>
+            <span class="space"></span>
+            <fire-ui-button on-click={{resetCamera}}><i class="fa fa-refresh"></i></fire-ui-button>
+        </div>
+
+        <div class="settings">
+            <fire-ui-prop name="Element Background" value="{{elementBG}}"></fire-ui-prop>
+            <fire-ui-prop name="Element Select" value="{{elementSel}}"></fire-ui-prop>
+            <fire-ui-custom-prop name="Custom Background">
+                <fire-ui-checkbox value="{{customBG}}"></fire-ui-checkbox>
+                <span class="space"></span>
+                <fire-ui-color flex-1 value="{{atlasBG}}" disabled="{{!customBG}}"></fire-ui-color>
+            </fire-ui-custom-prop>
+            <fire-ui-prop name="Show Checkerboard" value="{{showCheckerboard}}"></fire-ui-prop>
+        </div>
+
+        <div class="sprite-list" flex-1>
+            <template repeat="{{sprite, index in asset.sprites}}">
+                <div class="sprite-list-item">
+                    <!-- <img src="{{spriteMeta.rawTextureUuid.image.src}}"></img> -->
+                    [{{index}}] {{sprite.name}}
+                </div>
+            </template>
+        </div>
+
+        <div class="buttons" flex-row>
+            <span flex-1></span>
+            <fire-ui-button on-click="{{applyAction}}">Apply</fire-ui-button>
+        </div>
+    </div>
+</template>
+
+<script type="text/javascript" src="atlas-editor.js"></script>
+</polymer-element>

@@ -1,0 +1,92 @@
+:host {
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    align-items: stretch
+
+    margin-top: 2px
+    margin-left: 2px
+    margin-bottom: 2px
+}
+
+span.space {
+    width: 5px
+}
+
+#view {
+    position: relative
+    border: 1px solid #222
+    box-shadow: inset 0 0 8px 2px rgba(0,0,0,0.2)
+
+    background-color: #333
+    overflow: hidden
+}
+
+#canvas {
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%,-50%)
+
+    background-image: url('img/checkerboard-32x32.png')
+    background-size: 32px 32px
+
+    box-shadow: 0 0 15px 2px rgba(0,0,0,0.3)
+    border: 1px solid #222
+
+    &.active {
+        border: 1px solid #09f
+    }
+}
+
+.right-panel {
+    width: 320px
+    position: relative
+
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    align-items: stretch
+}
+
+.tool-box {
+    background: #333
+    padding: 3px 5px
+    // border: 1px solid #424242
+    // box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3)
+}
+
+.settings {
+    padding-right: 5px
+}
+
+.sprite-list {
+    margin-left: 5px
+    margin-right: 5px
+    overflow: auto
+
+    background: #333
+}
+
+.sprite-list-item {
+    padding: 3px 5px
+    margin-bottom: 1px
+
+    font-size: 12px
+    color: #bdbdbd
+    background-color: #222
+
+    white-space: nowrap
+    text-overflow: ellipsis
+}
+
+.buttons {
+    margin-top: 5px
+    margin-right: 5px
+}
