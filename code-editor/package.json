@@ -8,7 +8,7 @@
     "panels": {
       "code-editor": {
         "type": "dockable",
-        "view": "editor/code-editor.html",
+        "view": "editor/panel/code-editor.html",
         "ctor": "CodeEditor",
         "title": "Code Editor",
         "width": 1200,
