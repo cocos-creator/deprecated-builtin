@@ -1,0 +1,30 @@
+{
+  "name": "console",
+  "version": "0.2.0",
+  "description": "Console Panel",
+  "author": "Firebox Technology",
+  "fireball": {
+    "main": "editor/main.js",
+    "menus": [
+      {
+        "path": "Fireball/Panels/Console",
+        "message": "console:open"
+      }
+    ],
+    "panels": {
+      "default": {
+        "type": "dockable",
+        "view": "editor/panel/fire-console.html",
+        "ctor": "FireConsole",
+        "title": "Console",
+        "height": 300,
+        "messages": {
+            "console:log": "console-log",
+            "console:warn": "console-warn",
+            "console:error": "console-error",
+            "console:info": "console-info"
+        }
+      }
+    }
+  }
+}
