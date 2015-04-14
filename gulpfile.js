@@ -39,6 +39,7 @@ var task_package = function ( name ) {
         basePath + '**/*',
         '!' + basePath + '**/*.js',
         '!' + basePath + '**/*.styl',
+        '!' + basePath + '**/ext/**/*',
     ];
 
     var ext_files = [
