@@ -8,7 +8,7 @@
     "menus": [
       {
         "path": "Developer/AssetDB Debugger",
-        "message": "asset-db:debugger:open"
+        "message": "asset-db-debugger:open"
       }
     ],
     "panels": {
@@ -22,10 +22,7 @@
         "min-width": 400,
         "min-height": 200,
         "messages": {
-          "asset-db:debugger:url-uuid-results": "url-uuid-results",
-          "asset-db:debugger:uuid-url-results": "uuid-url-results",
-          "asset-db:debugger:url-subuuids-results": "url-subuuids-results",
-          "asset-library:debugger:uuid-asset-results": "uuid-asset-results"
+          "asset-db-debugger:uuid-asset-results": "uuid-asset-results"
         }
       }
     }

@@ -32,38 +32,6 @@ Polymer({
         return filterList;
     },
 
-    ipcUrlUuidResults: function ( event ) {
-        var results = event.detail.results;
-
-        this.infoList = [];
-        for ( var i = 0; i < results.length; ++i ) {
-            var info = results[i];
-            this.infoList.push( { key: info.url, value: info.uuid } );
-        }
-    },
-
-    ipcUrlSubuuidsResults: function ( event ) {
-        var results = event.detail.results;
-
-        this.infoList = [];
-        for ( var i = 0; i < results.length; ++i ) {
-            var info = results[i];
-            for ( var j = 0; j < info.uuids.length; ++j ) {
-                this.infoList.push( { key: info.url, value: info.uuids[j] } );
-            }
-        }
-    },
-
-    ipcUuidUrlResults: function ( event ) {
-        var results = event.detail.results;
-
-        this.infoList = [];
-        for ( var i = 0; i < results.length; ++i ) {
-            var info = results[i];
-            this.infoList.push( { key: info.uuid, value: info.url } );
-        }
-    },
-
     ipcUuidAssetResults: function ( event ) {
         var results = event.detail.results;
 
@@ -79,7 +47,13 @@ Polymer({
         this.keyName = "URL";
         this.valueName = "UUID";
         this.infoList = [];
-        Editor.sendToCore('asset-db:debugger:query-url-uuid');
+        Editor.sendRequestToCore('asset-db-debugger:query-url-uuid', function ( results ) {
+            this.infoList = [];
+            for ( var i = 0; i < results.length; ++i ) {
+                var info = results[i];
+                this.infoList.push( { key: info.url, value: info.uuid } );
+            }
+        }.bind(this));
     },
 
     uuidUrlAction: function ( event ) {
@@ -87,7 +61,13 @@ Polymer({
         this.keyName = "UUID";
         this.valueName = "URL";
         this.infoList = [];
-        Editor.sendToCore('asset-db:debugger:query-uuid-url');
+        Editor.sendRequestToCore('asset-db-debugger:query-uuid-url', function ( results ) {
+            this.infoList = [];
+            for ( var i = 0; i < results.length; ++i ) {
+                var info = results[i];
+                this.infoList.push( { key: info.uuid, value: info.url } );
+            }
+        }.bind(this));
     },
 
     urlSubUuidsAction: function ( event ) {
@@ -95,7 +75,15 @@ Polymer({
         this.keyName = "URL";
         this.valueName = "SUB UUIDS";
         this.infoList = [];
-        Editor.sendToCore('asset-db:debugger:query-url-subuuids');
+        Editor.sendRequestToCore('asset-db-debugger:query-url-subuuids', function ( results ) {
+            this.infoList = [];
+            for ( var i = 0; i < results.length; ++i ) {
+                var info = results[i];
+                for ( var j = 0; j < info.uuids.length; ++j ) {
+                    this.infoList.push( { key: info.url, value: info.uuids[j] } );
+                }
+            }
+        }.bind(this));
     },
 
     libraryAction: function ( event ) {
@@ -103,7 +91,7 @@ Polymer({
         this.keyName = "UUID";
         this.valueName = "ASSET NAME";
         this.infoList = [];
-        Editor.sendToAll('asset-library:debugger:query-uuid-asset');
+        Editor.sendToMainWindow('asset-db-debugger:query-uuid-asset');
     },
 
     refreshAction: function ( event ) {
