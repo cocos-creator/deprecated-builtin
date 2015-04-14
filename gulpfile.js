@@ -12,8 +12,8 @@ var fb = require('gulp-fb');
 var fs = require('fs');
 
 // clean
-gulp.task('clean', function() {
-    del('bin/');
+gulp.task('clean', function(cb) {
+    del('bin/', cb);
 });
 
 // package tasks
