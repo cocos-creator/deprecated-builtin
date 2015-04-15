@@ -51,7 +51,7 @@ Polymer(EditorUI.mixin({
         this.load(uuid);
     },
 
-    'inspector:asset:dirty': function ( event ) {
+    'fire-inspector:asset-dirty': function ( event ) {
         var uuid = event.detail.uuid;
         var assetJson = event.detail.json;
 
@@ -76,7 +76,7 @@ Polymer(EditorUI.mixin({
         }, true);
     },
 
-    'inspector:meta:dirty': function ( event ) {
+    'fire-inspector:meta-dirty': function ( event ) {
         var uuid = event.detail.uuid;
         var metaJson = event.detail.json;
 

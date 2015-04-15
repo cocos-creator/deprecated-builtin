@@ -61,7 +61,7 @@ Polymer({
 
         if ( this.asset ) {
             this.asset.dirty = true;
-            Editor.sendToWindows( 'inspector:asset:dirty', {
+            Editor.sendToWindows( 'fire-inspector:asset-dirty', {
                 uuid: this.meta.uuid,
                 json: Editor.serialize(this.asset)
             } );
@@ -73,7 +73,7 @@ Polymer({
 
         if ( this.meta ) {
             this.meta.dirty = true;
-            Editor.sendToWindows( 'inspector:meta:dirty', {
+            Editor.sendToWindows( 'fire-inspector:meta-dirty', {
                 uuid: this.meta.uuid,
                 json: Editor.serializeMeta(this.meta)
             } );

@@ -17,8 +17,10 @@
         "view": "editor/panel/fire-scene.html",
         "ctor": "FireScene",
         "title": "Scene",
+        "width": "auto",
+        "height": "auto",
         "messages": [
-            "entity:hint"
+            "scene:dirty"
         ]
       }
     }

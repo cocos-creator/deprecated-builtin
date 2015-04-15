@@ -17,8 +17,11 @@
         "view": "editor/panel/fire-game.html",
         "ctor": "FireGame",
         "title": "Game",
+        "width": "auto",
+        "height": "auto",
         "messages": [
-            "entity:hint"
+            "scene:dirty",
+            "gizmos:dirty"
         ]
       }
     }

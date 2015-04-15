@@ -14,8 +14,6 @@ Polymer({
         this.icon = new Image();
         this.icon.src = "fire://static/img/plugin-game.png";
 
-        this.ipc = new Editor.IpcListener();
-
         this.renderContext = null;
         this.curResolution = 0;
         this.rotate = false;
@@ -40,14 +38,18 @@ Polymer({
 
     attached: function () {
         Editor.mainWindow.$.game = this;
-
-        this.ipc.on('scene:dirty', this.delayRepaintScene.bind(this) );
     },
 
     detached: function () {
         Editor.mainWindow.$.game = null;
+    },
 
-        this.ipc.clear();
+    'scene:dirty': function () {
+        this.delayRepaintScene();
+    },
+
+    'gizmos:dirty': function () {
+        this.delayRepaintScene();
     },
 
     setRenderContext: function ( renderContext ) {
@@ -132,7 +134,7 @@ Polymer({
         setTimeout( function () {
             this.repaintScene();
             this._repainting = false;
-        }.bind(this), 100 );
+        }.bind(this), 10 );
     },
 
     showAction: function ( event ) {

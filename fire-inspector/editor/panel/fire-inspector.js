@@ -16,10 +16,6 @@ Polymer({
         // register Ipc
         this.ipc.on('selection:activated', this._onInspect.bind(this) );
 
-        this.ipc.on('asset:changed', this._onAssetChanged.bind(this) );
-        this.ipc.on('asset:moved', this._onAssetMoved.bind(this) );
-        this.ipc.on('asset:saved', this._onAssetSaved.bind(this) );
-        this.ipc.on('asset:dirty', this._onAssetDirty.bind(this) );
         this.ipc.on('component:added', this._onEntityDirty.bind(this) );
         this.ipc.on('component:removed', this._onEntityDirty.bind(this) );
     },
@@ -28,6 +24,54 @@ Polymer({
         Editor.mainWindow.$.inspector = null;
 
         this.ipc.clear();
+    },
+
+    'asset:changed': function ( event ) {
+        var uuid = event.detail.uuid;
+        if ( this.target && this.target.uuid === uuid ) {
+            var reloadMeta = true;
+
+            // NOTE: we don't need to reload custom-asset if it is auto-saved
+            if ( this.target instanceof Editor.CustomAssetMeta ) {
+                if ( this.$.inspector.asset && this.$.inspector.asset.dirty ) {
+                    this.$.inspector.asset.dirty = false;
+                    reloadMeta = false;
+                }
+            }
+
+            //
+            if ( reloadMeta ) {
+                var metaJson = Editor.AssetDB.loadMetaJson(uuid);
+                Fire.AssetLibrary.loadMeta(metaJson, function ( err, meta ) {
+                    this.inspect(meta,true);
+                }.bind(this));
+            }
+        }
+    },
+
+    'asset:moved': function ( event ) {
+        var uuid = event.detail.uuid;
+        var destUrl = event.detail['dest-url'];
+        if ( this.target && this.target.uuid === uuid ) {
+            if ( this.$.inspector.asset ) {
+                this.$.inspector.asset.name = Url.basenameNoExt(destUrl);
+            }
+        }
+    },
+
+    'asset:saved': function ( event ) {
+        var url = event.detail.url;
+        var uuid = event.detail.uuid;
+
+        if ( this.target && this.target.uuid === uuid ) {
+            if ( this.$.inspector.saving !== undefined ) {
+                this.$.inspector.saving = false;
+
+                if ( this.$.inspector.asset && this.$.inspector.asset.dirty ) {
+                    this.$.inspector.asset.dirty = false;
+                }
+            }
+        }
     },
 
     _onInspect: function ( type, id ) {
@@ -68,60 +112,6 @@ Polymer({
                 // uninspect
                 this.inspect(null);
             }
-        }
-    },
-
-    _onAssetChanged: function ( detail ) {
-        var uuid = detail.uuid;
-        if ( this.target && this.target.uuid === uuid ) {
-            var reloadMeta = true;
-
-            // NOTE: we don't need to reload custom-asset if it is auto-saved
-            if ( this.target instanceof Editor.CustomAssetMeta ) {
-                if ( this.$.inspector.asset && this.$.inspector.asset.dirty ) {
-                    this.$.inspector.asset.dirty = false;
-                    reloadMeta = false;
-                }
-            }
-
-            //
-            if ( reloadMeta ) {
-                var metaJson = Editor.AssetDB.loadMetaJson(uuid);
-                Fire.AssetLibrary.loadMeta(metaJson, function ( err, meta ) {
-                    this.inspect(meta,true);
-                }.bind(this));
-            }
-        }
-    },
-
-    _onAssetMoved: function ( detail ) {
-        var uuid = detail.uuid;
-        var destUrl = detail['dest-url'];
-        if ( this.target && this.target.uuid === uuid ) {
-            if ( this.$.inspector.asset ) {
-                this.$.inspector.asset.name = Url.basenameNoExt(destUrl);
-            }
-        }
-    },
-
-    _onAssetSaved: function ( detail ) {
-        var url = detail.url;
-        var uuid = detail.uuid;
-
-        if ( this.target && this.target.uuid === uuid ) {
-            if ( this.$.inspector.saving !== undefined ) {
-                this.$.inspector.saving = false;
-
-                if ( this.$.inspector.asset && this.$.inspector.asset.dirty ) {
-                    this.$.inspector.asset.dirty = false;
-                }
-            }
-        }
-    },
-
-    _onAssetDirty: function ( uuid, assetJson ) {
-        if ( this.target && this.target.uuid === uuid ) {
-            Fire.warn("TODO, waiting for @Jare's asset.deserialize()");
         }
     },
 

@@ -2,7 +2,7 @@ var Remote = require('remote');
 var Url = require('fire-url');
 var Fs = require('fire-fs');
 var Path = require('fire-path');
-var Shell = Remote.require('shell');
+var Shell = require('shell');
 
 Polymer({
     platformList: [

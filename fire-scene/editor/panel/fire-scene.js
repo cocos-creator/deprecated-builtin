@@ -17,13 +17,16 @@ Polymer({
         this.ipc.on('selection:entity:unselected', this.select.bind(this, false) );
         this.ipc.on('selection:entity:hover', this.hover.bind(this) );
         this.ipc.on('selection:entity:hoverout', this.hoverout.bind(this) );
-        this.ipc.on('scene:dirty', this.delayRepaintScene.bind(this) );
     },
 
     detached: function () {
         Editor.mainWindow.$.scene = null;
 
         this.ipc.clear();
+    },
+
+    'scene:dirty': function () {
+        this.delayRepaintScene();
     },
 
     initRenderContext: function () {
@@ -68,7 +71,7 @@ Polymer({
         setTimeout( function () {
             this.repaintScene();
             this._repainting = false;
-        }.bind(this), 100 );
+        }.bind(this), 10 );
     },
 
     repaintScene: function () {

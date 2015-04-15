@@ -18,8 +18,8 @@
         "messages": [
           "panel:open",
           "asset:changed",
-          "inspector:asset:dirty",
-          "inspector:meta:dirty"
+          "fire-inspector:asset-dirty",
+          "fire-inspector:meta-dirty"
         ]
       }
     }

@@ -20,6 +20,9 @@
         "width": 300,
         "min-width": 240,
         "messages": [
+            "asset:changed",
+            "asset:moved",
+            "asset:saved"
         ]
       }
     }
