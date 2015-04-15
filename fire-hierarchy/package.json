@@ -19,6 +19,7 @@
         "title": "Hierarchy",
         "width": 200,
         "messages": [
+            "scene:launched",
             "entity:created",
             "entity:removed",
             "entity:renamed",

@@ -23,8 +23,6 @@ Polymer({
     attached: function () {
         Editor.mainWindow.$.hierarchy = this;
 
-        this.ipc.on('scene:launched', this.reload.bind(this));
-
         this.ipc.on('selection:entity:selected', this.select.bind(this, true));
         this.ipc.on('selection:entity:unselected', this.select.bind(this, false));
         this.ipc.on('selection:entity:hover', this.hover.bind(this));
@@ -37,6 +35,10 @@ Polymer({
         Editor.mainWindow.$.hierarchy = null;
 
         this.ipc.clear();
+    },
+
+    'scene:launched': function ( event ) {
+        this.reload(event.detail);
     },
 
     'entity:created': function ( event ) {
