@@ -38,31 +38,6 @@
         this.ipc.on('entity:parentChanged', this.setItemParentById.bind(this));
         this.ipc.on('entity:indexChanged', this.setItemIndex.bind(this));
         this.ipc.on('entity:renamed', this.renameItemById.bind(this));
-
-        this.ipc.on('hierarchy-menu:create-entity', this.createEntity.bind(this));
-        this.ipc.on('hierarchy-menu:create-child-entity', this.createChildEntity.bind(this));
-        this.ipc.on('hierarchy-menu:rename', function () {
-            var contextSelection = Editor.Selection.contextEntities;
-            if ( contextSelection.length > 0 ) {
-                var targetEL = this.idToItem[contextSelection[0]];
-                this.rename(targetEL);
-            }
-        }.bind(this));
-        this.ipc.on('hierarchy-menu:delete', function () {
-            var contextSelection = Editor.Selection.contextEntities;
-            Editor.sendToMainWindow('engine:delete-entities', {
-                'entity-id-list': contextSelection
-            });
-        }.bind(this));
-        this.ipc.on('hierarchy-menu:duplicate', function () {
-            var contextSelection = Editor.Selection.contextEntities;
-            var entities = this.getToplevelElements(contextSelection).map(function (element) {
-                return element && element.userId;
-            });
-            Editor.sendToMainWindow('engine:duplicate-entities', {
-                'entity-id-list': entities
-            });
-        }.bind(this));
     },
 
     detached: function () {
@@ -231,7 +206,7 @@
         });
     },
 
-    createEntity: function () {
+    createEntityFromContextSelect: function () {
         var contextSelection = Editor.Selection.contextEntities;
         if ( contextSelection.length > 0 ) {
             var targetEL = this.idToItem[contextSelection[0]];
@@ -250,7 +225,7 @@
         }
     },
 
-    createChildEntity: function () {
+    createChildEntityFromContextSelect: function () {
         var contextSelection = Editor.Selection.contextEntities;
         if ( contextSelection.length > 0 ) {
             var targetEL = this.idToItem[contextSelection[0]];
@@ -264,6 +239,31 @@
                 'parent-id': activeId
             });
         }
+    },
+
+    renameEntityFromContextSelect: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            this.rename(targetEL);
+        }
+    },
+
+    deleteEntityFromContextSelect: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        Editor.sendToMainWindow('engine:delete-entities', {
+            'entity-id-list': contextSelection
+        });
+    },
+
+    duplicateEntityFromContextSelect: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        var entities = this.getToplevelElements(contextSelection).map(function (element) {
+            return element && element.userId;
+        });
+        Editor.sendToMainWindow('engine:duplicate-entities', {
+            'entity-id-list': entities
+        });
     },
 
     deleteSelection: function () {
@@ -389,6 +389,7 @@
         event.preventDefault();
         event.stopPropagation();
 
+        var Remote = require('remote');
         Remote.getCurrentWindow().focus();
 
         this.resetDragState();

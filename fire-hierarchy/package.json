@@ -19,7 +19,12 @@
         "title": "Hierarchy",
         "width": 200,
         "messages": [
-            "entity:hint"
+            "entity:hint",
+            "hierarchy-menu:create-entity",
+            "hierarchy-menu:create-child-entity",
+            "hierarchy-menu:rename",
+            "hierarchy-menu:delete",
+            "hierarchy-menu:duplicate"
         ]
       }
     }

@@ -45,6 +45,26 @@ Polymer({
         this.hint(entityID);
     },
 
+    'hierarchy-menu:create-entity': function ( event ) {
+        this.$.hierarchyTree.createEntityFromContextSelect();
+    },
+
+    'hierarchy-menu:create-child-entity': function ( event ) {
+        this.$.hierarchyTree.createChildEntityFromContextSelect();
+    },
+
+    'hierarchy-menu:rename': function ( event ) {
+        this.$.hierarchyTree.renameEntityFromContextSelect();
+    },
+
+    'hierarchy-menu:delete': function ( event ) {
+        this.$.hierarchyTree.deleteEntityFromContextSelect();
+    },
+
+    'hierarchy-menu:duplicate': function () {
+        this.$.hierarchyTree.duplicateEntityFromContextSelect();
+    },
+
     select: function (selected, entityIds) {
         for (var i = 0; i < entityIds.length; ++i) {
             var id = entityIds[i];

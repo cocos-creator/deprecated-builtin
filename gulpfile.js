@@ -105,7 +105,7 @@ var task_package = function ( name ) {
 // commands
 /////////////////////////////////////////////////////////////////////////////
 
-// task panels
+// task packages
 fs.readdirSync('./').forEach(function(name) {
     if ( name === 'bin' ||
          name[0] === '.' ||
