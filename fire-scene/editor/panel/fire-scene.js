@@ -5,24 +5,14 @@ Polymer({
     created: function () {
         this.icon = new Image();
         this.icon.src = "fire://static/img/plugin-scene.png";
-
-        this.ipc = new Editor.IpcListener();
     },
 
     attached: function () {
         Editor.mainWindow.$.scene = this;
-
-        // register ipc
-        this.ipc.on('selection:entity:selected', this.select.bind(this, true) );
-        this.ipc.on('selection:entity:unselected', this.select.bind(this, false) );
-        this.ipc.on('selection:entity:hover', this.hover.bind(this) );
-        this.ipc.on('selection:entity:hoverout', this.hoverout.bind(this) );
     },
 
     detached: function () {
         Editor.mainWindow.$.scene = null;
-
-        this.ipc.clear();
     },
 
     'scene:dirty': function () {
@@ -39,6 +29,22 @@ Polymer({
         this.$.view.updateComponent( compId, false );
     },
 
+    'selection:entity:selected': function ( event ) {
+        this.select( event.detail['id-list'], true );
+    },
+
+    'selection:entity:unselected': function ( event ) {
+        this.select( event.detail['id-list'], false );
+    },
+
+    'selection:entity:hover': function ( event ) {
+        this.hover( event.detail.id );
+    },
+
+    'selection:entity:hoverout': function ( event ) {
+        this.hoverout( event.detail.id );
+    },
+
     initRenderContext: function () {
         this.$.view.init();
     },
@@ -52,25 +58,25 @@ Polymer({
         this.style.display = old;
     },
 
-    select: function ( selected, entityIds ) {
+    select: function ( entityIds, selected ) {
         if ( selected )
             this.$.view.select(entityIds);
         else
             this.$.view.unselect(entityIds);
     },
 
-    hover: function ( entityID ) {
-        if ( !entityID )
+    hover: function ( entityId ) {
+        if ( !entityId )
             return;
 
-        this.$.view.hover(entityID);
+        this.$.view.hover(entityId);
     },
 
-    hoverout: function ( entityID ) {
-        if ( !entityID )
+    hoverout: function ( entityId ) {
+        if ( !entityId )
             return;
 
-        this.$.view.hoverout( entityID );
+        this.$.view.hoverout( entityId );
     },
 
     delayRepaintScene: function () {

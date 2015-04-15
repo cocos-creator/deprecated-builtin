@@ -24,7 +24,8 @@
             "asset:moved",
             "asset:saved",
             "component:added",
-            "component:removed"
+            "component:removed",
+            "selection:activated"
         ]
       }
     }

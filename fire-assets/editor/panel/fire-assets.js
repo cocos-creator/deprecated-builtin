@@ -1,25 +1,15 @@
 Polymer({
     created: function () {
         this.icon = new Image();
-        this.icon.src = "fire://static/img/plugin-assets.png";
-
-        this.ipc = new Editor.IpcListener();
+        this.icon.src = 'fire://static/img/plugin-assets.png';
     },
 
     attached: function () {
         Editor.mainWindow.$.assets = this;
-
-        // TODO: discuss with Jare to change parameter to detail
-        this.ipc.on('selection:asset:selected', this.select.bind(this, true));
-        this.ipc.on('selection:asset:unselected', this.select.bind(this, false));
-        this.ipc.on('selection:asset:activated', this.active.bind(this, true));
-        this.ipc.on('selection:asset:deactivated', this.active.bind(this, false));
     },
 
     detached: function () {
         Editor.mainWindow.$.assets = null;
-
-        this.ipc.clear();
     },
 
     'asset:hint': function ( event ) {
@@ -81,12 +71,28 @@ Polymer({
         this.$.assetsTree.contextmenu = null;
     },
 
-    browse: function () {
-        Fire.info("browse assets://");
-        this.$.assetsTree.browse("assets://");
+    'selection:asset:selected': function ( event ) {
+        this.select( event.detail['id-list'], true );
     },
 
-    select: function (selected, ids) {
+    'selection:asset:unselected': function ( event ) {
+        this.select( event.detail['id-list'], false );
+    },
+
+    'selection:asset:activated': function ( event ) {
+        this.active( event.detail.id, true );
+    },
+
+    'selection:asset:deactivated': function ( event ) {
+        this.active( event.detail.id, false );
+    },
+
+    browse: function () {
+        Fire.info('browse assets://');
+        this.$.assetsTree.browse('assets://');
+    },
+
+    select: function ( ids, selected ) {
         for (var i = 0; i < ids.length; ++i) {
             var id = ids[i];
             var el = this.$.assetsTree.idToItem[id];
@@ -96,7 +102,7 @@ Polymer({
         }
     },
 
-    active: function (activated, id) {
+    active: function ( id, activated ) {
         if ( activated ) {
             var el = this.$.assetsTree.idToItem[id];
             this.$.assetsTree.active(el);

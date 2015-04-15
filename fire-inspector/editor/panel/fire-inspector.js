@@ -6,21 +6,14 @@ Polymer({
         this.target = null;
         this.icon = new Image();
         this.icon.src = "fire://static/img/plugin-inspector.png";
-
-        this.ipc = new Editor.IpcListener();
     },
 
     attached: function () {
         Editor.mainWindow.$.inspector = this;
-
-        // register Ipc
-        this.ipc.on('selection:activated', this._onInspect.bind(this) );
     },
 
     detached: function () {
         Editor.mainWindow.$.inspector = null;
-
-        this.ipc.clear();
     },
 
     'asset:changed': function ( event ) {
@@ -81,6 +74,13 @@ Polymer({
         var entityId = event.detail['entity-id'];
         var compId = event.detail['component-id'];
         this._onEntityDirty( entityId, compId );
+    },
+
+    'selection:activated': function ( event ) {
+        var type = event.detail.type;
+        var id = event.detail.id;
+
+        this._onInspect( type, id );
     },
 
     _onInspect: function ( type, id ) {

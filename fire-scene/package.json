@@ -22,7 +22,11 @@
         "messages": [
             "scene:dirty",
             "component:enabled",
-            "component:disabled"
+            "component:disabled",
+            "selection:entity:selected",
+            "selection:entity:unselected",
+            "selection:entity:hover",
+            "selection:entity:hoverout"
         ]
       }
     }

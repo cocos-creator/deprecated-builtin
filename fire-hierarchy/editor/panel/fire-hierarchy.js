@@ -16,25 +16,14 @@ Polymer({
     created: function () {
         this.icon = new Image();
         this.icon.src = "fire://static/img/plugin-hierarchy.png";
-
-        this.ipc = new Editor.IpcListener();
     },
 
     attached: function () {
         Editor.mainWindow.$.hierarchy = this;
-
-        this.ipc.on('selection:entity:selected', this.select.bind(this, true));
-        this.ipc.on('selection:entity:unselected', this.select.bind(this, false));
-        this.ipc.on('selection:entity:hover', this.hover.bind(this));
-        this.ipc.on('selection:entity:hoverout', this.hoverout.bind(this));
-        this.ipc.on('selection:entity:activated', this.active.bind(this, true));
-        this.ipc.on('selection:entity:deactivated', this.active.bind(this, false));
     },
 
     detached: function () {
         Editor.mainWindow.$.hierarchy = null;
-
-        this.ipc.clear();
     },
 
     'scene:launched': function ( event ) {
@@ -97,7 +86,31 @@ Polymer({
         this.$.hierarchyTree.duplicateEntityFromContextSelect();
     },
 
-    select: function (selected, entityIds) {
+    'selection:entity:selected': function ( event ) {
+        this.select( event.detail['id-list'], true );
+    },
+
+    'selection:entity:unselected': function ( event ) {
+        this.select( event.detail['id-list'], false );
+    },
+
+    'selection:entity:activated': function ( event ) {
+        this.active( event.detail.id, true );
+    },
+
+    'selection:entity:deactivated': function ( event ) {
+        this.active( event.detail.id, false );
+    },
+
+    'selection:entity:hover': function ( event ) {
+        this.hover( event.detail.id );
+    },
+
+    'selection:entity:hoverout': function ( event ) {
+        this.hoverout( event.detail.id );
+    },
+
+    select: function (entityIds, selected) {
         for (var i = 0; i < entityIds.length; ++i) {
             var id = entityIds[i];
             var el = this.$.hierarchyTree.idToItem[id];
@@ -107,7 +120,7 @@ Polymer({
         }
     },
 
-    active: function (activated, id) {
+    active: function (id, activated) {
         if ( activated ) {
             var el = this.$.hierarchyTree.idToItem[id];
             this.$.hierarchyTree.active(el);
@@ -117,22 +130,22 @@ Polymer({
         }
     },
 
-    hover: function ( entityID ) {
-        var el = this.$.hierarchyTree.idToItem[entityID];
+    hover: function ( entityId ) {
+        var el = this.$.hierarchyTree.idToItem[entityId];
         if (el) {
             el.hover = true;
         }
     },
 
-    hoverout: function ( entityID ) {
-        var el = this.$.hierarchyTree.idToItem[entityID];
+    hoverout: function ( entityId ) {
+        var el = this.$.hierarchyTree.idToItem[entityId];
         if (el) {
             el.hover = false;
         }
     },
 
-    hint: function ( entityID ) {
-        this.$.hierarchyTree.hintItem(entityID);
+    hint: function ( entityId ) {
+        this.$.hierarchyTree.hintItem(entityId);
     },
 
     createAction: function () {

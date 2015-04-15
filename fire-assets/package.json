@@ -25,7 +25,11 @@
             "asset:moved",
             "assets:created",
             "assets:deleted",
-            "fire-assets:refresh-context-menu"
+            "fire-assets:refresh-context-menu",
+            "selection:asset:selected",
+            "selection:asset:unselected",
+            "selection:asset:activated",
+            "selection:asset:deactivated"
         ]
       }
     }

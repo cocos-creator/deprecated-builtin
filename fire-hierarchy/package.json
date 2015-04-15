@@ -30,7 +30,13 @@
             "hierarchy-menu:create-child-entity",
             "hierarchy-menu:rename",
             "hierarchy-menu:delete",
-            "hierarchy-menu:duplicate"
+            "hierarchy-menu:duplicate",
+            "selection:entity:selected",
+            "selection:entity:unselected",
+            "selection:entity:hover",
+            "selection:entity:hoverout",
+            "selection:entity:activated",
+            "selection:entity:deactivated"
         ]
       }
     }
