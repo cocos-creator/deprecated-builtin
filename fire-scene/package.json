@@ -20,7 +20,9 @@
         "width": "auto",
         "height": "auto",
         "messages": [
-            "scene:dirty"
+            "scene:dirty",
+            "component:enabled",
+            "component:disabled"
         ]
       }
     }

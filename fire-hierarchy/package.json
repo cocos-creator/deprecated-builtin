@@ -19,6 +19,11 @@
         "title": "Hierarchy",
         "width": 200,
         "messages": [
+            "entity:created",
+            "entity:removed",
+            "entity:renamed",
+            "entity:parent-changed",
+            "entity:index-changed",
             "entity:hint",
             "hierarchy-menu:create-entity",
             "hierarchy-menu:create-child-entity",

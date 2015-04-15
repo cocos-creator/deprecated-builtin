@@ -15,9 +15,6 @@ Polymer({
 
         // register Ipc
         this.ipc.on('selection:activated', this._onInspect.bind(this) );
-
-        this.ipc.on('component:added', this._onEntityDirty.bind(this) );
-        this.ipc.on('component:removed', this._onEntityDirty.bind(this) );
     },
 
     detached: function () {
@@ -72,6 +69,18 @@ Polymer({
                 }
             }
         }
+    },
+
+    'component:added': function ( event ) {
+        var entityId = event.detail['entity-id'];
+        var compId = event.detail['component-id'];
+        this._onEntityDirty( entityId, compId );
+    },
+
+    'component:removed': function ( event ) {
+        var entityId = event.detail['entity-id'];
+        var compId = event.detail['component-id'];
+        this._onEntityDirty( entityId, compId );
     },
 
     _onInspect: function ( type, id ) {

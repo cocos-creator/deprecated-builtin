@@ -29,6 +29,16 @@ Polymer({
         this.delayRepaintScene();
     },
 
+    'component:enabled': function ( event ) {
+        var compId = event.detail['component-id'];
+        this.$.view.updateComponent( compId, true );
+    },
+
+    'component:disabled': function ( event ) {
+        var compId = event.detail['component-id'];
+        this.$.view.updateComponent( compId, false );
+    },
+
     initRenderContext: function () {
         this.$.view.init();
     },

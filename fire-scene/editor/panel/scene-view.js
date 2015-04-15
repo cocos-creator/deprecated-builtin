@@ -12,8 +12,6 @@ Polymer({
             scale: 1.0,
         };
 
-        this.ipc = new Editor.IpcListener();
-
         this._editTool = null;
         this._editingEdityIds = [];
     },
@@ -26,15 +24,6 @@ Polymer({
 
         // init gizmos
         this.svgGizmos = new Editor.SvgGizmos( this.$.gizmos );
-    },
-
-    attached: function () {
-        this.ipc.on('component:enabled', this.updateComponent.bind(this,true) );
-        this.ipc.on('component:disabled', this.updateComponent.bind(this,false) );
-    },
-
-    detached: function () {
-        this.ipc.clear();
     },
 
     init: function () {
@@ -155,7 +144,7 @@ Polymer({
         }
     },
 
-    updateComponent: function ( enabled, compID ) {
+    updateComponent: function ( compID, enabled ) {
         var gizmo = null;
 
         if ( enabled ) {

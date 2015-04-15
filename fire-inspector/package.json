@@ -22,7 +22,9 @@
         "messages": [
             "asset:changed",
             "asset:moved",
-            "asset:saved"
+            "asset:saved",
+            "component:added",
+            "component:removed"
         ]
       }
     }

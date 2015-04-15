@@ -23,7 +23,6 @@ Polymer({
     attached: function () {
         Editor.mainWindow.$.hierarchy = this;
 
-        this.ipc.on('entity:created', this.newEntity.bind(this));
         this.ipc.on('scene:launched', this.reload.bind(this));
 
         this.ipc.on('selection:entity:selected', this.select.bind(this, true));
@@ -40,9 +39,40 @@ Polymer({
         this.ipc.clear();
     },
 
+    'entity:created': function ( event ) {
+        createEntityFromSnapshot(this.$.hierarchyTree, null, event.detail);
+    },
+
+    'entity:removed': function ( event ) {
+        var entityId = event.detail['entity-id'];
+
+        this.$.hierarchyTree.deleteItemById(entityId);
+    },
+
+    'entity:renamed': function ( event ) {
+        var entityId = event.detail['entity-id'];
+        var newName = event.detail.name;
+
+        this.$.hierarchyTree.renameItemById( entityId, newName );
+    },
+
+    'entity:parent-changed': function ( event ) {
+        var entityId = event.detail['entity-id'];
+        var parentId = event.detail['parent-id'];
+
+        this.$.hierarchyTree.setItemParentById( entityId, parentId );
+    },
+
+    'entity:index-changed': function ( event ) {
+        var entityId = event.detail['entity-id'];
+        var nextSiblingId = event.detail['next-sibliing-id'];
+
+        this.$.hierarchyTree.setItemIndex( entityId, nextSiblingId );
+    },
+
     'entity:hint': function ( event ) {
-        var entityID = event.detail['entity-id'];
-        this.hint(entityID);
+        var entityId = event.detail['entity-id'];
+        this.hint(entityId);
     },
 
     'hierarchy-menu:create-entity': function ( event ) {
@@ -118,19 +148,6 @@ Polymer({
         var entityDatas = sceneSnapshot.entities;
         for (var i = 0, len = entityDatas.length; i < len; i++) {
             createEntityFromSnapshot(tree, selection, entityDatas[i]);
-        }
-    },
-
-    newEntity: function ( name, flags, id, parentEL ) {
-        var tree = this.$.hierarchyTree;
-        if (typeof name === 'string') {
-            if ( !(flags & Fire._ObjectFlags.HideInEditor) ) {
-                return tree.newItem(name, id, parentEL);
-            }
-        }
-        else if (name){
-            var snapshot = name;
-            createEntityFromSnapshot(tree, null, snapshot);
         }
     },
 });

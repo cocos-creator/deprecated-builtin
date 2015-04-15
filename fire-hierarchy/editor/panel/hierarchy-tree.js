@@ -9,8 +9,6 @@
 
         // debug
         hierarchy = this;
-
-        this.ipc = new Editor.IpcListener();
     },
 
     ready: function () {
@@ -30,18 +28,6 @@
 
         //
         this.refresh();
-    },
-
-    attached: function () {
-        // register Ipc
-        this.ipc.on('entity:removed', this.deleteItemById.bind(this));
-        this.ipc.on('entity:parentChanged', this.setItemParentById.bind(this));
-        this.ipc.on('entity:indexChanged', this.setItemIndex.bind(this));
-        this.ipc.on('entity:renamed', this.renameItemById.bind(this));
-    },
-
-    detached: function () {
-        this.ipc.clear();
     },
 
     getContextMenuTemplate: function () {
