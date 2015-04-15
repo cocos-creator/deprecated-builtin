@@ -1,9 +1,6 @@
 ﻿var Path = require('fire-path');
 var Url = require('fire-url');
 
-var Remote = require('remote');
-var Menu = Remote.require('menu');
-
 function _isTexture ( extname ) {
     return extname === '.png' || extname === '.jpg';
 }
@@ -486,6 +483,9 @@ Polymer({
 
         var create = template[0].submenu;
         _addCustomAssetMenu(this, create);
+
+        var Remote = require('remote');
+        var Menu = Remote.require('menu');
 
         this.contextmenu = Menu.buildFromTemplate(template);
     },

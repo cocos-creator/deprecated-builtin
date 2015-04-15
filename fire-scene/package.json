@@ -1,0 +1,26 @@
+{
+  "name": "fire-scene",
+  "version": "0.2.0",
+  "description": "Fireball builtin scene view",
+  "author": "Firebox Technology",
+  "fireball": {
+    "main": "editor/main.js",
+    "menus": [
+      {
+        "path": "Fireball/Panels/Scene",
+        "message": "fire-scene:open"
+      }
+    ],
+    "panels": {
+      "default": {
+        "type": "dockable",
+        "view": "editor/panel/fire-scene.html",
+        "ctor": "FireScene",
+        "title": "Scene",
+        "messages": [
+            "entity:hint"
+        ]
+      }
+    }
+  }
+}

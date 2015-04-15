@@ -1,6 +1,5 @@
 var Fs = require("fire-fs");
 var Path = require('fire-path');
-var Remote = require("remote");
 
 var keymaps = [
     "sublime",
@@ -104,7 +103,6 @@ Polymer({
             }
         }.bind(this);
 
-        var projectPath = Remote.getGlobal('Editor').projectPath;
         this.updateSize();
     },
 
@@ -163,6 +161,7 @@ Polymer({
         }
 
         //
+        var Remote = require("remote");
         var dialog = Remote.require('dialog');
         var result = dialog.showMessageBox( Remote.getCurrentWindow(), {
             type: "warning",
@@ -230,6 +229,7 @@ Polymer({
     },
 
     confirmSave: function () {
+        var Remote = require("remote");
         var dialog = Remote.require('dialog');
         return dialog.showMessageBox( Remote.getCurrentWindow(), {
             type: "warning",

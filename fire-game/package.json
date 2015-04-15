@@ -1,0 +1,26 @@
+{
+  "name": "fire-game",
+  "version": "0.2.0",
+  "description": "Fireball builtin game view",
+  "author": "Firebox Technology",
+  "fireball": {
+    "main": "editor/main.js",
+    "menus": [
+      {
+        "path": "Fireball/Panels/Game",
+        "message": "fire-game:open"
+      }
+    ],
+    "panels": {
+      "default": {
+        "type": "dockable",
+        "view": "editor/panel/fire-game.html",
+        "ctor": "FireGame",
+        "title": "Game",
+        "messages": [
+            "entity:hint"
+        ]
+      }
+    }
+  }
+}

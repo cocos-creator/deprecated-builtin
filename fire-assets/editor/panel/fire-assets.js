@@ -1,6 +1,3 @@
-var Remote = require('remote');
-var Menu = Remote.require('menu');
-
 Polymer({
     created: function () {
         this.icon = new Image();
@@ -10,6 +7,8 @@ Polymer({
     },
 
     attached: function () {
+        Editor.mainWindow.$.assets = this;
+
         // TODO: discuss with Jare to change parameter to detail
         this.ipc.on('selection:asset:selected', this.select.bind(this, true));
         this.ipc.on('selection:asset:unselected', this.select.bind(this, false));
@@ -18,12 +17,9 @@ Polymer({
     },
 
     detached: function () {
-        this.ipc.clear();
-    },
+        Editor.mainWindow.$.assets = null;
 
-    domReady: function () {
-        Fire.info("browse assets://");
-        this.$.assetsTree.browse("assets://");
+        this.ipc.clear();
     },
 
     'asset:hint': function ( event ) {
@@ -85,6 +81,11 @@ Polymer({
         this.$.assetsTree.contextmenu = null;
     },
 
+    browse: function () {
+        Fire.info("browse assets://");
+        this.$.assetsTree.browse("assets://");
+    },
+
     select: function (selected, ids) {
         for (var i = 0; i < ids.length; ++i) {
             var id = ids[i];
@@ -110,6 +111,9 @@ Polymer({
     },
 
     createAction: function () {
+        var Remote = require('remote');
+        var Menu = Remote.require('menu');
+
         var rect = this.$.addIcon.getBoundingClientRect();
         var template = this.$.assetsTree.getCreateMenuTemplate();
         var menu = Menu.buildFromTemplate(template);
