@@ -41,7 +41,7 @@ Polymer({
         Editor.sendToCore('build-settings:query-scenes');
     },
 
-    ipcQuerySceneResults: function ( event ) {
+    'build-settings:query-scenes-results': function ( event ) {
         var results = event.detail.results;
 
         this.settings.sceneList = results.map( function ( item ) {

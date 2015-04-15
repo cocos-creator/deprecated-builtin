@@ -21,9 +21,9 @@
         "height": 100,
         "min-width": 400,
         "min-height": 100,
-        "messages": {
-          "auto-updater:status-changed": "status-changed"
-        }
+        "messages": [
+          "auto-updater:status-changed"
+        ]
       }
     }
   }

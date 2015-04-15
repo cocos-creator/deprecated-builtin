@@ -1,14 +1,14 @@
 {
-  "name": "console",
+  "name": "fire-console",
   "version": "0.2.0",
-  "description": "Console Panel",
+  "description": "Fireball builtin console view",
   "author": "Firebox Technology",
   "fireball": {
     "main": "editor/main.js",
     "menus": [
       {
         "path": "Fireball/Panels/Console",
-        "message": "console:open"
+        "message": "fire-console:open"
       }
     ],
     "panels": {
@@ -18,12 +18,12 @@
         "ctor": "FireConsole",
         "title": "Console",
         "height": 300,
-        "messages": {
-            "console:log": "console-log",
-            "console:warn": "console-warn",
-            "console:error": "console-error",
-            "console:info": "console-info"
-        }
+        "messages": [
+            "console:log",
+            "console:warn",
+            "console:error",
+            "console:info"
+        ]
       }
     }
   }

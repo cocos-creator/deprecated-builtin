@@ -8,7 +8,7 @@ module.exports = {
             var ext = Url.extname(url);
 
             if ( ['.js', '.json', '.xml', '.html', '.css','.styl','.htm'].indexOf(ext.toLowerCase()) !== -1 ) {
-                context.openPanel('code-editor', {
+                context.openPanel('default', {
                     uuid: uuid,
                 });
             }

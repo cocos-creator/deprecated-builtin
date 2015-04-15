@@ -125,7 +125,7 @@ Polymer({
         this.load(uuid);
     },
 
-    ipcOpen: function ( event ) {
+    'panel:open': function ( event ) {
         var uuid = event.detail.uuid;
 
         if (this.$.mirror.dirty) {
@@ -149,7 +149,7 @@ Polymer({
         this.load(uuid);
     },
 
-    ipcAssetChanged: function ( event ) {
+    'asset:changed': function ( event ) {
         var uuid = event.detail.uuid;
         var outside = event.detail.outside;
 

@@ -6,7 +6,7 @@
   "fireball": {
     "main": "editor/main.js",
     "panels": {
-      "code-editor": {
+      "default": {
         "type": "dockable",
         "view": "editor/panel/code-editor.html",
         "ctor": "CodeEditor",
@@ -15,9 +15,10 @@
         "height": 600,
         "min-width": 400,
         "min-height": 400,
-        "messages": {
-          "asset:changed": "asset-changed"
-        }
+        "messages": [
+          "panel:open",
+          "asset:changed"
+        ]
       }
     }
   }

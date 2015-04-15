@@ -19,19 +19,19 @@ Polymer({
         this._curSelected = null;
     },
 
-    ipcConsoleLog: function ( event ) {
+    'console:log': function ( event ) {
         this.add( 'log', event.detail.message );
     },
 
-    ipcConsoleWarn: function ( event ) {
+    'console:warn': function ( event ) {
         this.add( 'warn', event.detail.message );
     },
 
-    ipcConsoleError: function ( event ) {
+    'console:error': function ( event ) {
         this.add( 'error', event.detail.message );
     },
 
-    ipcConsoleInfo: function ( event ) {
+    'console:info': function ( event ) {
         this.add( 'info', event.detail.message );
     },
 

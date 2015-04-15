@@ -1,6 +1,6 @@
 module.exports = {
     load: function (plugin) {
-        plugin.on('fire-console:open', function () {
+        plugin.on('fire-assets:open', function () {
             plugin.openPanel('default');
         });
     },

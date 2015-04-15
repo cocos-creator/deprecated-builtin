@@ -21,9 +21,9 @@
         "height": 530,
         "min-width": 500,
         "min-height": 500,
-        "messages": {
-          "build-settings:query-scenes-results": "query-scene-results"
-        }
+        "messages": [
+          "build-settings:query-scenes-results"
+        ]
       }
     }
   }

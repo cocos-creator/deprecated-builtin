@@ -13,6 +13,16 @@ Polymer({
         this.$.btnGroup.select(0);
     },
 
+    'asset-db-debugger:uuid-asset-results': function ( event ) {
+        var results = event.detail.results;
+
+        this.infoList = [];
+        for ( var i = 0; i < results.length; ++i ) {
+            var info = results[i];
+            this.infoList.push( { key: info.uuid, value: info.name + " [" + info.type + "]" } );
+        }
+    },
+
     filter: function ( infoList, searchValue ) {
         var text = searchValue.toLowerCase();
         var filterList = [];
@@ -30,16 +40,6 @@ Polymer({
             }
         }
         return filterList;
-    },
-
-    ipcUuidAssetResults: function ( event ) {
-        var results = event.detail.results;
-
-        this.infoList = [];
-        for ( var i = 0; i < results.length; ++i ) {
-            var info = results[i];
-            this.infoList.push( { key: info.uuid, value: info.name + " [" + info.type + "]" } );
-        }
     },
 
     urlUuidAction: function ( event ) {

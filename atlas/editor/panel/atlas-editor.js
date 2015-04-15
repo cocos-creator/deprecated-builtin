@@ -36,12 +36,12 @@ Polymer(EditorUI.mixin({
         this.load(uuid);
     },
 
-    ipcOpen: function ( event ) {
+    'panel:open': function ( event ) {
         var uuid = event.detail.uuid;
         this.load(uuid);
     },
 
-    ipcAssetChanged: function ( event ) {
+    'asset:changed': function ( event ) {
         var uuid = event.detail.uuid;
 
         if ( this.uuid !== uuid ) {
@@ -51,7 +51,7 @@ Polymer(EditorUI.mixin({
         this.load(uuid);
     },
 
-    ipcInspectorAssetDirty: function ( event ) {
+    'inspector:asset:dirty': function ( event ) {
         var uuid = event.detail.uuid;
         var assetJson = event.detail.json;
 
@@ -76,7 +76,7 @@ Polymer(EditorUI.mixin({
         }, true);
     },
 
-    ipcInspectorMetaDirty: function ( event ) {
+    'inspector:meta:dirty': function ( event ) {
         var uuid = event.detail.uuid;
         var metaJson = event.detail.json;
 
