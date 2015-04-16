@@ -18,7 +18,17 @@
         "messages": [
           "panel:open",
           "asset:changed"
-        ]
+        ],
+        "profiles": {
+          "global": {
+            "theme": "zenburn",
+            "tabSize": 2,
+            "keyMap": "sublime",
+            "fontSize": 14,
+            "fontFamily": "DejaVu Sans Mono",
+            "autoComplete": true
+          }
+        }
       }
     }
   }

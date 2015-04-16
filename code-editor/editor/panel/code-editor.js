@@ -52,15 +52,6 @@ var modes = [
 Polymer({
 
     created: function () {
-        this.settings = {
-            theme: 'zenburn',
-            tabSize: 2,
-            keyMap: 'sublime',
-            fontSize: 14,
-            fontFamily: 'DejaVu Sans Mono',
-            autoComplete: true,
-        };
-
         this.settingsPage = null;
     },
 
@@ -111,9 +102,9 @@ Polymer({
         this.showLoading(true);
 
         //
-        for ( var p in this.settings ) {
+        for ( var p in this.profiles.global ) {
             if ( p !== 'save' ) {
-                this.$.mirror[p] = this.settings[p];
+                this.$.mirror[p] = this.profiles.global[p];
             }
         }
         this.$.mirror.createEditor();
@@ -214,14 +205,15 @@ Polymer({
     },
 
     saveConfig: function () {
-        this.settings.theme = this.$.mirror.theme;
-        this.settings.tabSize = this.$.mirror.tabSize;
-        this.settings.keyMap = this.$.mirror.keyMap;
-        this.settings.fontSize = this.$.mirror.fontSize;
-        this.settings.fontFamily = this.$.mirror.fontFamily;
-        this.settings.autoComplete = this.$.mirror.autoComplete;
+        var profile = this.profiles.global;
+        profile.theme = this.$.mirror.theme;
+        profile.tabSize = this.$.mirror.tabSize;
+        profile.keyMap = this.$.mirror.keyMap;
+        profile.fontSize = this.$.mirror.fontSize;
+        profile.fontFamily = this.$.mirror.fontFamily;
+        profile.autoComplete = this.$.mirror.autoComplete;
 
-        this.settings.save();
+        profile.save();
     },
 
     confirmSave: function () {

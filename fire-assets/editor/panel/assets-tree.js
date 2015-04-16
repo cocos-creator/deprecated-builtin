@@ -786,6 +786,7 @@ Polymer({
         event.stopPropagation();
 
         // NOTE: without this, we will create new assets while watching ON
+        var Remote = require('remote');
         Remote.getCurrentWindow().focus();
 
         //

@@ -11,11 +11,11 @@ Polymer({
     ],
 
     observe: {
-        'settings.projectName': 'projectNameChanged',
-        'settings.defaultScene': 'defaultSceneChanged',
-        'settings.platform': 'platformChanged',
-        'settings.isDebug': 'isDebugChanged',
-        'settings.buildPath': 'buildPathChanged',
+        'profiles.project.projectName': 'projectNameChanged',
+        'profiles.project.defaultScene': 'defaultSceneChanged',
+        'profiles.project.platform': 'platformChanged',
+        'profiles.project.isDebug': 'isDebugChanged',
+        'profiles.project.buildPath': 'buildPathChanged',
     },
 
     isProjectNameValid: true,
@@ -23,56 +23,58 @@ Polymer({
     hoverBuildButton: false,
     finderOrExplorer: Fire.isDarwin ? 'Finder':'Explorer',
 
-    created: function () {
+    domReady: function () {
+        Editor.sendToCore('build-settings:query-scenes');
+    },
+
+    'panel:open': function ( event ) {
         var projectPath = Remote.getGlobal('Editor').projectPath;
         var projectName = Path.basename(projectPath);
 
-        this.settings = {
-            projectName: projectName,
-            defaultScene: '',
-            sceneList: [],
-            isDebug: true,
-            platform: 'web-mobile',
-            buildPath: Path.join(projectPath, 'mobile-' + projectName),
-        };
-    },
-
-    domReady: function () {
-        Editor.sendToCore('build-settings:query-scenes');
+        var profile = this.profiles.project;
+        if ( profile.projectName === '' ) {
+            profile.projectName = projectName;
+        }
+        if ( profile.buildPath === '' ) {
+            profile.buildPath = Path.join(projectPath, 'mobile-' + projectName);
+        }
     },
 
     'build-settings:query-scenes-results': function ( event ) {
         var results = event.detail.results;
 
-        this.settings.sceneList = results.map( function ( item ) {
+        var profile = this.profiles.project;
+        profile.sceneList = results.map( function ( item ) {
             return { name: item.url, value: item.uuid, checked: true };
         });
 
-        if ( this.settings.sceneList.indexOf(this.settings.defaultScene) === -1 ) {
-            if (this.settings.sceneList.length === 0) {
+        if ( profile.sceneList.indexOf(profile.defaultScene) === -1 ) {
+            if (profile.sceneList.length === 0) {
                 this.$.tip.style.display = "block";
                 this.$.tip.innerHTML = 'Please create a new scene,then you can to build!';
                 Fire.warn('Please create a new scene,then you can to build!');
                 return;
             }
 
-            this.settings.defaultScene = this.settings.sceneList[0].value;
+            profile.defaultScene = profile.sceneList[0].value;
         }
-        this.settings.save();
+        profile.save();
     },
 
     defaultSceneChanged: function () {
-        for (var i = 0; i < this.settings.sceneList.length; ++i) {
-            if (this.settings.sceneList[i].value === this.settings.defaultScene) {
-                this.settings.sceneList[i].checked = true;
+        var profile = this.profiles.project;
+        for (var i = 0; i < profile.sceneList.length; ++i) {
+            if (profile.sceneList[i].value === profile.defaultScene) {
+                profile.sceneList[i].checked = true;
             }
         }
-        this.settings.save();
+        profile.save();
     },
 
     buildPathChanged: function () {
-        this.settings.save();
-        if (this.settings.buildPath) {
+        var profile = this.profiles.project;
+        profile.save();
+        if ( profile.buildPath ) {
             this.isBuildPathValid = true;
             return;
         }
@@ -80,8 +82,9 @@ Polymer({
     },
 
     projectNameChanged: function () {
-        this.settings.save();
-        if ( this.settings.projectName ) {
+        var profile = this.profiles.project;
+        profile.save();
+        if ( profile.projectName ) {
             this.isProjectNameValid = true;
             return;
         }
@@ -90,18 +93,20 @@ Polymer({
     },
 
     platformChanged: function () {
+        var profile = this.profiles.project;
         var projectPath = Remote.getGlobal('Editor').projectPath;
-        if ( this.settings.platform === "web-mobile" ) {
-            this.settings.buildPath = Path.join(projectPath, + "/mobile-" + this.settings.projectName);
+        if ( profile.platform === "web-mobile" ) {
+            profile.buildPath = Path.join(projectPath, + "/mobile-" + profile.projectName);
         }
         else {
-            this.settings.buildPath = Path.join(projectPath, + "/desktop-" + this.settings.projectName);
+            profile.buildPath = Path.join(projectPath, + "/desktop-" + profile.projectName);
         }
-        this.settings.save();
+        profile.save();
     },
 
     isDebugChanged: function () {
-        this.settings.save();
+        var profile = this.profiles.project;
+        profile.save();
     },
 
     chooseDistPath: function () {
@@ -109,12 +114,13 @@ Polymer({
         var projectPath = Remote.getGlobal('Editor').projectPath;
 
         dialog.showOpenDialog({ defaultPath: projectPath, properties: ['openDirectory']},function (res) {
+            var profile = this.profiles.project;
             if (res) {
-                if (this.settings.platform === 'web-mobile') {
-                    this.settings.buildPath = res + '/mobile-' + Path.basename(projectPath);
+                if (profile.platform === 'web-mobile') {
+                    profile.buildPath = res + '/mobile-' + Path.basename(projectPath);
                 }
                 else {
-                    this.settings.buildPath = res + '/desktop-' + Path.basename(projectPath);
+                    profile.buildPath = res + '/desktop-' + Path.basename(projectPath);
                 }
             }
         }.bind(this));
@@ -124,19 +130,20 @@ Polymer({
         if ( this.isProjectNameValid && this.isBuildPathValid ) {
             this.$.tip.style.display = 'none';
 
-            var buildUuidList = this.settings.sceneList.filter( function (item) {
+            var profile = this.profiles.project;
+            var buildUuidList = profile.sceneList.filter( function (item) {
                 return item.checked;
             }).map(function (item) {
                 return item.value;
             });
 
             // move default scene to first
-            var firstSceneIndex = buildUuidList.indexOf(this.settings.defaultScene);
+            var firstSceneIndex = buildUuidList.indexOf(profile.defaultScene);
             var toSwap = buildUuidList[0];
             buildUuidList[0] = buildUuidList[firstSceneIndex];
             buildUuidList[firstSceneIndex] = toSwap;
 
-            Editor.sendToCore('build-project', this.settings.platform, this.settings.buildPath, buildUuidList, this.settings);
+            Editor.sendToCore('build-project', profile.platform, profile.buildPath, buildUuidList, profile);
         }
         else {
             this.$.tip.style.display = 'block';
@@ -165,11 +172,12 @@ Polymer({
     },
 
     showInFinder: function () {
-        if (!Fs.existsSync(this.settings.buildPath)) {
-            Fire.warn( '%s not exists!', this.settings.buildPath);
+        var profile = this.profiles.project;
+        if (!Fs.existsSync(profile.buildPath)) {
+            Fire.warn( '%s not exists!', profile.buildPath);
             return;
         }
-        Shell.showItemInFolder(Path.normalize(this.settings.buildPath));
+        Shell.showItemInFolder(Path.normalize(profile.buildPath));
         Shell.beep();
     },
 
