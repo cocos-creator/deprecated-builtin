@@ -18,7 +18,7 @@
         "ctor": "BuildSettings",
         "title": "Build Settings",
         "width": 500,
-        "height": 530,
+        "height": 550,
         "min-width": 500,
         "min-height": 500,
         "messages": [
