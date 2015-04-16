@@ -21,9 +21,9 @@
         "height": 800,
         "min-width": 400,
         "min-height": 200,
-        "messages": {
-          "asset-db-debugger:uuid-asset-results": "uuid-asset-results"
-        }
+        "messages": [
+          "asset-db-debugger:uuid-asset-results"
+        ]
       }
     }
   }

@@ -15,11 +15,12 @@
         "height": 600,
         "min-width": 400,
         "min-height": 400,
-        "messages": {
-          "asset:changed": "ipcAssetChanged",
-          "inspector:asset:dirty": "ipcInspectorAssetDirty",
-          "inspector:meta:dirty": "ipcInspectorMetaDirty"
-        }
+        "messages": [
+          "panel:open",
+          "asset:changed",
+          "fire-inspector:asset-dirty",
+          "fire-inspector:meta-dirty"
+        ]
       }
     }
   }

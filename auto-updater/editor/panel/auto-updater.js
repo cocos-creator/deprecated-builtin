@@ -29,7 +29,7 @@ Polymer({
         }
     },
 
-    statusChanged: function () {
+    'auto-updater:status-changed': function () {
         switch( this.status ) {
             case "checking":
                 this.playing = true;

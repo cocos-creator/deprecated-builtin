@@ -2,7 +2,7 @@ var Remote = require('remote');
 var Url = require('fire-url');
 var Fs = require('fire-fs');
 var Path = require('fire-path');
-var Shell = Remote.require('shell');
+var Shell = require('shell');
 
 Polymer({
     platformList: [
@@ -41,7 +41,7 @@ Polymer({
         Editor.sendToCore('build-settings:query-scenes');
     },
 
-    ipcQuerySceneResults: function ( event ) {
+    'build-settings:query-scenes-results': function ( event ) {
         var results = event.detail.results;
 
         this.settings.sceneList = results.map( function ( item ) {
