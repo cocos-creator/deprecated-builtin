@@ -49,6 +49,13 @@ Polymer({
         });
 
         if ( this.settings.sceneList.indexOf(this.settings.defaultScene) === -1 ) {
+            if (this.settings.sceneList.length === 0) {
+                this.$.tip.style.display = "block";
+                this.$.tip.innerHTML = 'Please create a new scene,then you can to build!';
+                Fire.warn('Please create a new scene,then you can to build!');
+                return;
+            }
+            
             this.settings.defaultScene = this.settings.sceneList[0].value;
         }
         this.settings.save();

@@ -80,7 +80,7 @@
 
     </div>
     <div class="btn-group">
-        <button class="green" on-mouseenter="{{buildButtonHoverInAction}}" on-mouseleave="{{buildButtonHoverOutAction}}" on-click="{{buildAction}}">
+        <button class="green {{settings.sceneList.length == 0 ?'disabled':''}}" on-mouseenter="{{buildButtonHoverInAction}}" on-mouseleave="{{buildButtonHoverOutAction}}" on-click="{{buildAction}}">
             <span class="{{hoverBuildButton? 'hide':''}}">Build</span>
             <li class="fa fa-download {{!hoverBuildButton? 'hide':''}}"></li>
         </button>

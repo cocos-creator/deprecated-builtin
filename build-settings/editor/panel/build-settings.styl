@@ -20,12 +20,12 @@
     }
 
     .tip {
-        color: red
+        color: #f00
         font-size: 12px
-        padding-left: 100px
-        display: none
         line-height: 60px
-        float:left
+        margin-left: 20px
+        float: left
+        display: none
     }
 }
 
@@ -148,7 +148,18 @@
     .hide {
         display: none
     }
+
+    .disabled {
+        pointer-events: none
+        &.green {
+            background-color: rgb(52,52,52)
+            color: rgb(95,95,95)
+        }
+
+    }
 }
+
+
 
 fire-ui-label {
     text-align: right
