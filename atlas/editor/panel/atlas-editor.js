@@ -31,9 +31,6 @@ Polymer(EditorUI.mixin({
 
         //
         this._initDroppable(this.$.view);
-
-        var uuid = this.argv.uuid;
-        this.load(uuid);
     },
 
     'panel:open': function ( event ) {

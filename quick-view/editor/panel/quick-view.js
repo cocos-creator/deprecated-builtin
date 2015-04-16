@@ -38,9 +38,11 @@ Polymer({
         // var browserWindow = Remote.getCurrentWindow();
         // browserWindow.focusOnWebView();
         // this.$.search.focus();
+    },
 
-        var typeID = this.argv['type-id'];
-        this._curId = this.argv.id;
+    'panel:open': function ( event ) {
+        var typeID = event.detail['type-id'];
+        this._curId = event.detail.id;
 
         var self = this;
         Editor.AssetDB.query( "assets://", {

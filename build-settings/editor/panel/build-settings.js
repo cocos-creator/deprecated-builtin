@@ -55,7 +55,7 @@ Polymer({
                 Fire.warn('Please create a new scene,then you can to build!');
                 return;
             }
-            
+
             this.settings.defaultScene = this.settings.sceneList[0].value;
         }
         this.settings.save();

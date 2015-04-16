@@ -117,10 +117,6 @@ Polymer({
             }
         }
         this.$.mirror.createEditor();
-
-        // start loading file
-        var uuid = this.argv.uuid;
-        this.load(uuid);
     },
 
     'panel:open': function ( event ) {
