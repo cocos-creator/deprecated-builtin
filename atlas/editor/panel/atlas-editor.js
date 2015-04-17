@@ -23,12 +23,12 @@ Polymer(EditorUI.mixin({
         this.elementBG = new Fire.Color( 0.1, 0.38, 1, 0.5 );
         this.elementSel = new Fire.Color(0,0,0,1);
         this.atlasBG = new Fire.Color(1,0,1,1);
+
+        // init asset library
+        Fire.AssetLibrary.init("library://");
     },
 
     domReady: function () {
-        // init asset library
-        Fire.AssetLibrary.init("library://");
-
         //
         this._initDroppable(this.$.view);
     },
