@@ -1,6 +1,6 @@
 {
   "name": "fire-about",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "The about page for Fireball Engine",
   "author": "Firebox Technology",
   "fireball": {
@@ -21,8 +21,7 @@
         "height": 160,
         "min-width": 400,
         "min-height": 100,
-        "messages": {
-        }
+        "messages": {}
       }
     }
   }

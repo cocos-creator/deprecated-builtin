@@ -1,6 +1,6 @@
 {
   "name": "fire-inspector",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fireball builtin inspector",
   "author": "Firebox Technology",
   "fireball": {
@@ -20,12 +20,12 @@
         "width": 300,
         "min-width": 240,
         "messages": [
-            "asset:changed",
-            "asset:moved",
-            "asset:saved",
-            "component:added",
-            "component:removed",
-            "selection:activated"
+          "asset:changed",
+          "asset:moved",
+          "asset:saved",
+          "component:added",
+          "component:removed",
+          "selection:activated"
         ]
       }
     }

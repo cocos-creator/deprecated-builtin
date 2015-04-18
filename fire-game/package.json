@@ -1,6 +1,6 @@
 {
   "name": "fire-game",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fireball builtin game view",
   "author": "Firebox Technology",
   "fireball": {
@@ -20,8 +20,8 @@
         "width": "auto",
         "height": "auto",
         "messages": [
-            "scene:dirty",
-            "gizmos:dirty"
+          "scene:dirty",
+          "gizmos:dirty"
         ]
       }
     }

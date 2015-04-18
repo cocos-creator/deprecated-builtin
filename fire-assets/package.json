@@ -1,6 +1,6 @@
 {
   "name": "fire-assets",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fireball builtin assets explorer",
   "author": "Firebox Technology",
   "fireball": {
@@ -19,17 +19,17 @@
         "title": "Assets",
         "width": 200,
         "messages": [
-            "asset:hint",
-            "folder:created",
-            "asset:created",
-            "asset:moved",
-            "assets:created",
-            "assets:deleted",
-            "fire-assets:refresh-context-menu",
-            "selection:asset:selected",
-            "selection:asset:unselected",
-            "selection:asset:activated",
-            "selection:asset:deactivated"
+          "asset:hint",
+          "folder:created",
+          "asset:created",
+          "asset:moved",
+          "assets:created",
+          "assets:deleted",
+          "fire-assets:refresh-context-menu",
+          "selection:asset:selected",
+          "selection:asset:unselected",
+          "selection:asset:activated",
+          "selection:asset:deactivated"
         ]
       }
     }
