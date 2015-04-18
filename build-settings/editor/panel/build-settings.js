@@ -96,11 +96,10 @@ Polymer({
         var profile = this.profiles.project;
         var projectPath = Remote.getGlobal('Editor').projectPath;
         if ( profile.platform === "web-mobile" ) {
-            
-            profile.buildPath = Path.join(projectPath, + "/mobile-" + profile.projectName);
+            profile.buildPath = Path.join(projectPath, "/mobile-" + profile.projectName);
         }
         else {
-            profile.buildPath = Path.join(projectPath, + "/desktop-" + profile.projectName);
+            profile.buildPath = Path.join(projectPath, "/desktop-" + profile.projectName);
         }
         profile.save();
     },
