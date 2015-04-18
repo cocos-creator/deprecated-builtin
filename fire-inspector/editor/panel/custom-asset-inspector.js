@@ -28,7 +28,7 @@ Polymer({
         }
 
         Fire.AssetLibrary.loadAssetInEditor( this.meta.uuid, function ( err, asset ) {
-            if ( !asset instanceof Fire.CustomAsset ) {
+            if ( !(asset instanceof Fire.CustomAsset) ) {
                 Fire.error( 'The asset is corrupted!' );
             }
 

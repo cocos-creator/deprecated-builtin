@@ -771,7 +771,7 @@ Polymer({
     openAction: function (event) {
         event.stopPropagation();
 
-        if ( !event.target instanceof AssetsItem ) {
+        if ( !(event.target instanceof AssetsItem) ) {
             return;
         }
 
