@@ -184,7 +184,7 @@ gulp.task('export-api-syntax', function (done) {
                               " */\n";
 
     var src = ['./**/*.js', '!./*/bin/**/*', '!./*/editor/ext/**/*'];
-    var dest = '../utils/api/builtin';
+    var dest = '../../utils/api/builtin';
     del(dest + '/**/*', { force: true }, function (err) {
         if (err) {
             done(err);
