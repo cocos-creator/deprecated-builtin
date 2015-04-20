@@ -140,8 +140,8 @@ gulp.task('export-api-syntax', function (done) {
                               " * @class Fire\n" +
                               " */\n";
 
-    var src = ['./**/*.js', '!./*/bin/**/*', '!./*/editor/ext/**/*'];
-    var dest = '../utils/api/builtin';
+    var src = ['./**/*.js', '!./bin/**/*', '!./*/bin/**/*', '!./*/editor/ext/**/*'];
+    var dest = '../../utils/api/builtin';
     del(dest + '/**/*', { force: true }, function (err) {
         if (err) {
             done(err);
