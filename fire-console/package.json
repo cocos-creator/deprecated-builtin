@@ -1,6 +1,6 @@
 {
   "name": "fire-console",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fireball builtin console view",
   "author": "Firebox Technology",
   "fireball": {
@@ -19,10 +19,10 @@
         "title": "Console",
         "height": 300,
         "messages": [
-            "console:log",
-            "console:warn",
-            "console:error",
-            "console:info"
+          "console:log",
+          "console:warn",
+          "console:error",
+          "console:info"
         ]
       }
     }

@@ -1,6 +1,6 @@
 {
   "name": "fire-scene",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fireball builtin scene view",
   "author": "Firebox Technology",
   "fireball": {
@@ -20,13 +20,13 @@
         "width": "auto",
         "height": "auto",
         "messages": [
-            "scene:dirty",
-            "component:enabled",
-            "component:disabled",
-            "selection:entity:selected",
-            "selection:entity:unselected",
-            "selection:entity:hover",
-            "selection:entity:hoverout"
+          "scene:dirty",
+          "component:enabled",
+          "component:disabled",
+          "selection:entity:selected",
+          "selection:entity:unselected",
+          "selection:entity:hover",
+          "selection:entity:hoverout"
         ]
       }
     }

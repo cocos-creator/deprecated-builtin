@@ -1,28 +1,28 @@
 {
   "name": "fireball-builtin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fireball Builtin",
   "homepage": "http://github.com/fireball-x/builtin",
   "license": "MIT",
   "licenseUrl": "http://opensource.org/licenses/MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "del": "1.1.1",
+    "express": "",
     "gulp": "",
-    "source-map": "^0.4.2",
     "gulp-concat": "",
     "gulp-fb": "",
-    "gulp-jshint": "",
-    "gulp-stylus": "",
-    "gulp-util": "",
-    "gulp-uglifyjs": "",
-    "gulp-src-files": "",
     "gulp-htmlmin": "",
+    "gulp-if": "^1.2.5",
+    "gulp-jshint": "",
+    "gulp-minify-css": "0.4.5",
+    "gulp-src-files": "",
+    "gulp-stylus": "",
+    "gulp-uglifyjs": "",
+    "gulp-util": "",
     "gulp-vulcanize": "",
     "jshint-stylish": "",
     "q": "1.1.2",
-    "express": "",
-    "del": "1.1.1",
-    "gulp-minify-css": "0.4.5"
+    "source-map": "^0.4.2"
   }
 }

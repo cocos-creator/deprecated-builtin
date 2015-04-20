@@ -1,6 +1,6 @@
 {
   "name": "code-editor",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "The code editor plugin for Fireball Editor",
   "author": "Firebox Technology",
   "fireball": {

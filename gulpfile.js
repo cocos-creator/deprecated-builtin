@@ -5,6 +5,7 @@ var stylus = require('gulp-stylus');
 var vulcanize = require('gulp-vulcanize');
 var del = require('del');
 var stylish = require('jshint-stylish');
+var gulpSequence = require('gulp-sequence');
 
 var header = require('gulp-header');
 var fb = require('gulp-fb');
@@ -20,6 +21,8 @@ gulp.task('clean', function(cb) {
 var task_copy_deps = [];
 var task_min_deps = [];
 var task_dev_deps = [];
+var task_dist_deps = [];
+var task_dist_trim_deps = [];
 var package_wartchers = [];
 
 var task_package = function ( name ) {
@@ -30,10 +33,14 @@ var task_package = function ( name ) {
     var task_copy_ext = 'package-' + name + '-copy-ext';
     var task_js = 'package-' + name + '-js';
     var task_styl = 'package-' + name + '-styl';
+    var task_dist = 'package-' + name + '-dist';
+    var task_dist_trim = 'package-' + name + '-dist-trim';
 
     task_copy_deps.push(task_copy, task_copy_ext);
     task_min_deps.push(task_copy, task_copy_ext, task_js, task_styl);
     task_dev_deps.push(task_copy, task_copy_ext, task_js, task_styl);
+    task_dist_deps.push(task_dist);
+    task_dist_trim_deps.push(task_dist_trim);
 
     var copy_files = [
         basePath + '**/*',
@@ -70,6 +77,7 @@ var task_package = function ( name ) {
         .pipe(gulp.dest(destBinPath))
         ;
     });
+
     gulp.task(task_copy_ext, function() {
         return gulp.src( watcher.ext.files, {base: basePath} )
         .pipe(gulp.dest(destBinPath))
@@ -99,6 +107,38 @@ var task_package = function ( name ) {
         }))
         .pipe(gulp.dest(destBinPath));
     });
+
+    // html
+    var build_html = function () {
+        var htmlmin = require('gulp-htmlmin');
+        var gulpif = require('gulp-if');
+        var htmlName = require('./' + name + '/package.json').name;
+        return function () {
+            return gulp.src('bin/' + name + '/editor/panel/' + htmlName + '.html')
+                .pipe(gulpif(name !== 'code-editor', vulcanize({
+                    dest: 'bin/' + name + '/editor/panel/',
+                    inline: true,
+                    strip: true
+                })))
+                .pipe(gulpif(name !== 'code-editor', htmlmin({
+                    removeComments: true,
+                    collapseWhitespace: true
+                })))
+                .pipe(gulp.dest(destBinPath + 'editor/panel'))
+                ;
+        };
+    };
+
+    gulp.task(task_dist, build_html());
+
+    gulp.task(task_dist_trim, function(cb) {
+        var htmlName = require('./' + name + '/package.json').name;
+        var trimList = [
+            'bin/' + name + '/editor/panel/*.*',
+            '!bin/' + name + '/editor/panel/' + htmlName + '.html'
+        ];
+        del(trimList, cb);
+    });
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -119,7 +159,10 @@ fs.readdirSync('./').forEach(function(name) {
 // tasks
 gulp.task('copy', task_copy_deps );
 gulp.task('dev', task_dev_deps );
-gulp.task('default', task_min_deps );
+gulp.task('min', task_min_deps );
+gulp.task('build-dist', task_dist_deps);
+gulp.task('dist-trim', task_dist_trim_deps);
+gulp.task('default', gulpSequence('min', 'build-dist', 'dist-trim'));
 
 // watch
 gulp.task('watch', function() {
