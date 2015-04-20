@@ -1,3 +1,5 @@
+var Path = require('fire-path');
+
 Polymer({
     created: function () {
         this.icon = new Image();
