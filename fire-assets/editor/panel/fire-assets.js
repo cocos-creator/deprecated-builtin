@@ -25,14 +25,6 @@ Polymer({
         this.$.assetsTree.newItem( url, id, parentId, true );
     },
 
-    'asset:created': function ( event ) {
-        var url = event.detail.url;
-        var id = event.detail.uuid;
-        var parentId = event.detail['parent-uuid'];
-
-        this.$.assetsTree.newItem( url, id, parentId, false );
-    },
-
     'asset:moved': function ( event ) {
         var id = event.detail.uuid;
         var destUrl = event.detail['dest-url'];

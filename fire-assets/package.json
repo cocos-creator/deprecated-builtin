@@ -21,7 +21,6 @@
         "messages": [
           "asset:hint",
           "folder:created",
-          "asset:created",
           "asset:moved",
           "assets:created",
           "assets:deleted",
