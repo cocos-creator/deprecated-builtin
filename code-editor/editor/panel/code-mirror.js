@@ -304,6 +304,7 @@ Polymer({
 
             //
             Editor.sendToAll('asset:changed', {
+                url: Editor.AssetDB.uuidToUrl(this.uuid),
                 uuid: this.uuid
             });
             Editor.sendToAll('asset-db:synced');
