@@ -1,0 +1,38 @@
+<link rel="import" href="fire-login-register.html">
+<polymer-element
+    name="fire-login"
+    constructor="FireLogin"
+    >
+<template>
+
+    <link rel="stylesheet" href="fire-login.css">
+    <div class="login_panel" id="login">
+        <div class="head">
+            <img class="logo" src="img/logo_image_invert.png">
+            <h2 class="name">Welcome to Fireball-X</h2>
+        </div>
+        <div class="prop">
+            <input type="text" value="{{loginConfig.account}}" placeholder="Email address or account!"/>
+        </div>
+        <div class="prop">
+            <input type="password" value="{{loginConfig.password}}" placeholder="Type your password!"/>
+        </div>
+        <div class="prop">
+            <fire-ui-checkbox value="true">Remember</fire-ui-checkbox>
+            <a href="#" on-click="{{forgetPwd}}">Forget Password</a>
+        </div>
+
+        <div class="prop">
+            <button class="btn" on-click="{{loginAction}}">Sign in</button>
+        </div>
+        <div class="registerPanel">
+            <div class="registerTip">
+                Don't have a Fireball account?
+                <button class="register_btn" on-click="{{registerPanel}}">Sign up for a free account</button>
+            </div>
+        </div>
+    </div>
+    <fire-login-register class="register_panel" id="register"></fire-login-register>
+</template>
+<script type="text/javascript" src="fire-login.js"></script>
+</polymer-element>
