@@ -1,0 +1,348 @@
+border-color = #373737
+btn-color = rgb(1,121,177)
+
+:host {
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif
+    background: rgb(29, 34, 44)
+    * {
+        outline: none
+    }
+}
+
+
+
+.head {
+    width: 100%
+    height: 100px
+    float: left
+    border-bottom: 1px solid #36415C
+}
+
+.logo {
+    height: 67.5px
+    margin-left: 35px
+    margin-top: 20px
+    float: left
+    -webkit-filter: invert(100%)
+
+}
+
+.name {
+    line-height: 70px
+    color: #FF7C2C
+    margin-left: 10px
+    text-shadow: #595959 0 1.5px 0
+    float: left
+}
+
+.prop {
+    margin-left: 50px
+    margin-top: 20px
+    width: 300px
+    float: left
+
+    input {
+        width: 300px
+        height: 35px
+        padding: 5px
+        color: #BEBEBE
+        background: rgb(14,17,22)
+        border-radius: 3px
+        border: 1px solid border-color
+        font-size: 14px
+
+        &:hover {
+            border-color: border-color + 20%
+        }
+
+        &:active {
+            border-color: rgb(30,95,153)
+        }
+
+        &:focus {
+            border-color: rgb(30,95,153)
+        }
+
+        &::-webkit-input-placeholder {
+            color: #666
+            font-size: 12px
+            text-shadow: none
+        }
+    }
+
+    fire-ui-checkbox {
+        float: left
+    }
+
+    a {
+        float: right
+        font-size: 12px
+        color: #666
+    }
+}
+
+.btn {
+    width: 130px
+    height: 35px
+    border-radius: 2px
+    background: -webkit-linear-gradient(bottom, btn-color, btn-color+20%)
+    border: 0px
+    color: white
+    float: left
+    cursor: pointer
+    margin-right: 25px
+
+    &.green {
+        background: -webkit-linear-gradient(bottom, #1B8147, #1B8147 + 20%)
+
+        &:hover {
+            background: -webkit-linear-gradient(bottom, #1B8147 + 20%, #1B8147 + 40%)
+        }
+
+        &:active {
+            background: -webkit-linear-gradient(bottom, #1B8147 - 20%, #1B8147)
+        }
+
+        &.disabled {
+            pointer-events: none
+            background: -webkit-linear-gradient(bottom, rgb(26,43,58), rgb(27,46,61))
+            color: white - 70%
+        }
+    }
+
+    &:hover {
+        background: -webkit-linear-gradient(bottom, btn-color + 20%, btn-color + 40%)
+    }
+
+    &:active {
+        background: -webkit-linear-gradient(bottom, btn-color - 20%, btn-color)
+    }
+
+    &.disabled {
+        pointer-events: none
+        background: -webkit-linear-gradient(bottom, rgb(26,43,58), rgb(27,46,61))
+        color: white - 70%
+    }
+}
+
+.registerPanel {
+    height: 130px
+    width: 100%
+    margin-top: 30px
+    float: left
+    background: rgb(22,29,38)
+    border-top: 1px solid border-color
+
+    .registerTip {
+        width: 100%
+        height: 50px
+        line-height: 50px
+        text-align: center
+    }
+
+    .register_btn {
+        width: 360px
+        height: 40px
+        border: 1px solid border-color
+        border-radius: 2px
+        cursor: pointer
+        background: rgb(16,22,28)
+        color: rgb(0,174,255)
+        font-size: 14px
+        &:hover {
+            border-color: border-color + 20%
+            color: white
+        }
+
+        &:active {
+            border-color: rgb(30,95,153)
+            color: white
+        }
+
+        &:focus {
+            border-color: rgb(30,95,153)
+            color: white
+        }
+    }
+}
+
+
+.login_panel {
+    float: left
+    position: absolute
+    width: 400px
+}
+
+.register_panel {
+    float: left
+    position: absolute
+    width: 100%
+    height: 300px
+    left: 400px
+
+    .head {
+        height: 60px
+
+        h2 {
+            color: orange
+        }
+    }
+
+    .prop {
+        margin: 15 0
+        width: 380px
+        input {
+            width: auto
+            height: 30px
+            line-height: 30px
+            font-size: 12px
+            &::-webkit-input-placeholder {
+                color: #666
+                font-size: 12px
+                text-shadow: none
+            }
+        }
+
+        .err {
+            border-color: red
+        }
+
+        .reg_tip {
+            float: left
+            height: 30px
+            line-height: 30px
+            font-size: 12px
+            text-align: right
+            color: gray
+            padding-right: 15px
+        }
+    }
+
+    .return_login {
+        width: 40px
+        height: 40px
+        margin: 10px
+        float: left
+        cursor: pointer
+    }
+
+    .center {
+        width: 300px
+        margin: 40 50
+    }
+}
+
+.github {
+    width: 40px
+    height: 40px
+    border-radius: 4px
+    background: #676767
+    float: right
+    cursor: pointer
+
+    &:hover {
+        background: #A0A0A0
+    }
+
+    &:active {
+        background: #676767 + 20%
+    }
+
+    &:focus {
+        background: #676767 + 20%
+    }
+}
+
+.pace {
+    -webkit-pointer-events: none
+    pointer-events: none
+    -webkit-user-select: none
+    -moz-user-select: none
+    user-select: none
+}
+
+.progress {
+    position: fixed
+    width: 100%
+    height: 4px
+    background: rgb(110, 110, 110)
+    background-image:
+                linear-gradient(45deg,rgba(255,255,255,0.15) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255,255,255,0.15) 50%,
+                rgba(255,255,255,0.15) 75%,
+                transparent 75%,transparent)
+    background-size: 20px 20px
+    -webkit-animation: progress-bar-stripes 2s linear infinite
+}
+
+@-webkit-keyframes progress-bar-stripes {
+    from {
+        background-position: 40px 0
+    }
+    to {
+        background-position: 0 0
+    }
+}
+
+@keyframes progress-bar-stripes {
+    from {
+        background-position: 40px 0
+    }
+    to {
+        background-position: 0 0
+    }
+}
+
+.pace-inactive {
+
+}
+
+.pace .pace-activity {
+    display: block
+    position: fixed
+    z-index: 2000
+    top: 15px
+    right: 15px
+    width: 14px
+    height: 14px
+    border: solid 2px transparent
+    border-top-color: #FFFFFF
+    border-left-color: #FFFFFF
+    border-radius: 10px
+    -webkit-animation: pace-spinner 400ms linear infinite
+    -moz-animation: pace-spinner 400ms linear infinite
+    -ms-animation: pace-spinner 400ms linear infinite
+    -o-animation: pace-spinner 400ms linear infinite
+    animation: pace-spinner 400ms linear infinite
+}
+
+@-webkit-keyframes pace-spinner {
+    0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-moz-keyframes pace-spinner {
+    0% { -moz-transform: rotate(0deg); transform: rotate(0deg); }
+    100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-o-keyframes pace-spinner {
+    0% { -o-transform: rotate(0deg); transform: rotate(0deg); }
+    100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-ms-keyframes pace-spinner {
+    0% { -ms-transform: rotate(0deg); transform: rotate(0deg); }
+    100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes pace-spinner {
+    0% { transform: rotate(0deg); transform: rotate(0deg); }
+    100% { transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+.msg {
+    left: 52px
+    top: 105px
+    position: absolute
+    color: #C3882D
+    font-size: 12px
+}
