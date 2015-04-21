@@ -1,5 +1,3 @@
-var Url = require('fire-url');
-
 module.exports = {
     load: function (plugin) {
         plugin.on('fire-login:open', function () {
@@ -8,4 +6,4 @@ module.exports = {
     },
     unload: function (plugin) {
     },
-}; 
+};

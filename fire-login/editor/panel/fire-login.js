@@ -6,6 +6,13 @@ Polymer({
         password: "",
     },
 
+    lockLogin: true,
+
+    observe: {
+        "loginConfig.account": "inputChanged",
+        "loginConfig.password": "inputChanged"
+    },
+
     domReady: function () {
         this.$.register.parent = this;
     },
@@ -14,6 +21,15 @@ Polymer({
         var shell = require('shell');
         shell.openExternal('http://fireball-x.com/user/forgotpassword');
         shell.beep();
+    },
+
+    inputChanged: function () {
+        if (this.loginConfig.account !== "" && this.loginConfig.password !== ""){
+            this.lockLogin = false;
+        }
+        else {
+            this.lockLogin = true;
+        }
     },
 
     loginAction: function () {
@@ -92,6 +108,19 @@ Polymer({
         });
         this.$.login.style.left = "0px";
         this.$.register.style.left = "400px";
+    },
+
+    githubSign: function () {
+        // var remote = require('remote');
+        // var BrowserWindow = remote.require('browser-window');
+        //
+        // var win = new BrowserWindow({ width: 800, height: 600, show: false,"always-on-top": true,title: "Github Authored" });
+        // win.on('closed', function() {
+        //   win = null;
+        // });
+        //
+        // win.loadUrl('editor://static/window.html?panelID=github-auth');
+        // win.show();
     },
 
 });
