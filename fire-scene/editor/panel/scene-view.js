@@ -1,7 +1,7 @@
 Polymer({
     created: function () {
         this.renderContext = null;
-        this.pixiGrids = null;
+        this.grids = null;
         this.svgGizmos = null;
         this.view = { width: 0, height: 0 };
         this.sceneCamera = {
@@ -19,8 +19,8 @@ Polymer({
     ready: function () {
         this.tabIndex = EditorUI.getParentTabIndex(this)+1;
 
-        // init pixi grids
-        this.pixiGrids = new Editor.PixiGrids();
+        // init grids
+        this.grids = new Editor.Grids();
 
         // init gizmos
         this.svgGizmos = new Editor.SvgGizmos( this.$.gizmos );
@@ -43,9 +43,8 @@ Polymer({
                                                           this.view.height,
                                                           this.$.canvas );
         if ( this.renderContext ) {
-            var graphics = new PIXI.Graphics();
-            this.renderContext.getBackgroundNode().addChild(graphics);
-            this.pixiGrids.setGraphics(graphics);
+            var graphics = new Fire._Runtime.RenderContext.Graphics(this.renderContext.getBackgroundNode());
+            this.grids.setGraphics(graphics);
 
             // make sure we apply the size to all canvas
             this.resize();
@@ -79,7 +78,7 @@ Polymer({
         //
         camera.size = this.view.height;
         this.renderContext.camera = camera;
-        this.pixiGrids.setCamera(camera);
+        this.grids.setCamera(camera);
         this.svgGizmos.setCamera(camera);
 
         //
@@ -96,7 +95,7 @@ Polymer({
                 height: clientRect.height,
             };
             this.renderContext.size = new Fire.Vec2( this.view.width, this.view.height );
-            this.pixiGrids.resize( this.view.width, this.view.height );
+            this.grids.resize( this.view.width, this.view.height );
             this.svgGizmos.resize( this.view.width, this.view.height );
 
             this.repaint();
@@ -123,7 +122,7 @@ Polymer({
         if ( !this.renderContext || !this.renderContext.camera )
             return;
 
-        this.pixiGrids.update();
+        this.grids.update();
         Fire.Engine._scene.render(this.renderContext);
         this.interactionContext.update(Fire.Engine._scene.entities);
     },
