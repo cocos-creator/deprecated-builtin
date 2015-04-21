@@ -7,6 +7,8 @@ Polymer({
     },
 
     lockLogin: true,
+    waiting: false,
+    msg: "",
 
     observe: {
         "loginConfig.account": "inputChanged",
@@ -33,6 +35,7 @@ Polymer({
     },
 
     loginAction: function () {
+        this.waiting = true;
         var isEmail = this.verifyEmail(this.loginConfig.account);
 
         var formData = {
@@ -57,15 +60,20 @@ Polymer({
                     var userid = JSON.parse(body).userId;
                     console.log('token:' + token);
                     console.log('userID:' + userid);
+                    this.msg = "Login succeed!";
+                    // TODO: 这里拿到了token和userid 应该赋值类似Editor.token 这样的API来操作
+
                 }
                 else {
-                    console.log(JSON.parse(body).error.message);
+                    this.msg = JSON.parse(body).error.message;
                 }
             }
             else {
-                console.log(err);
+                this.msg = err;
             }
-        });
+
+            this.waiting = false;
+        }.bind(this));
 
     },
 
@@ -121,6 +129,7 @@ Polymer({
         //
         // win.loadUrl('editor://static/window.html?panelID=github-auth');
         // win.show();
+        Fire.warn('没有实现');
     },
 
 });
