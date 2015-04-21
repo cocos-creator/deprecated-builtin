@@ -1,0 +1,63 @@
+<polymer-element
+    name="fire-login-register"
+    constructor="FireLoginRegister"
+    >
+
+<template>
+    <link rel="stylesheet" href="fire-login-register.css">
+    <div class="register_panel">
+        <div class="head">
+            <span class="return_login" on-click="{{returnLogin}}" >
+                <?xml version="1.0" encoding="iso-8859-1"?>
+                <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="20px" height="20px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;padding-top:10px;padding-left: 5px"
+                     xml:space="preserve" class="path" fill="white">
+                    <g>
+                        <path d="M97.141,225.92c0-8.095,3.091-16.192,9.259-22.366L300.689,9.27c12.359-12.359,32.397-12.359,44.751,0
+                            c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
+                            c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"/>
+                    </g>
+                </svg>
+            </span>
+            <h2>Create Your Account:</h2>
+        </div>
+        <div class="prop" flex-row>
+            <span class="reg_tip" flex-1>Email address:</span>
+            <input type="text" flex-3 id="email" value="{{registerConfig.email}}" placeholder="Email address"/>
+        </div>
+
+        <div class="prop" flex-row>
+            <span class="reg_tip" flex-1>User Name:</span>
+            <input type="text" flex-3 id="userName" value="{{registerConfig.username}}" placeholder="Your Fireball nickname  Length:5-25"/>
+        </div>
+
+        <div class="prop" flex-row>
+            <span class="reg_tip" flex-1>Password:</span>
+            <input type="password" flex-3 id="password" value="{{registerConfig.password}}" placeholder="Password!  Length:5-25"/>
+        </div>
+
+        <div class="prop" flex-row>
+            <span class="reg_tip" flex-1>Re-enter Password:</span>
+            <input type="password" flex-3 id="recheckPassword" value="{{recheckPwd}}" placeholder="Re-enter Password"/>
+        </div>
+
+        <div class="registerPanel">
+            <button on-click="{{registerAction}}" class="btn green center {{verifyEmail === true &&verifyUserName===true &&verifyPwd===true ? '':'disabled'}}">Register</button>
+        </div>
+    </div>
+    <div class="mask {{hideMask? 'hide':''}}"></div>
+    <div class="waiting {{hideMask? 'hide':''}}" >
+        <svg id="svgForStroke" class="svg {{waiting ? 'animate': ''}}" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50%" cy="50%" r="40%" stroke-width="1%"/>
+            <text x="45" y="80" fill="white"  stroke-width="1px" style="stroke: none">{{svgTip}}</text>
+        </svg>
+
+        <div class="tips">
+            {{tipText}}
+        </div>
+        <button class="return_btn {{ done ? '':'hide'}}" on-click="{{resetMask}}">Close</button>
+    </div>
+</template>
+<script type="text/javascript" src="fire-login-register.js"></script>
+</polymer-element>
