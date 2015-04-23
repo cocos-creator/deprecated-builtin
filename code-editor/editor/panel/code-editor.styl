@@ -76,6 +76,7 @@
 }
 
 .spinner {
+    display: flex
     margin: auto
     height: 30px
     text-align: center
@@ -83,10 +84,11 @@
 }
 
 .spinner > div {
+    display: inline-block
     background-color: white
     height: 100%
     width: 10px
-    display: inline-block
+    margin-right: 5px
 
     -webkit-animation: stretchdelay 0.8s infinite ease-in-out
 }
