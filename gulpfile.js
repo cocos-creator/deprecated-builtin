@@ -132,6 +132,9 @@ var task_package = function ( name ) {
     gulp.task(task_dist, build_html());
 
     gulp.task(task_dist_trim, function(cb) {
+        if (name === 'code-editor') {
+            return;
+        }
         var htmlName = require('./' + name + '/package.json').name;
         var trimList = [
             'bin/' + name + '/editor/panel/*.*',
