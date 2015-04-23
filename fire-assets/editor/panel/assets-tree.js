@@ -513,7 +513,7 @@ Polymer({
 
         if ( this._focusUrl === url ) {
             this._focusUrl = null;
-            this.expand(newEL.userId);
+            this.expand(newEL.userId,true);
             this.scrollToItem(newEL);
             Editor.Selection.selectAsset(newEL.userId, true, true);
         }
