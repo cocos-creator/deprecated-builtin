@@ -2,12 +2,12 @@ var Request = require('request');
 
 Polymer({
     registerConfig: {
-        email: "",
-        username: "",
-        password: "",
-        fullname: "",
+        email: '',
+        username: '',
+        password: '',
+        fullname: '',
     },
-    recheckPwd: "",
+    recheckPwd: '',
 
     verifyEmail: false,
     verifyUserName: false,
@@ -16,17 +16,17 @@ Polymer({
     parent: null,
     waiting: false,
     hideMask: true,
-    svgTip: "Wating...",
-    tipText: "Wating...",
+    svgTip: 'Wating...',
+    tipText: 'Wating...',
     done: false,
 
     domReady: function () {
     },
 
     observe: {
-        "registerConfig.email": "emailChanged",
-        "registerConfig.username": "userNameChanged",
-        "registerConfig.password": "passwordChanged",
+        'registerConfig.email': 'emailChanged',
+        'registerConfig.username': 'userNameChanged',
+        'registerConfig.password': 'passwordChanged',
     },
 
     emailChanged: function () {
@@ -83,32 +83,32 @@ Polymer({
         this.waiting = true;
         this.hideMask = false;
         var options = {
-            url:"https://accounts.fireball-x.com/signup",
+            url:'https://accounts.fireball-x.com/signup',
             form: this.registerConfig,
             headers: {
-                "accept": 'application/json',
-                "content-type": "application/json",
+                'accept': 'application/json',
+                'content-type': 'application/json',
             }
         };
-        
+
         Request.post(options,function (err,httpResponse,body) {
             if (!err) {
                 if (httpResponse.statusCode === 201) {
                     this.doneAction();
                 }else {
                     this.waiting = false;
-                    this.$.svgForStroke.style.strokeDasharray = "300%,300%";
-                    this.$.svgForStroke.style.stroke = "red";
-                    this.svgTip = "Mistake...";
+                    this.$.svgForStroke.style.strokeDasharray = '300%,300%';
+                    this.$.svgForStroke.style.stroke = 'red';
+                    this.svgTip = 'Mistake...';
                     this.tipText = JSON.parse(body).error.message;
                 }
 
             }
             else {
                 this.waiting = false;
-                this.$.svgForStroke.style.strokeDasharray = "300%,300%";
-                this.$.svgForStroke.style.stroke = "red";
-                this.svgTip = "Mistake...";
+                this.$.svgForStroke.style.strokeDasharray = '300%,300%';
+                this.$.svgForStroke.style.stroke = 'red';
+                this.svgTip = 'Mistake...';
                 this.tipText = err;
             }
             this.done = true;
@@ -117,18 +117,18 @@ Polymer({
 
     doneAction: function () {
         this.waiting = false;
-        this.$.svgForStroke.style.strokeDasharray = "300%,300%";
-        this.$.svgForStroke.style.stroke = "#66FF27";
-        this.svgTip = "Succeed...";
-        this.tipText = "Signup successful, please verify your email address and login.";
+        this.$.svgForStroke.style.strokeDasharray = '300%,300%';
+        this.$.svgForStroke.style.stroke = '#66FF27';
+        this.svgTip = 'Succeed...';
+        this.tipText = 'Signup successful, please verify your email address and login.';
     },
 
     resetMask: function () {
         this.hideMask = true;
-        this.svgTip = "Wating...";
-        this.tipText = "Wating...";
-        this.$.svgForStroke.style.strokeDasharray = "1%,300%";
-        this.$.svgForStroke.style.stroke = "#FF8127";
+        this.svgTip = 'Wating...';
+        this.tipText = 'Wating...';
+        this.$.svgForStroke.style.strokeDasharray = '1%,300%';
+        this.$.svgForStroke.style.stroke = '#FF8127';
         this.done = false;
     },
 });
