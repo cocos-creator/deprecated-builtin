@@ -1,6 +1,6 @@
 {
   "name": "auto-updater",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "The Check for Update plugin for Fireball Editor",
   "author": "Firebox Technology",
   "fireball": {
