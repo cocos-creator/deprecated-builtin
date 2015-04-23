@@ -54,13 +54,13 @@ Polymer({
 
     setRenderContext: function ( renderContext ) {
         if ( this.renderContext !== null ) {
-            this.$.view.removeChild(this.renderContext.canvas);
+            this.$.view.removeChild(this.renderContext.container || this.renderContext.canvas);
         }
 
         this.renderContext = renderContext;
 
         if ( this.renderContext !== null ) {
-            this.$.view.appendChild(this.renderContext.canvas);
+            this.$.view.appendChild(this.renderContext.container || this.renderContext.canvas);
         }
     },
 
@@ -123,7 +123,7 @@ Polymer({
         if ( !this.renderContext )
             return;
 
-        Fire.Engine._scene.render(this.renderContext);
+        Fire._Runtime.render(this.renderContext);
     },
 
     delayRepaintScene: function () {
