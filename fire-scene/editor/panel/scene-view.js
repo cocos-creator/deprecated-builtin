@@ -63,8 +63,9 @@ Polymer({
         // create editor camera
         if ( cameraEnt === null ) {
             // TODO: add this code to EditorUtils
-            cameraEnt = new Fire.Entity.createWithFlags('Scene Camera',
-                                Fire._ObjectFlags.Hide | Fire._ObjectFlags.EditorOnly);
+            cameraEnt = new Fire.Entity('Scene Camera', {
+                flags: Fire._ObjectFlags.Hide | Fire._ObjectFlags.EditorOnly
+            });
             camera = cameraEnt.addComponent(Fire.Camera);
         }
         else {
