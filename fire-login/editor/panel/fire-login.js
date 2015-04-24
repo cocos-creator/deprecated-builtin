@@ -98,15 +98,38 @@ Polymer({
                 if (httpResponse.statusCode === 200) {
                     var token = JSON.parse(body).id;
                     var userid = JSON.parse(body).userId;
-                    console.log('token:' + token);
-                    console.log('userID:' + userid);
-                    this.msg = 'Login succeed!';
-                    // TODO: 这里拿到了token和userid 应该赋值类似Editor.token 这样的API来操作
+                    var opt = {
+                      url: 'https://accounts.fireball-x.com/api/users/' + userid + '?access_token=' + token,
+                      headers: {
+                        'accept': 'application/json',
+                        'content-type': 'application/json'
+                      }
+                    };
+                    var localLoginOpts = { //store local login information
+                      'account': this.loginConfig.account,
+                      'password': this.loginConfig.password,
+                      'remember-passwd': this.rememberPasswd
+                    };
+                    Request.get(opt, function (err, res, body) {
+                      if (!err) {
+                        if (res.statusCode === 200) {
+                          // console.log('user: ' + body);
+                          var user = JSON.parse(body);
+                          Editor.Metrics.identifyUser(user);
+                          console.log('token:' + token);
+                          console.log('userID:' + userid);
 
-                    Editor.sendToCore('login:succeed', {
-                        'account': this.loginConfig.account,
-                        'password': this.loginConfig.password,
-                        'remember-passwd': this.rememberPasswd,
+                          this.msg = 'Login succeed!';
+                          // TODO: 这里拿到了token和userid 应该赋值类似Editor.token 这样的API来操作
+
+                          Editor.sendToCore('login:succeed', localLoginOpts);
+                        } else {
+                            this.msg = JSON.parse(body).error.message;
+                        }
+                      } else {
+                          this.msg = err;
+                      }
+                      this.waiting = false;
                     });
                 }
                 else {
@@ -116,8 +139,6 @@ Polymer({
             else {
                 this.msg = err;
             }
-
-            this.waiting = false;
         }.bind(this));
 
     },
