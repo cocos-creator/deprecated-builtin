@@ -123,7 +123,7 @@ Polymer({
             return;
 
         this.grids.update();
-        Fire.Engine._scene.render(this.renderContext);
+        Fire._Runtime.render(this.renderContext);
         this.interactionContext.update(Fire.Engine._scene.entities);
     },
 
