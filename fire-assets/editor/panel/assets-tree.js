@@ -351,6 +351,7 @@ Polymer({
             // New Sprite (Standalone)
             {
                 label: 'New Sprite (Standalone)',
+                visible: Editor.isDev,
                 click: function () {
                     var targetEL = null;
                     var contextSelection = Editor.Selection.contextAssets;

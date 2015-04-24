@@ -13,7 +13,6 @@ Polymer({
     verifyUserName: false,
     verifyPwd: false,
 
-    parent: null,
     waiting: false,
     hideMask: true,
     svgTip: 'Wating...',
@@ -76,7 +75,7 @@ Polymer({
     },
 
     returnLogin: function () {
-        this.parent.loginPanel();
+        this.fire('show-login');
     },
 
     registerAction: function () {

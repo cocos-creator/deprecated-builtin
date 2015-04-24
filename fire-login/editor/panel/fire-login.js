@@ -17,7 +17,6 @@ Polymer({
     },
 
     domReady: function () {
-        this.$.register.parent = this;
     },
 
     forgetPwd: function () {
@@ -33,6 +32,24 @@ Polymer({
         else {
             this.lockLogin = true;
         }
+    },
+
+    showLoginAction: function () {
+        this.$.login.animate([
+            { left: '-400px' },
+            { left: '0px' }
+        ], {
+            duration: 300
+        });
+
+        this.$.register.animate([
+            { left: '0px' },
+            { left: '400px' }
+        ],{
+            duration: 300
+        });
+        this.$.login.style.left = '0px';
+        this.$.register.style.left = '400px';
     },
 
     loginAction: function () {
@@ -103,24 +120,6 @@ Polymer({
         });
         this.$.login.style.left = '-400px';
         this.$.register.style.left = '0px';
-    },
-
-    loginPanel: function () {
-        this.$.login.animate([
-            { left: '-400px' },
-            { left: '0px' }
-        ], {
-            duration: 300
-        });
-
-        this.$.register.animate([
-            { left: '0px' },
-            { left: '400px' }
-        ],{
-            duration: 300
-        });
-        this.$.login.style.left = '0px';
-        this.$.register.style.left = '400px';
     },
 
     githubSign: function () {
