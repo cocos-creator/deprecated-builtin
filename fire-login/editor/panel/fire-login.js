@@ -7,16 +7,27 @@ Polymer({
     },
 
     rememberPasswd: true,
-    lockLogin: true,
+    canLogin: false,
     waiting: false,
     msg: '',
 
     observe: {
         'loginConfig.account': 'inputChanged',
-        'loginConfig.password': 'inputChanged'
+        'loginConfig.password': 'inputChanged',
+        'rememberPasswd': 'rememberChanged',
     },
 
     domReady: function () {
+        Editor.sendRequestToCore('login:query-info', function ( info ) {
+            this.loginConfig.account = info.account;
+            this.rememberPasswd = info['remember-passwd'];
+            if ( this.rememberPasswd ) {
+                this.loginConfig.password = info.password;
+            }
+            if ( this.loginConfig.account && this.loginConfig.password ) {
+                this.loginAction();
+            }
+        }.bind(this));
     },
 
     forgetPwd: function () {
@@ -27,11 +38,18 @@ Polymer({
 
     inputChanged: function () {
         if (this.loginConfig.account !== '' && this.loginConfig.password !== ''){
-            this.lockLogin = false;
+            this.canLogin = true;
         }
         else {
-            this.lockLogin = true;
+            this.canLogin = false;
         }
+    },
+
+    rememberChanged: function () {
+        Editor.sendToCore('login:save', {
+            'account': this.loginConfig.account,
+            'remember-passwd': this.rememberPasswd,
+        });
     },
 
     showLoginAction: function () {
@@ -53,6 +71,10 @@ Polymer({
     },
 
     loginAction: function () {
+        Editor.sendToCore('login:save', {
+            account: this.loginConfig.account,
+        });
+
         this.waiting = true;
         var isEmail = this.verifyEmail(this.loginConfig.account);
 
@@ -82,8 +104,9 @@ Polymer({
                     // TODO: 这里拿到了token和userid 应该赋值类似Editor.token 这样的API来操作
 
                     Editor.sendToCore('login:succeed', {
-                        account: this.loginConfig.account,
-                        password: this.loginConfig.password,
+                        'account': this.loginConfig.account,
+                        'password': this.loginConfig.password,
+                        'remember-passwd': this.rememberPasswd,
                     });
                 }
                 else {
