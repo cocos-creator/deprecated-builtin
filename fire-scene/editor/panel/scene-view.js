@@ -43,7 +43,7 @@ Polymer({
                                                           this.view.height,
                                                           this.$.canvas );
         if ( this.renderContext ) {
-            var graphics = new Fire._Runtime.RenderContext.Graphics(this.renderContext.getBackgroundNode());
+            var graphics = new Fire._Runtime.RenderContext.Graphics(this.renderContext.getBackgroundNode(), this.renderContext);
             this.grids.setGraphics(graphics);
 
             // make sure we apply the size to all canvas
@@ -63,8 +63,9 @@ Polymer({
         // create editor camera
         if ( cameraEnt === null ) {
             // TODO: add this code to EditorUtils
-            cameraEnt = new Fire.Entity.createWithFlags('Scene Camera',
-                                Fire._ObjectFlags.Hide | Fire._ObjectFlags.EditorOnly);
+            cameraEnt = new Fire.Entity('Scene Camera', {
+                flags: Fire._ObjectFlags.Hide | Fire._ObjectFlags.EditorOnly
+            });
             camera = cameraEnt.addComponent(Fire.Camera);
         }
         else {
