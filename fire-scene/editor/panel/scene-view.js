@@ -43,7 +43,7 @@ Polymer({
                                                           this.view.height,
                                                           this.$.canvas );
         if ( this.renderContext ) {
-            var graphics = new Fire._Runtime.RenderContext.Graphics(this.renderContext.getBackgroundNode());
+            var graphics = new Fire._Runtime.RenderContext.Graphics(this.renderContext.getBackgroundNode(), this.renderContext);
             this.grids.setGraphics(graphics);
 
             // make sure we apply the size to all canvas
