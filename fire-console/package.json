@@ -20,9 +20,9 @@
         "height": 300,
         "messages": [
           "console:log",
+          "console:info",
           "console:warn",
-          "console:error",
-          "console:info"
+          "console:error"
         ]
       }
     }

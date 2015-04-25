@@ -1,3 +1,5 @@
+var Util = require('util');
+
 Polymer({
     options: [
         { name: 'All'  , value: 0 },
@@ -19,20 +21,48 @@ Polymer({
         this._curSelected = null;
     },
 
-    'console:log': function ( detail ) {
-        this.add( 'log', detail.message );
+    'console:log': function () {
+        var text = arguments.length > 0 ?  arguments[0] : '';
+        if (arguments.length <= 1) {
+            text = '' + text;
+        } else {
+            text = Util.format.apply(Util, arguments);
+        }
+
+        this.add( 'log', text );
     },
 
-    'console:warn': function ( detail ) {
-        this.add( 'warn', detail.message );
+    'console:info': function () {
+        var text = arguments.length > 0 ?  arguments[0] : '';
+        if (arguments.length <= 1) {
+            text = '' + text;
+        } else {
+            text = Util.format.apply(Util, arguments);
+        }
+
+        this.add( 'info', text );
     },
 
-    'console:error': function ( detail ) {
-        this.add( 'error', detail.message );
+    'console:warn': function () {
+        var text = arguments.length > 0 ?  arguments[0] : '';
+        if (arguments.length <= 1) {
+            text = '' + text;
+        } else {
+            text = Util.format.apply(Util, arguments);
+        }
+
+        this.add( 'warn', text );
     },
 
-    'console:info': function ( detail ) {
-        this.add( 'info', detail.message );
+    'console:error': function () {
+        var text = arguments.length > 0 ?  arguments[0] : '';
+        if (arguments.length <= 1) {
+            text = '' + text;
+        } else {
+            text = Util.format.apply(Util, arguments);
+        }
+
+        this.add( 'error', text );
     },
 
     add: function ( type, text ) {
