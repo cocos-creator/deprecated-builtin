@@ -16,7 +16,6 @@
         "min-width": 400,
         "min-height": 400,
         "messages": [
-          "panel:open",
           "asset:changed"
         ],
         "profiles": {

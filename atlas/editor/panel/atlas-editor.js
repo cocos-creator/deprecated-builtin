@@ -33,13 +33,13 @@ Polymer(EditorUI.mixin({
         this._initDroppable(this.$.view);
     },
 
-    'panel:open': function ( event ) {
-        var uuid = event.detail.uuid;
+    'panel:open': function ( detail ) {
+        var uuid = detail.uuid;
         this.load(uuid);
     },
 
-    'asset:changed': function ( event ) {
-        var uuid = event.detail.uuid;
+    'asset:changed': function ( detail ) {
+        var uuid = detail.uuid;
 
         if ( this.uuid !== uuid ) {
             return;
@@ -48,9 +48,9 @@ Polymer(EditorUI.mixin({
         this.load(uuid);
     },
 
-    'fire-inspector:asset-dirty': function ( event ) {
-        var uuid = event.detail.uuid;
-        var assetJson = event.detail.json;
+    'fire-inspector:asset-dirty': function ( detail ) {
+        var uuid = detail.uuid;
+        var assetJson = detail.json;
 
         if ( this.uuid !== uuid ) {
             return;
@@ -73,9 +73,9 @@ Polymer(EditorUI.mixin({
         }, true);
     },
 
-    'fire-inspector:meta-dirty': function ( event ) {
-        var uuid = event.detail.uuid;
-        var metaJson = event.detail.json;
+    'fire-inspector:meta-dirty': function ( detail ) {
+        var uuid = detail.uuid;
+        var metaJson = detail.json;
 
         if ( this.uuid !== uuid ) {
             return;

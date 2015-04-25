@@ -14,37 +14,37 @@ Polymer({
         Editor.mainWindow.$.assets = null;
     },
 
-    'asset:hint': function ( event ) {
-        var uuid = event.detail.uuid;
+    'asset:hint': function ( detail ) {
+        var uuid = detail.uuid;
         this.hint(uuid);
     },
 
-    'folder:created': function ( event ) {
-        var url = event.detail.url;
-        var id = event.detail.uuid;
-        var parentId = event.detail.parentUuid;
+    'folder:created': function ( detail ) {
+        var url = detail.url;
+        var id = detail.uuid;
+        var parentId = detail.parentUuid;
 
         this.$.assetsTree.newItem( url, id, parentId, true );
     },
 
-    'asset:moved': function ( event ) {
-        var id = event.detail.uuid;
-        var destUrl = event.detail['dest-url'];
-        var destDirId = event.detail['dest-parent-uuid'];
+    'asset:moved': function ( detail ) {
+        var id = detail.uuid;
+        var destUrl = detail['dest-url'];
+        var destDirId = detail['dest-parent-uuid'];
 
         this.$.assetsTree.moveItem( id, destUrl, destDirId );
     },
 
-    'assets:created': function ( event ) {
-        var results = event.detail.results;
+    'assets:created': function ( detail ) {
+        var results = detail.results;
         for ( var i = 0; i < results.length; ++i ) {
             var info = results[i];
             this.$.assetsTree.newItem( info.url, info.uuid, info.parentUuid, info.isDir );
         }
     },
 
-    'assets:deleted': function ( event ) {
-        var results = event.detail.results;
+    'assets:deleted': function ( detail ) {
+        var results = detail.results;
         var filterResults = Editor.arrayCmpFilter ( results, function ( a, b ) {
             if ( Path.contains( a.url, b.url ) ) {
                 return 1;
@@ -60,25 +60,25 @@ Polymer({
         }
     },
 
-    'fire-assets:refresh-context-menu': function ( event ) {
+    'fire-assets:refresh-context-menu': function () {
         // make context menu dirty
         this.$.assetsTree.contextmenu = null;
     },
 
-    'selection:asset:selected': function ( event ) {
-        this.select( event.detail['id-list'], true );
+    'selection:asset:selected': function ( detail ) {
+        this.select( detail['id-list'], true );
     },
 
-    'selection:asset:unselected': function ( event ) {
-        this.select( event.detail['id-list'], false );
+    'selection:asset:unselected': function ( detail ) {
+        this.select( detail['id-list'], false );
     },
 
-    'selection:asset:activated': function ( event ) {
-        this.active( event.detail.id, true );
+    'selection:asset:activated': function ( detail ) {
+        this.active( detail.id, true );
     },
 
-    'selection:asset:deactivated': function ( event ) {
-        this.active( event.detail.id, false );
+    'selection:asset:deactivated': function ( detail ) {
+        this.active( detail.id, false );
     },
 
     browse: function () {

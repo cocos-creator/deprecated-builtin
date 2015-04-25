@@ -16,8 +16,8 @@ Polymer({
         Editor.mainWindow.$.inspector = null;
     },
 
-    'asset:changed': function ( event ) {
-        var uuid = event.detail.uuid;
+    'asset:changed': function ( detail ) {
+        var uuid = detail.uuid;
         if ( this.target && this.target.uuid === uuid ) {
             var reloadMeta = true;
 
@@ -39,9 +39,9 @@ Polymer({
         }
     },
 
-    'asset:moved': function ( event ) {
-        var uuid = event.detail.uuid;
-        var destUrl = event.detail['dest-url'];
+    'asset:moved': function ( detail ) {
+        var uuid = detail.uuid;
+        var destUrl = detail['dest-url'];
         if ( this.target && this.target.uuid === uuid ) {
             if ( this.$.inspector.asset ) {
                 this.$.inspector.asset.name = Url.basenameNoExt(destUrl);
@@ -49,9 +49,9 @@ Polymer({
         }
     },
 
-    'asset:saved': function ( event ) {
-        var url = event.detail.url;
-        var uuid = event.detail.uuid;
+    'asset:saved': function ( detail ) {
+        var url = detail.url;
+        var uuid = detail.uuid;
 
         if ( this.target && this.target.uuid === uuid ) {
             if ( this.$.inspector.saving !== undefined ) {
@@ -64,21 +64,21 @@ Polymer({
         }
     },
 
-    'component:added': function ( event ) {
-        var entityId = event.detail['entity-id'];
-        var compId = event.detail['component-id'];
+    'component:added': function ( detail ) {
+        var entityId = detail['entity-id'];
+        var compId = detail['component-id'];
         this._onEntityDirty( entityId, compId );
     },
 
-    'component:removed': function ( event ) {
-        var entityId = event.detail['entity-id'];
-        var compId = event.detail['component-id'];
+    'component:removed': function ( detail ) {
+        var entityId = detail['entity-id'];
+        var compId = detail['component-id'];
         this._onEntityDirty( entityId, compId );
     },
 
-    'selection:activated': function ( event ) {
-        var type = event.detail.type;
-        var id = event.detail.id;
+    'selection:activated': function ( detail ) {
+        var type = detail.type;
+        var id = detail.id;
 
         this._onInspect( type, id );
     },

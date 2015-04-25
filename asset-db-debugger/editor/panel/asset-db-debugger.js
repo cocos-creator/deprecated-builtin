@@ -13,8 +13,8 @@ Polymer({
         this.$.btnGroup.select(0);
     },
 
-    'asset-db-debugger:uuid-asset-results': function ( event ) {
-        var results = event.detail.results;
+    'asset-db-debugger:uuid-asset-results': function ( detail ) {
+        var results = detail.results;
 
         this.infoList = [];
         for ( var i = 0; i < results.length; ++i ) {

@@ -26,59 +26,59 @@ Polymer({
         Editor.mainWindow.$.hierarchy = null;
     },
 
-    'scene:launched': function ( event ) {
-        this.reload(event.detail);
+    'scene:launched': function ( detail ) {
+        this.reload(detail);
     },
 
-    'entity:created': function ( event ) {
-        createEntityFromSnapshot(this.$.hierarchyTree, null, event.detail);
+    'entity:created': function ( detail ) {
+        createEntityFromSnapshot(this.$.hierarchyTree, null, detail);
     },
 
-    'entity:removed': function ( event ) {
-        var entityId = event.detail['entity-id'];
+    'entity:removed': function ( detail ) {
+        var entityId = detail['entity-id'];
 
         this.$.hierarchyTree.deleteItemById(entityId);
     },
 
-    'entity:renamed': function ( event ) {
-        var entityId = event.detail['entity-id'];
-        var newName = event.detail.name;
+    'entity:renamed': function ( detail ) {
+        var entityId = detail['entity-id'];
+        var newName = detail.name;
 
         this.$.hierarchyTree.renameItemById( entityId, newName );
     },
 
-    'entity:parent-changed': function ( event ) {
-        var entityId = event.detail['entity-id'];
-        var parentId = event.detail['parent-id'];
+    'entity:parent-changed': function ( detail ) {
+        var entityId = detail['entity-id'];
+        var parentId = detail['parent-id'];
 
         this.$.hierarchyTree.setItemParentById( entityId, parentId );
     },
 
-    'entity:index-changed': function ( event ) {
-        var entityId = event.detail['entity-id'];
-        var nextSiblingId = event.detail['next-sibliing-id'];
+    'entity:index-changed': function ( detail ) {
+        var entityId = detail['entity-id'];
+        var nextSiblingId = detail['next-sibliing-id'];
 
         this.$.hierarchyTree.setItemIndex( entityId, nextSiblingId );
     },
 
-    'entity:hint': function ( event ) {
-        var entityId = event.detail['entity-id'];
+    'entity:hint': function ( detail ) {
+        var entityId = detail['entity-id'];
         this.hint(entityId);
     },
 
-    'hierarchy-menu:create-entity': function ( event ) {
+    'hierarchy-menu:create-entity': function () {
         this.$.hierarchyTree.createEntityFromContextSelect();
     },
 
-    'hierarchy-menu:create-child-entity': function ( event ) {
+    'hierarchy-menu:create-child-entity': function () {
         this.$.hierarchyTree.createChildEntityFromContextSelect();
     },
 
-    'hierarchy-menu:rename': function ( event ) {
+    'hierarchy-menu:rename': function () {
         this.$.hierarchyTree.renameEntityFromContextSelect();
     },
 
-    'hierarchy-menu:delete': function ( event ) {
+    'hierarchy-menu:delete': function () {
         this.$.hierarchyTree.deleteEntityFromContextSelect();
     },
 
@@ -86,28 +86,28 @@ Polymer({
         this.$.hierarchyTree.duplicateEntityFromContextSelect();
     },
 
-    'selection:entity:selected': function ( event ) {
-        this.select( event.detail['id-list'], true );
+    'selection:entity:selected': function ( detail ) {
+        this.select( detail['id-list'], true );
     },
 
-    'selection:entity:unselected': function ( event ) {
-        this.select( event.detail['id-list'], false );
+    'selection:entity:unselected': function ( detail ) {
+        this.select( detail['id-list'], false );
     },
 
-    'selection:entity:activated': function ( event ) {
-        this.active( event.detail.id, true );
+    'selection:entity:activated': function ( detail ) {
+        this.active( detail.id, true );
     },
 
-    'selection:entity:deactivated': function ( event ) {
-        this.active( event.detail.id, false );
+    'selection:entity:deactivated': function ( detail ) {
+        this.active( detail.id, false );
     },
 
-    'selection:entity:hover': function ( event ) {
-        this.hover( event.detail.id );
+    'selection:entity:hover': function ( detail ) {
+        this.hover( detail.id );
     },
 
-    'selection:entity:hoverout': function ( event ) {
-        this.hoverout( event.detail.id );
+    'selection:entity:hoverout': function ( detail ) {
+        this.hoverout( detail.id );
     },
 
     select: function (entityIds, selected) {

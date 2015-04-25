@@ -27,7 +27,7 @@ Polymer({
         Editor.sendToCore('build-settings:query-scenes');
     },
 
-    'panel:open': function ( event ) {
+    'panel:open': function () {
         var projectPath = Remote.getGlobal('Editor').projectPath;
         var projectName = Path.basename(projectPath);
 
@@ -40,8 +40,8 @@ Polymer({
         }
     },
 
-    'build-settings:query-scenes-results': function ( event ) {
-        var results = event.detail.results;
+    'build-settings:query-scenes-results': function ( detail ) {
+        var results = detail.results;
 
         var profile = this.profiles.project;
         profile.sceneList = results.map( function ( item ) {

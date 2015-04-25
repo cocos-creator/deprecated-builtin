@@ -16,7 +16,6 @@
         "min-width": 400,
         "min-height": 400,
         "messages": [
-          "panel:open",
           "asset:changed",
           "fire-inspector:asset-dirty",
           "fire-inspector:meta-dirty"

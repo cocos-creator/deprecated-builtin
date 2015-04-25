@@ -19,30 +19,30 @@ Polymer({
         this.delayRepaintScene();
     },
 
-    'component:enabled': function ( event ) {
-        var compId = event.detail['component-id'];
+    'component:enabled': function ( detail ) {
+        var compId = detail['component-id'];
         this.$.view.updateComponent( compId, true );
     },
 
-    'component:disabled': function ( event ) {
-        var compId = event.detail['component-id'];
+    'component:disabled': function ( detail ) {
+        var compId = detail['component-id'];
         this.$.view.updateComponent( compId, false );
     },
 
-    'selection:entity:selected': function ( event ) {
-        this.select( event.detail['id-list'], true );
+    'selection:entity:selected': function ( detail ) {
+        this.select( detail['id-list'], true );
     },
 
-    'selection:entity:unselected': function ( event ) {
-        this.select( event.detail['id-list'], false );
+    'selection:entity:unselected': function ( detail ) {
+        this.select( detail['id-list'], false );
     },
 
-    'selection:entity:hover': function ( event ) {
-        this.hover( event.detail.id );
+    'selection:entity:hover': function ( detail ) {
+        this.hover( detail.id );
     },
 
-    'selection:entity:hoverout': function ( event ) {
-        this.hoverout( event.detail.id );
+    'selection:entity:hoverout': function ( detail ) {
+        this.hoverout( detail.id );
     },
 
     initRenderContext: function () {

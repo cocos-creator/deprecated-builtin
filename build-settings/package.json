@@ -22,7 +22,6 @@
         "min-width": 500,
         "min-height": 500,
         "messages": [
-          "panel:open",
           "build-settings:query-scenes-results"
         ],
         "profiles": {

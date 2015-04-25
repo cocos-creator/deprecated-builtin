@@ -19,20 +19,20 @@ Polymer({
         this._curSelected = null;
     },
 
-    'console:log': function ( event ) {
-        this.add( 'log', event.detail.message );
+    'console:log': function ( detail ) {
+        this.add( 'log', detail.message );
     },
 
-    'console:warn': function ( event ) {
-        this.add( 'warn', event.detail.message );
+    'console:warn': function ( detail ) {
+        this.add( 'warn', detail.message );
     },
 
-    'console:error': function ( event ) {
-        this.add( 'error', event.detail.message );
+    'console:error': function ( detail ) {
+        this.add( 'error', detail.message );
     },
 
-    'console:info': function ( event ) {
-        this.add( 'info', event.detail.message );
+    'console:info': function ( detail ) {
+        this.add( 'info', detail.message );
     },
 
     add: function ( type, text ) {

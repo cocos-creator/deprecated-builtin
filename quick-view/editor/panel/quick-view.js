@@ -40,9 +40,9 @@ Polymer({
         // this.$.search.focus();
     },
 
-    'panel:open': function ( event ) {
-        var typeID = event.detail['type-id'];
-        this._curId = event.detail.id;
+    'panel:open': function ( detail ) {
+        var typeID = detail['type-id'];
+        this._curId = detail.id;
 
         var self = this;
         Editor.AssetDB.query( "assets://", {
