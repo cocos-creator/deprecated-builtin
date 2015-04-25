@@ -110,7 +110,7 @@ Polymer({
         this.$.mirror.createEditor();
     },
 
-    'panel:open': function () {
+    'panel:open': function (detail) {
         var uuid = detail.uuid;
 
         if (this.$.mirror.dirty) {
@@ -134,7 +134,7 @@ Polymer({
         this.load(uuid);
     },
 
-    'asset:changed': function () {
+    'asset:changed': function (detail) {
         var uuid = detail.uuid;
         var outside = detail.outside;
 
