@@ -20,6 +20,8 @@
         "height": 300,
         "messages": [
           "console:log",
+          "console:success",
+          "console:failed",
           "console:info",
           "console:warn",
           "console:error"

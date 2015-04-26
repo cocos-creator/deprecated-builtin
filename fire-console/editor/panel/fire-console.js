@@ -21,48 +21,28 @@ Polymer({
         this._curSelected = null;
     },
 
-    'console:log': function () {
-        var text = arguments.length > 0 ?  arguments[0] : '';
-        if (arguments.length <= 1) {
-            text = '' + text;
-        } else {
-            text = Util.format.apply(Util, arguments);
-        }
-
-        this.add( 'log', text );
+    'console:log': function ( message ) {
+        this.add( 'log', message );
     },
 
-    'console:info': function () {
-        var text = arguments.length > 0 ?  arguments[0] : '';
-        if (arguments.length <= 1) {
-            text = '' + text;
-        } else {
-            text = Util.format.apply(Util, arguments);
-        }
-
-        this.add( 'info', text );
+    'console:success': function ( message ) {
+        this.add( 'log', message );
     },
 
-    'console:warn': function () {
-        var text = arguments.length > 0 ?  arguments[0] : '';
-        if (arguments.length <= 1) {
-            text = '' + text;
-        } else {
-            text = Util.format.apply(Util, arguments);
-        }
-
-        this.add( 'warn', text );
+    'console:failed': function ( message ) {
+        this.add( 'log', message );
     },
 
-    'console:error': function () {
-        var text = arguments.length > 0 ?  arguments[0] : '';
-        if (arguments.length <= 1) {
-            text = '' + text;
-        } else {
-            text = Util.format.apply(Util, arguments);
-        }
+    'console:info': function ( message ) {
+        this.add( 'info', message );
+    },
 
-        this.add( 'error', text );
+    'console:warn': function ( message ) {
+        this.add( 'warn', message );
+    },
+
+    'console:error': function ( message ) {
+        this.add( 'error', message );
     },
 
     add: function ( type, text ) {
