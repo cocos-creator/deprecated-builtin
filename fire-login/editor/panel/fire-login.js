@@ -1,30 +1,27 @@
 var Request = require('request');
 
 Polymer({
-    loginConfig: {
-        account: '',
-        password: '',
-    },
-
+    account: '',
+    password: '',
     rememberPasswd: true,
     canLogin: false,
     waiting: false,
     msg: '',
 
     observe: {
-        'loginConfig.account': 'inputChanged',
-        'loginConfig.password': 'inputChanged',
+        'account': 'inputChanged',
+        'password': 'inputChanged',
         'rememberPasswd': 'rememberChanged',
     },
 
     domReady: function () {
         Editor.sendRequestToCore('login:query-info', function ( info ) {
-            this.loginConfig.account = info.account;
+            this.account = info.account;
             this.rememberPasswd = info['remember-passwd'];
             if ( this.rememberPasswd ) {
-                this.loginConfig.password = info.password;
+                this.password = info.password;
             }
-            if ( this.loginConfig.account && this.loginConfig.password ) {
+            if ( this.account && this.password ) {
                 this.loginAction();
             }
         }.bind(this));
@@ -37,7 +34,7 @@ Polymer({
     },
 
     inputChanged: function () {
-        if (this.loginConfig.account !== '' && this.loginConfig.password !== ''){
+        if (this.account !== '' && this.password !== ''){
             this.canLogin = true;
         }
         else {
@@ -47,7 +44,7 @@ Polymer({
 
     rememberChanged: function () {
         Editor.sendToCore('login:save', {
-            'account': this.loginConfig.account,
+            'account': this.account,
             'remember-passwd': this.rememberPasswd,
         });
     },
@@ -72,80 +69,30 @@ Polymer({
 
     loginAction: function () {
         Editor.sendToCore('login:save', {
-            account: this.loginConfig.account,
+            account: this.account,
         });
 
         this.waiting = true;
-        var isEmail = this.verifyEmail(this.loginConfig.account);
 
-        var formData = {
-            username: isEmail ? '':this.loginConfig.account,
-            email: isEmail ? this.loginConfig.account : '',
-            password: this.loginConfig.password,
-        };
+        Editor.login( this.account, this.password, function ( err, detail ) {
+            this.waiting = false;
 
-        var options = {
-            url: 'https://accounts.fireball-x.com/login',
-            form: formData,
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json',
-            }
-        };
-
-        Request.post(options,function (err,httpResponse,body) {
-            if (!err) {
-                if (httpResponse.statusCode === 200) {
-                    var token = JSON.parse(body).id;
-                    var userid = JSON.parse(body).userId;
-                    var opt = {
-                      url: 'https://accounts.fireball-x.com/api/users/' + userid + '?access_token=' + token,
-                      headers: {
-                        'accept': 'application/json',
-                        'content-type': 'application/json'
-                      }
-                    };
-                    var localLoginOpts = { //store local login information
-                      'account': this.loginConfig.account,
-                      'password': this.loginConfig.password,
-                      'remember-passwd': this.rememberPasswd
-                    };
-                    Request.get(opt, function (err, res, body) {
-                      if (!err) {
-                        if (res.statusCode === 200) {
-                          // console.log('user: ' + body);
-                          var user = JSON.parse(body);
-                          Editor.Metrics.identifyUser(user);
-                          console.log('token:' + token);
-                          console.log('userID:' + userid);
-
-                          this.msg = 'Login succeed!';
-                          // TODO: 这里拿到了token和userid 应该赋值类似Editor.token 这样的API来操作
-
-                          Editor.sendToCore('login:succeed', localLoginOpts);
-                        } else {
-                            this.msg = JSON.parse(body).error.message;
-                        }
-                      } else {
-                          this.msg = err;
-                      }
-                      this.waiting = false;
-                    });
-                }
-                else {
-                    this.msg = JSON.parse(body).error.message;
-                }
-            }
-            else {
+            if ( err ) {
                 this.msg = err;
+                return;
             }
+
+            this.msg = 'Login succeed!';
+
+            var userInfo = detail['user-info'];
+            Editor.Metrics.identifyUser(userInfo);
+
+            Editor.sendToCore('login:succeed', {
+                'account': this.account,
+                'password': this.password,
+                'remember-passwd': this.rememberPasswd
+            });
         }.bind(this));
-
-    },
-
-    verifyEmail: function (value) {
-        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-        return reg.test(value);
     },
 
     registerPanel: function () {
