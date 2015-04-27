@@ -25,6 +25,8 @@ Polymer({
                 this.loginAction();
             }
         }.bind(this));
+
+        this.loginRequests = {};
     },
 
     forgetPwd: function () {
