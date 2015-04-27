@@ -1,4 +1,4 @@
-function createEntityFromSnapshot(tree, selection, entityData, parentEL) {
+function createTreeItemFromSnapshot(tree, selection, entityData, parentEL) {
     if ( !(entityData.objFlags & Fire._ObjectFlags.HideInEditor) ) {
         var el = tree.newItem(entityData.name, entityData.id, parentEL);
         if (selection) {
@@ -7,9 +7,13 @@ function createEntityFromSnapshot(tree, selection, entityData, parentEL) {
 
         var children = entityData.children;
         for (var i = 0, len = children.length; i < len; i++) {
-            createEntityFromSnapshot(tree, selection, children[i], el);
+            createTreeItemFromSnapshot(tree, selection, children[i], el);
         }
+
+        return el;
     }
+
+    return null;
 }
 
 Polymer({
@@ -31,7 +35,16 @@ Polymer({
     },
 
     'entity:created': function ( detail ) {
-        createEntityFromSnapshot(this.$.hierarchyTree, null, detail);
+        var newEL = createTreeItemFromSnapshot(this.$.hierarchyTree, null, detail);
+        if ( newEL ) {
+            if ( detail.options && detail.options['select-in-hierarchy'] ) {
+                window.requestAnimationFrame ( function () {
+                    this.$.hierarchyTree.expand(newEL.userId,true);
+                    this.$.hierarchyTree.scrollToItem(newEL);
+                    Editor.Selection.selectEntity(newEL.userId, true, true);
+                }.bind(this) );
+            }
+        }
     },
 
     'entity:removed': function ( detail ) {
@@ -52,6 +65,7 @@ Polymer({
         var parentId = detail['parent-id'];
 
         this.$.hierarchyTree.setItemParentById( entityId, parentId );
+        this.$.hierarchyTree.expand(entityId,true);
     },
 
     'entity:index-changed': function ( detail ) {
@@ -162,7 +176,7 @@ Polymer({
         var selection = Editor.Selection.entities;
         var entityDatas = sceneSnapshot.entities;
         for (var i = 0, len = entityDatas.length; i < len; i++) {
-            createEntityFromSnapshot(tree, selection, entityDatas[i]);
+            createTreeItemFromSnapshot(tree, selection, entityDatas[i]);
         }
     },
 });

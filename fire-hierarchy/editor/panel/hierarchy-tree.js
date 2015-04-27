@@ -199,15 +199,26 @@
             var parentEL = targetEL.parentElement;
             if ( parentEL && parentEL instanceof HierarchyItem ) {
                 Editor.sendToMainWindow('engine:create-entity', {
-                    'parent-id': parentEL.userId
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
                 });
             }
             else {
-                Editor.sendToMainWindow('engine:create-entity');
+                Editor.sendToMainWindow('engine:create-entity', {
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
             }
         }
         else {
-            Editor.sendToMainWindow('engine:create-entity');
+            Editor.sendToMainWindow('engine:create-entity', {
+                'options': {
+                    'select-in-hierarchy': true
+                }
+            });
         }
     },
 
@@ -216,13 +227,19 @@
         if ( contextSelection.length > 0 ) {
             var targetEL = this.idToItem[contextSelection[0]];
             Editor.sendToMainWindow('engine:create-entity', {
-                'parent-id': targetEL.userId
+                'parent-id': targetEL.userId,
+                'options': {
+                    'select-in-hierarchy': true
+                }
             });
         }
         else {
             var activeId = Editor.Selection.activeEntityId;
             Editor.sendToMainWindow('engine:create-entity', {
-                'parent-id': activeId
+                'parent-id': activeId,
+                'options': {
+                    'select-in-hierarchy': true
+                }
             });
         }
     },
