@@ -7,6 +7,7 @@ Polymer({
     canLogin: false,
     waiting: false,
     msg: '',
+    loginId: -1,
 
     observe: {
         'account': 'inputChanged',
@@ -70,13 +71,18 @@ Polymer({
     },
 
     loginAction: function () {
+        if ( this.waiting ) {
+            this.cancelLogin();
+            return;
+        }
+
         Editor.sendToCore('login:save', {
             account: this.account,
         });
 
         this.waiting = true;
 
-        Editor.login( this.account, this.password, function ( err, detail ) {
+        this.loginId = Editor.login( this.account, this.password, function ( err, detail ) {
             this.waiting = false;
 
             if ( err ) {
@@ -95,6 +101,11 @@ Polymer({
                 'remember-passwd': this.rememberPasswd
             });
         }.bind(this));
+    },
+
+    cancelLogin: function () {
+        Editor.cancelLogin(this.loginId);
+        this.waiting = false;
     },
 
     registerPanel: function () {
@@ -116,16 +127,6 @@ Polymer({
     },
 
     githubSign: function () {
-        // var remote = require('remote');
-        // var BrowserWindow = remote.require('browser-window');
-        //
-        // var win = new BrowserWindow({ width: 800, height: 600, show: false,'always-on-top': true,title: 'Github Authored' });
-        // win.on('closed', function() {
-        //   win = null;
-        // });
-        //
-        // win.loadUrl('editor://static/window.html?panelID=github-auth');
-        // win.show();
         Fire.warn('Coming soon!');
     },
 
