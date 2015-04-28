@@ -17,6 +17,16 @@ Polymer({
     },
 
     domReady: function () {
+
+        this.$.password.addEventListener('keypress',function (event) {
+            if (event.keyCode !== 13) {
+                return;
+            }
+            if (this.canLogin && this.waiting === false) {
+                this.loginAction();
+            }
+        }.bind(this));
+
         Editor.sendRequestToCore('login:query-info', function ( info ) {
             this.account = info.account;
             this.rememberPasswd = info['remember-passwd'];
@@ -131,7 +141,8 @@ Polymer({
     githubSign: function () {
         var remote = require('remote');
         var BrowserWindow = remote.require('browser-window');
-
+        this.cancelLogin();
+        this.cancelGithub = false;
         Ipc.on('github:login',function (token,userId) {
             this.waiting = true;
             Editor.tokenLogin(token,userId,function (res) {
@@ -157,7 +168,7 @@ Polymer({
         }.bind(this));
 
         var win = new BrowserWindow({ width: 800, height: 600, show: false,"always-on-top": true,title: "Github Authored" });
-        win.loadUrl('http://accounts.fireball-x.com/auth/github?callback=fire://static/github.html');
+        win.loadUrl('https://accounts.fireball-x.com/auth/github?callback=fire://static/github.html');
         win.show();
     },
 });
