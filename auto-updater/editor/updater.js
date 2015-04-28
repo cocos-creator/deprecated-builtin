@@ -1,7 +1,10 @@
 var Path = require('path');
+var downloadLocation = '';
 
 var Updater = {
-    checkUpdateFireball: checkUpdate
+    checkUpdateFireball: checkUpdate,
+    downloadFireball: downloadFireball,
+    quitAndLocateNew: quitAndLocateNew
 };
 
 //test
@@ -39,11 +42,10 @@ function checkUpdate(callback) {
     });
 }
 
-function downloadFireball(downloadUrl, filename) {
+function downloadFireball(downloadUrl, filename, callback) {
     //var child = require('child_process').spawn('');
     var Download = require('download');
     var os = require('os');
-    var Shell = require('shell');
     var Del = require('del');
     var Fs = require('fire-fs');
     console.log("prepare download...");
@@ -56,6 +58,7 @@ function downloadFireball(downloadUrl, filename) {
             .run(function(err) {
                 if (err) {
                     console.log(err);
+                    return callback({error:err});
                 } else {
                     Fire.log('Download new version successful, extracting...');
                     if (Fire.isDarwin) {
@@ -68,7 +71,7 @@ function downloadFireball(downloadUrl, filename) {
                           console.log('stderr: ' + data);
                       });
                       child.on('close', function() {
-                          extractComplete();
+                          extractComplete(callback);
                       });
                     } else {
                       var exec = require('child_process').exec;
@@ -82,7 +85,7 @@ function downloadFireball(downloadUrl, filename) {
                           console.log(data.toString());
                       });
                       proc.on('close', function() {
-                          extractComplete();
+                          extractComplete(callback);
                           // console.log('Gulp task dependency installed successful! \n Please run "gulp bootstrap" to setup development environment.');
                       });
                     }
@@ -90,7 +93,7 @@ function downloadFireball(downloadUrl, filename) {
             });
     };
 
-    var extractComplete = function() {
+    var extractComplete = function(callback) {
       //TODO: insert confirmation dialog
       Fire.log( filename + ' extracted successful, now quiting app and taking you to the new version location.');
       Del(Path.join(cacheDir, filename), {force: true}, function(err) {
@@ -98,13 +101,11 @@ function downloadFireball(downloadUrl, filename) {
               console.log(err);
           }
       });
-      var finalTarget = Fire.isDarwin ? 'Fireball.app' : 'fireball.exe';
-      Shell.showItemInFolder(Path.join(cacheDir, finalTarget));
-      var app = require('app');
-      app.quit();
+      return callback({complete: 'true'});
     };
 
     var cacheDir = Path.join(os.tmpdir(), 'update-fireball');
+    downloadLocation = cacheDir;
     if (Fs.isDirSync(cacheDir)) {
         var spawn = require('child_process').spawn;
         var child = spawn('rm', ['-rf', Path.join(cacheDir)]);
@@ -121,6 +122,13 @@ function downloadFireball(downloadUrl, filename) {
     } else {
         startDownload();
     }
+}
+
+function quitAndLocateNew() {
+    var Shell = require('shell');
+    var finalTarget = Fire.isDarwin ? 'Fireball.app' : 'fireball.exe';
+    Shell.showItemInFolder(Path.join(downloadLocation, finalTarget));
+    Editor.quit();
 }
 
 module.exports = Updater;

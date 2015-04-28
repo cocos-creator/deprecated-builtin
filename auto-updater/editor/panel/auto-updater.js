@@ -4,31 +4,24 @@ var App = Remote.require('app');
 
 Polymer({
     version: '',
+    newVersion: '',
     playing: false,
     status: "normal",
     progressAnimate: false,
     statusTip: "",
-    ignoreDialog: false,
-    winUpdate: false,
-    updateUrl: "",
+    hasNewVersion: false,
+    //ignoreDialog: false,
+    //winUpdate: false,
+    //updateUrl: "",
     showConfirm: false,
 
     created: function () {
         this.version = App.getVersion();
     },
 
-    domReady: function () {
-        Editor.sendToCore( 'auto-updater:opened');
-        //this.status = this.argv.status;
-        //this.ignoreDialog = this.argv.ignoreDialog;
-        //if (!Fire.isDarwin) {
-        //    this.windowsCheckUpdate();
-        //}
-        //else {
-        //    if (this.status === "normal") {
-        //        this.darwinCheckUpdate();
-        //    }
-        //}
+    'panel:open': function ( argv ) {
+        this.status = argv.status;
+        Editor.sendToCore( 'auto-updater:opened', {status: this.status});
     },
 
     'auto-updater:status-changed': function (opts) {
@@ -49,71 +42,82 @@ Polymer({
             case "confirm-download":
                 this.playing = false;
                 this.showConfirm = true;
+                this.hasNewVersion = true;
+                console.log(opts.newVersion);
+                this.newVersion = opts.newVersion;
                 this.statusTip = "New version found! Should start downloading " + opts.filename + "?";
                 break;
             case "downloading":
                 this.progressAnimate = true;
-                this.statusTip = "Downloading... (You can close this window)";
+                this.playing = true;
+                this.showConfirm = false;
+                this.statusTip = "Start downloading in the background... this window is closing in 3 seconds";
                 break;
-
-            case "error":
+            case "confirm-replace":
+                this.progressAnimate = false;
                 this.playing = false;
-                this.statusTip = "Error: install faild,please quite and check update again!";
+                this.showConfirm = true;
+                this.statusTip = "Download latest Fireball complete, should we CLOSE the app and go to the new version location?";
                 break;
 
-            case "downloaded":
-                this.playing = false;
-                this.statusTip = "Download success,ready to install...";
-                if (!this.ignoreDialog) {
-                    var dialog = Remote.require('dialog');
-                    var result = dialog.showMessageBox( Remote.getCurrentWindow(), {
-                        type: "warning",
-                        buttons: ["Quite and install now","Later"],
-                        title: "Install Update",
-                        message: "install update now?",
-                        detail: "If you choose \"Later\", Fireball will update itself after you quit the app."
-                    } );
-
-                    if (result === 0) {
-                        //AutoUpdater.quitAndInstall();
-                    }
-                    // else if (result === 1) {
-                    // TODO: send ipc to MainWindow, so that if MainWindow close, it should call autoUpdater.quitAndInstall();
-                    // }
-                }
-                break;
+            //case "error":
+            //    this.playing = false;
+            //    this.statusTip = "Error: install faild,please quite and check update again!";
+            //    break;
+            //
+            //case "downloaded":
+            //    this.playing = false;
+            //    this.statusTip = "Download success,ready to install...";
+            //    if (!this.ignoreDialog) {
+            //        var dialog = Remote.require('dialog');
+            //        var result = dialog.showMessageBox( Remote.getCurrentWindow(), {
+            //            type: "warning",
+            //            buttons: ["Quite and install now","Later"],
+            //            title: "Install Update",
+            //            message: "install update now?",
+            //            detail: "If you choose \"Later\", Fireball will update itself after you quit the app."
+            //        } );
+            //
+            //        if (result === 0) {
+            //            //AutoUpdater.quitAndInstall();
+            //        }
+            //        // else if (result === 1) {
+            //        // TODO: send ipc to MainWindow, so that if MainWindow close, it should call autoUpdater.quitAndInstall();
+            //        // }
+            //    }
+            //    break;
         }
     },
 
-    darwinCheckUpdate: function () {
-        Editor.sendToCore( 'auto-updater:start');
-        this.playAnimation();
-    },
-
-    windowsCheckUpdate: function () {
-        this.playAnimation();
-        Fire._JsonLoader('http://fireball-x.com/api/checkupdate?version=v'+ app.getVersion(), function (err,json) {
-            this.progressAnimate = true;
-            Fire.log("Checking for update!");
-            this.statusTip = "Checking for update...";
-            if (err) {
-                this.statusTip = "Update not available...";
-                Fire.warn("Update not available...");
-                this.progressAnimate = false;
-            }
-            else {
-                this.statusTip = "New version for update!";
-                Fire.info("New version for update! You should open this url to download: '" + json.url + "'");
-                this.winUpdate = true;
-                this.updateUrl = json.winurl;
-            }
-        }.bind(this));
-    },
-
-    ipcStatusChanged: function ( event ) {
-        this.status = event.detail.status;
-        this.ignoreDialog = event.detail.ignoreDialog;
-    },
+    //darwinCheckUpdate: function () {
+    //    Editor.sendToCore( 'auto-updater:start');
+    //    this.playAnimation();
+    //},
+    //
+    //windowsCheckUpdate: function () {
+    //    this.playAnimation();
+    //    Fire._JsonLoader('http://fireball-x.com/api/checkupdate?version=v'+ app.getVersion(), function (err,json) {
+    //        this.progressAnimate = true;
+    //        Fire.log("Checking for update!");
+    //        this.statusTip = "Checking for update...";
+    //        if (err) {
+    //            this.statusTip = "Update not available...";
+    //            Fire.warn("Update not available...");
+    //            this.progressAnimate = false;
+    //        }
+    //        else {
+    //            this.statusTip = "New version for update!";
+    //            Fire.info("New version for update! You should open this url to download: '" + json.url + "'");
+    //            this.winUpdate = true;
+    //            this.updateUrl = json.winurl;
+    //        }
+    //    }.bind(this));
+    //},
+    //
+    //ipcStatusChanged: function ( event ) {
+    //    this.status = event.detail.status;
+    //    this.ignoreDialog = event.detail.ignoreDialog;
+    //},
 
     playAnimation: function () {
         this.playing = true;
@@ -127,14 +131,14 @@ Polymer({
         this.$.logo.style.width = "40px";
     },
 
-    install: function () {
+    //install: function () {
         //AutoUpdater.quitAndInstall();
-    },
+    //},
 
-    goToUpdateUrl: function () {
-        var shell = Remote.require('shell');
-        shell.openExternal(this.updateUrl);
-    },
+    //goToUpdateUrl: function () {
+    //    var shell = Remote.require('shell');
+    //    shell.openExternal(this.updateUrl);
+    //},
 
     confirm: function () {
         console.log('click confirm');

@@ -19,7 +19,10 @@
         <span class="title">
             Fireball
         </span>
-        <span class="version">version:{{version}}</span>
+        <div class="versions">
+            <div class="version">current version:{{version}}</div>
+            <div class="version {{hasNewVersion ? '' : 'display:none'}}">new version:{{newVersion}}</div>
+        </div>
        <div class="info">
              <div class="tip">
                  {{statusTip}}
@@ -27,10 +30,10 @@
              </div>
            <div class="confirm">
                <fire-ui-button on-click="{{confirm}}" style="{{showConfirm ? '':'display:none'}}">
-                   Yes
+                   Yes, go on
                </fire-ui-button>
                <fire-ui-button on-click="{{cancel}}" style="{{showConfirm ? '':'display:none'}}">
-                   No
+                   Close
                </fire-ui-button>
            </div>
        </div>

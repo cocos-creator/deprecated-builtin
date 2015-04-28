@@ -6,6 +6,8 @@ var Updater = require('./updater');
 
 var status = 'normal';
 var ignoreDialog = false;
+var downloadUrl = '';
+var filename = '';
 
 module.exports = {
     load: function (plugin) {
@@ -83,44 +85,76 @@ module.exports = {
             console.log("updater window open");
             ignoreDialog = false;
             plugin.openPanel('default', {
-                status: status,
-                ignoreDialog: ignoreDialog
+                status: 'normal'
             });
 
         });
 
-        plugin.on('auto-updater:opened', function() {
+        plugin.on('auto-updater:opened', function(opts) {
             console.log('updater opened.');
-            plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                status: 'checking'
-            });
-            Updater.checkUpdateFireball(function(result) {
-                if (result.error) {
+            switch(opts.status) {
+                case 'normal':
                     plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                        status: 'not-available'
+                        status: 'checking'
                     });
-                } else if (result.downloadUrl && result.filename) {
-                    console.log('found new version');
-                    status = 'confirm-download';
+                    Updater.checkUpdateFireball(function(result) {
+                        if (result.error) {
+                            plugin.sendToPanel('default', 'auto-updater:status-changed', {
+                                status: 'not-available'
+                            });
+                        } else if (result.downloadUrl && result.filename) {
+                            downloadUrl = result.downloadUrl;
+                            filename = result.filename;
+                            console.log('found new version');
+                            status = 'confirm-download';
+                            plugin.sendToPanel('default', 'auto-updater:status-changed', {
+                                status: 'confirm-download',
+                                filename: result.filename,
+                                newVersion: /-(v\d+\.\d+\.\d+)-/ig.exec(result.filename)[1]
+                            });
+                        }
+                    });
+                    break;
+                case 'download-complete':
                     plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                        status: 'confirm-download',
-                        filename: result.filename
+                        status: 'confirm-replace'
                     });
-                }
-            });
+                    break;
+            }
         });
 
         plugin.on('auto-updater:on-confirm', function (opts) {
             console.log('confirm status: ' + opts.status);
             switch(opts.status) {
                 case 'confirm-download':
-
+                    console.log("state change to downloading");
+                    plugin.sendToPanel('default', 'auto-updater:status-changed', {
+                        status: 'downloading'
+                    });
+                    Updater.downloadFireball(downloadUrl, filename, function(result) {
+                        if (result.error) {
+                            Fire.warn('Download new Fireball version failed, please check your connection and retry.');
+                        } else {
+                            plugin.openPanel('default', {
+                                status: 'download-complete'
+                            });
+                        }
+                    });
+                    setTimeout(function() {
+                        console.log('closing auto-updater');
+                        Editor.Panel.close('auto-updater.default');
+                        Fire.info('Downloading new Fireball version in the background, updater will popup when new version is ready.');
+                    }, 3000);
                     break;
+                case 'confirm-replace':
+                    console.log("state change to confirm-replace");
+                    Updater.quitAndLocateNew();
             }
-            //AutoUpdater.checkForUpdates();
         });
+
         plugin.on('auto-updater:on-cancel', function (opts) {
             console.log('cancel status: ' + opts.status);
+            Editor.Panel.close('auto-updater.default');
             //AutoUpdater.checkForUpdates();
         });
         plugin.on('auto-updater:ignore-dialog', function () {
@@ -130,5 +164,8 @@ module.exports = {
 
     unload: function (plugin) {
         //AutoUpdater.removeAllListeners();
-    },
+    }
 };
+
+
+
