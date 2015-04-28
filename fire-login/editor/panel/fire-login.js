@@ -1,11 +1,12 @@
 var Request = require('request');
-
+var Ipc = require('ipc');
 Polymer({
     account: '',
     password: '',
     rememberPasswd: true,
     canLogin: false,
     waiting: false,
+    cancelGithub: false,
     msg: '',
     loginId: -1,
 
@@ -104,6 +105,7 @@ Polymer({
     },
 
     cancelLogin: function () {
+        this.cancelGithub = true;
         Editor.cancelLogin(this.loginId);
         this.waiting = false;
     },
@@ -127,7 +129,35 @@ Polymer({
     },
 
     githubSign: function () {
-        Fire.warn('Coming soon!');
-    },
+        var remote = require('remote');
+        var BrowserWindow = remote.require('browser-window');
 
+        Ipc.on('github:login',function (token,userId) {
+            this.waiting = true;
+            Editor.tokenLogin(token,userId,function (res) {
+                if (this.cancelGithub) {
+                    this.cancelGithub = false;
+                    return;
+                }
+
+                if ( typeof(res) === 'object' ) {
+                    this.msg = 'Login succeed!';
+                    Editor.sendToCore( 'login:succeed', {
+                        'account': '',
+                        'password': '',
+                        'remember-passwd': false
+                    });
+                }
+                else {
+                    this.msg = 'github login fault!';
+                }
+
+                this.waiting = false;
+            }.bind(this));
+        }.bind(this));
+
+        var win = new BrowserWindow({ width: 800, height: 600, show: false,"always-on-top": true,title: "Github Authored" });
+        win.loadUrl('http://accounts.fireball-x.com/auth/github?callback=fire://static/github.html');
+        win.show();
+    },
 });
