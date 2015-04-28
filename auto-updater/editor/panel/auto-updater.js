@@ -1,6 +1,6 @@
 var Remote = require('remote');
 var App = Remote.require('app');
-var AutoUpdater = Remote.require('auto-updater');
+//var AutoUpdater = Remote.require('auto-updater');
 
 Polymer({
     version: '',
@@ -11,37 +11,46 @@ Polymer({
     ignoreDialog: false,
     winUpdate: false,
     updateUrl: "",
+    showConfirm: false,
 
     created: function () {
         this.version = App.getVersion();
     },
 
     domReady: function () {
-        this.status = this.argv.status;
-        this.ignoreDialog = this.argv.ignoreDialog;
-        if (!Fire.isDarwin) {
-            this.windowsCheckUpdate();
-        }
-        else {
-            if (this.status === "normal") {
-                this.darwinCheckUpdate();
-            }
-        }
+        Editor.sendToCore( 'auto-updater:opened');
+        //this.status = this.argv.status;
+        //this.ignoreDialog = this.argv.ignoreDialog;
+        //if (!Fire.isDarwin) {
+        //    this.windowsCheckUpdate();
+        //}
+        //else {
+        //    if (this.status === "normal") {
+        //        this.darwinCheckUpdate();
+        //    }
+        //}
     },
 
-    'auto-updater:status-changed': function () {
-        switch( this.status ) {
+    'auto-updater:status-changed': function (opts) {
+        console.log("status changed: " + JSON.stringify(opts));
+        this.status = opts.status;
+        switch( opts.status ) {
             case "checking":
-                this.playing = true;
+                console.log("checking");
+                this.playAnimation();
                 this.statusTip = "Checking for update...";
                 break;
-
             case "not-available":
                 this.progressAnimate = true;
                 this.playing = false;
+                this.showConfirm = false;
                 this.statusTip = "Update not available...";
                 break;
-
+            case "confirm-download":
+                this.playing = false;
+                this.showConfirm = true;
+                this.statusTip = "New version found! Should start downloading " + opts.filename + "?";
+                break;
             case "downloading":
                 this.progressAnimate = true;
                 this.statusTip = "Downloading... (You can close this window)";
@@ -66,7 +75,7 @@ Polymer({
                     } );
 
                     if (result === 0) {
-                        AutoUpdater.quitAndInstall();
+                        //AutoUpdater.quitAndInstall();
                     }
                     // else if (result === 1) {
                     // TODO: send ipc to MainWindow, so that if MainWindow close, it should call autoUpdater.quitAndInstall();
@@ -119,11 +128,20 @@ Polymer({
     },
 
     install: function () {
-        AutoUpdater.quitAndInstall();
+        //AutoUpdater.quitAndInstall();
     },
 
     goToUpdateUrl: function () {
         var shell = Remote.require('shell');
         shell.openExternal(this.updateUrl);
     },
+
+    confirm: function () {
+        console.log('click confirm');
+        Editor.sendToCore( 'auto-updater:on-confirm', {status: this.status});
+    },
+    cancel: function () {
+        console.log('click cancel');
+        Editor.sendToCore( 'auto-updater:on-cancel', {status: this.status});
+    }
 });

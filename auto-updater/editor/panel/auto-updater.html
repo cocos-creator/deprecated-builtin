@@ -8,9 +8,7 @@
         <div class="progress"></div>
         <div class="pace-activity"></div>
     </div>
-    <span class="tip">{{statusTip}}
-        <span class="updateurl" on-click="{{goToUpdateUrl}}" style="{{winUpdate ? '':'display:none'}}"> ➤ Click to Download</span>
-    </span>
+
     <div class="topbar">
         <div class="load">
             <img class="logo" id="logo" src="img/logo.png">
@@ -22,6 +20,20 @@
             Fireball
         </span>
         <span class="version">version:{{version}}</span>
+       <div class="info">
+             <div class="tip">
+                 {{statusTip}}
+        <!--<span class="updateurl" on-click="{{goToUpdateUrl}}" style="{{winUpdate ? '':'display:none'}}"> ➤ Click to Download</span>-->
+             </div>
+           <div class="confirm">
+               <fire-ui-button on-click="{{confirm}}" style="{{showConfirm ? '':'display:none'}}">
+                   Yes
+               </fire-ui-button>
+               <fire-ui-button on-click="{{cancel}}" style="{{showConfirm ? '':'display:none'}}">
+                   No
+               </fire-ui-button>
+           </div>
+       </div>
     </div>
 </template>
 <script type="text/javascript" src="auto-updater.js"></script>
