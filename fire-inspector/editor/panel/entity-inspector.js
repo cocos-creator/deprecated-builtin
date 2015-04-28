@@ -140,7 +140,7 @@ Polymer(EditorUI.mixin({
         }
 
         Editor.sendToMainWindow( 'entity:inspector-dirty' );
-        Editor.sendToWindows( 'scene:dirty' );
+        Editor.sendToWindows( 'scene:repaint' );
     },
 
     addComponentAction: function ( event ) {

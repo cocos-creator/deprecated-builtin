@@ -82,10 +82,12 @@ Polymer({
 
     'hierarchy-menu:create-entity': function () {
         this.$.hierarchyTree.createEntityFromContextSelect();
+        Editor.sendToMainWindow( 'scene:dirty' );
     },
 
     'hierarchy-menu:create-child-entity': function () {
         this.$.hierarchyTree.createChildEntityFromContextSelect();
+        Editor.sendToMainWindow( 'scene:dirty' );
     },
 
     'hierarchy-menu:rename': function () {

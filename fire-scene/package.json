@@ -20,7 +20,7 @@
         "width": "auto",
         "height": "auto",
         "messages": [
-          "scene:dirty",
+          "scene:repaint",
           "component:enabled",
           "component:disabled",
           "selection:entity:selected",

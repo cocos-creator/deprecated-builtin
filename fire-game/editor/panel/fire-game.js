@@ -44,7 +44,7 @@ Polymer({
         Editor.mainWindow.$.game = null;
     },
 
-    'scene:dirty': function () {
+    'scene:repaint': function () {
         this.delayRepaintScene();
     },
 

@@ -583,8 +583,8 @@
                             ent.parent = parentEnt;
                             ent.transform.position = new Fire.Vec2(0,0);
                             Editor.Selection.selectEntity( ent.id, false, true );
-                            Editor.sendToMainWindow( 'entity:added', ent.id );
-                            Editor.sendToWindows( 'scene:dirty' );
+                            Editor.sendToMainWindow( 'scene:dirty', ent.id );
+                            Editor.sendToWindows( 'scene:repaint' );
                             Fire.AssetLibrary.cacheAsset( asset );
                         }.bind(this) );
                     }
