@@ -7,7 +7,7 @@
     "main": "editor/main.js",
     "menus": [
       {
-        "path": "Fireball/Panels/Scene",
+        "path": "View/Panels/Scene",
         "message": "fire-scene:open"
       }
     ],

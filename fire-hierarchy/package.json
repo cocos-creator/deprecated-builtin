@@ -7,7 +7,7 @@
     "main": "editor/main.js",
     "menus": [
       {
-        "path": "Fireball/Panels/Hierarchy",
+        "path": "View/Panels/Hierarchy",
         "message": "fire-hierarchy:open"
       }
     ],
