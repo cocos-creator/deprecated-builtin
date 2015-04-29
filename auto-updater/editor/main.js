@@ -82,7 +82,6 @@ module.exports = {
         //AutoUpdater.setFeedUrl('http://fireball-x.com/api/checkupdate?version=v' + App.getVersion());
 
         plugin.on('auto-updater:open', function () {
-            console.log("updater window open");
             ignoreDialog = false;
             plugin.openPanel('default', {
                 status: 'normal'
@@ -91,7 +90,6 @@ module.exports = {
         });
 
         plugin.on('auto-updater:opened', function(opts) {
-            console.log('updater opened.');
             switch(opts.status) {
                 case 'normal':
                     plugin.sendToPanel('default', 'auto-updater:status-changed', {
@@ -111,6 +109,10 @@ module.exports = {
                                 status: 'confirm-download',
                                 filename: result.filename,
                                 newVersion: /-(v\d+\.\d+\.\d+)-/ig.exec(result.filename)[1]
+                            });
+                        } else {
+                            plugin.sendToPanel('default', 'auto-updater:status-changed', {
+                                status: 'not-available'
                             });
                         }
                     });

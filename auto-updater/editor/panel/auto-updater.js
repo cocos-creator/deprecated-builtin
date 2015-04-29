@@ -10,10 +10,13 @@ Polymer({
     progressAnimate: false,
     statusTip: "",
     hasNewVersion: false,
+    confirmLabel: "Yes",
+    cancelLabel: "No",
     //ignoreDialog: false,
     //winUpdate: false,
     //updateUrl: "",
     showConfirm: false,
+    showClose: false,
 
     created: function () {
         this.version = App.getVersion();
@@ -32,31 +35,39 @@ Polymer({
                 console.log("checking");
                 this.playAnimation();
                 this.statusTip = "Checking for update...";
+                this.showClose = false;
                 break;
             case "not-available":
-                this.progressAnimate = true;
+                this.progressAnimate = false;
                 this.playing = false;
                 this.showConfirm = false;
+                this.showClose = true;
                 this.statusTip = "Update not available...";
                 break;
             case "confirm-download":
                 this.playing = false;
                 this.showConfirm = true;
+                this.showClose = false;
                 this.hasNewVersion = true;
-                console.log(opts.newVersion);
                 this.newVersion = opts.newVersion;
+                this.confirmLabel = "Download";
+                this.cancelLabel = "Cancel";
                 this.statusTip = "New version found! Should start downloading " + opts.filename + "?";
                 break;
             case "downloading":
                 this.progressAnimate = true;
                 this.playing = true;
                 this.showConfirm = false;
+                this.showClose = false;
                 this.statusTip = "Start downloading in the background... this window is closing in 3 seconds";
                 break;
             case "confirm-replace":
                 this.progressAnimate = false;
                 this.playing = false;
                 this.showConfirm = true;
+                this.showClose = false;
+                this.confirmLabel = "Close App and Update";
+                this.cancelLabel = "Cancel";
                 this.statusTip = "Download latest Fireball complete, should we CLOSE the app and go to the new version location?";
                 break;
 
@@ -141,11 +152,11 @@ Polymer({
     //},
 
     confirm: function () {
-        console.log('click confirm');
+        //console.log('click confirm');
         Editor.sendToCore( 'auto-updater:on-confirm', {status: this.status});
     },
     cancel: function () {
-        console.log('click cancel');
+        //console.log('click cancel');
         Editor.sendToCore( 'auto-updater:on-cancel', {status: this.status});
     }
 });

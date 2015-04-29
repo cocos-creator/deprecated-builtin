@@ -29,11 +29,14 @@
         <!--<span class="updateurl" on-click="{{goToUpdateUrl}}" style="{{winUpdate ? '':'display:none'}}"> ➤ Click to Download</span>-->
              </div>
            <div class="confirm">
+               <fire-ui-button on-click="{{cancel}}" style="{{showClose ? '' : 'display:none'}}">
+                   Close
+               </fire-ui-button>
                <fire-ui-button on-click="{{confirm}}" style="{{showConfirm ? '':'display:none'}}">
-                   Yes, go on
+                   {{confirmLabel}}
                </fire-ui-button>
                <fire-ui-button on-click="{{cancel}}" style="{{showConfirm ? '':'display:none'}}">
-                   Close
+                   {{cancelLabel}}
                </fire-ui-button>
            </div>
        </div>

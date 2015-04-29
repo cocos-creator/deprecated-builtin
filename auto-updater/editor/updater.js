@@ -12,8 +12,8 @@ var Updater = {
 function checkUpdate(callback) {
     var app = require('app');
     var request = require('request');
-    //var currentVersion = app.getVersion();
-    var currentVersion = '0.1.7'; // for testing, use app.getVersion for production
+    var currentVersion = app.getVersion();
+    //var currentVersion = '0.1.7'; // for testing, use app.getVersion for production
     request('http://fireball-x.com/api/checkupdate?version=v' + currentVersion,
         function(err, res, body) {
         if (!err && res.statusCode === 200) {
