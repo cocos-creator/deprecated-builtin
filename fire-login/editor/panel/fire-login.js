@@ -30,9 +30,12 @@ Polymer({
         Editor.sendRequestToCore('login:query-info', function ( info ) {
             this.account = info.account;
             this.rememberPasswd = info['remember-passwd'];
-            if ( this.rememberPasswd ) {
-                this.password = info.password;
+            if ( !this.rememberPasswd ) {
+                return;
             }
+            
+            this.password = info.password;
+
             if ( this.account && this.password ) {
                 if (info['login-type'] && info['login-type'] === 'account') {
                     this.loginAction();
