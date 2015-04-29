@@ -34,8 +34,15 @@ Polymer({
                 this.password = info.password;
             }
             if ( this.account && this.password ) {
-                this.loginAction();
+                if (info['login-type'] && info['login-type'] === 'account') {
+                    this.loginAction();
+                }
             }
+
+            if (info['login-type'] && info['login-type'] === 'github') {
+                this.githubSign();
+            }
+
         }.bind(this));
 
         this.loginRequests = {};
@@ -60,6 +67,7 @@ Polymer({
         Editor.sendToCore('login:save', {
             'account': this.account,
             'remember-passwd': this.rememberPasswd,
+            'login-type': 'account',
         });
     },
 
@@ -109,8 +117,12 @@ Polymer({
             Editor.sendToCore('login:succeed', {
                 'account': this.account,
                 'password': this.password,
-                'remember-passwd': this.rememberPasswd
+                'remember-passwd': this.rememberPasswd,
+                'login-type': 'account',
             });
+
+            if ( Editor.Panel )
+                Editor.Panel.close('fire-login.default');
         }.bind(this));
     },
 
@@ -156,8 +168,20 @@ Polymer({
                     Editor.sendToCore( 'login:succeed', {
                         'account': '',
                         'password': '',
-                        'remember-passwd': false
+                        'remember-passwd': this.rememberPasswd,
+                        'login-type': 'github',
                     });
+
+                    Editor.sendToCore('login:save', {
+                        'account': this.account,
+                        'remember-passwd': this.rememberPasswd,
+                        'login-type': 'github',
+                    });
+
+                    if ( Editor.Panel ) {
+                        Editor.Panel.close('fire-login.default');
+                    }
+
                 }
                 else {
                     this.msg = 'github login fault!';
@@ -168,7 +192,7 @@ Polymer({
         }.bind(this));
 
         var win = new BrowserWindow({ width: 800, height: 600, show: false,"always-on-top": true,title: "Github Authored" });
-        win.loadUrl('https://accounts.fireball-x.com/auth/github?callback=fire://static/github.html');
+        win.loadUrl('fire://static/github-login/login-status.html');
         win.show();
     },
 });
