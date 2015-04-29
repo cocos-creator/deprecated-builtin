@@ -42,7 +42,7 @@ Polymer({
                 this.playing = false;
                 this.showConfirm = false;
                 this.showClose = true;
-                this.statusTip = "Update not available...";
+                this.statusTip = "Your Fireball Version is up to date!";
                 break;
             case "confirm-download":
                 this.playing = false;
