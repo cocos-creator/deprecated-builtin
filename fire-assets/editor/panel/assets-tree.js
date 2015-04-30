@@ -500,6 +500,7 @@ Polymer({
                 var info = results[i];
                 this.newItem( info.url, info.uuid, info.parentUuid, info.isDir );
             }
+            this.fire('restore-collapses');
         }.bind(this));
     },
 
@@ -518,8 +519,6 @@ Polymer({
             this.scrollToItem(newEL);
             Editor.Selection.selectAsset(newEL.userId, true, true);
         }
-        
-        this.parent.restoreCollapses();
     },
 
     moveItem: function ( id, destUrl, destDirId ) {

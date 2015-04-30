@@ -114,6 +114,11 @@ Polymer({
         this.$.assetsTree.hintItem(uuid);
     },
 
+    saveCollapses: function () {
+        this.profiles.local.CollapsesStatus = this.$.assetsTree.dumpCollapses();
+        this.profiles.local.save();
+    },
+
     createAction: function () {
         var Remote = require('remote');
         var Menu = Remote.require('menu');
@@ -126,12 +131,7 @@ Polymer({
                    Math.floor(rect.bottom + 10));
     },
 
-    saveCollapses: function () {
-        this.profiles.local.CollapsesStatus = this.$.assetsTree.dumpCollapses();
-        this.profiles.local.save();
-    },
-
-    restoreCollapses: function () {
+    restoreCollapsesAction: function (event) {
         this.$.assetsTree.restoreCollapses(this.profiles.local.CollapsesStatus);
     },
 
