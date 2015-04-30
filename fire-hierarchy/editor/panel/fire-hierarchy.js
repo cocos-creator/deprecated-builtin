@@ -132,6 +132,7 @@ Polymer({
             var el = this.$.hierarchyTree.idToItem[id];
             if (el) {
                 el.selected = selected;
+                this.$.hierarchyTree.expand(el.userId,true);
             }
         }
     },
