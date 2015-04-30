@@ -1,6 +1,6 @@
 {
   "name": "quick-view",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Fireball builtin panel for quick access assets and entities",
   "author": "Firebox Technology",
   "fireball": {

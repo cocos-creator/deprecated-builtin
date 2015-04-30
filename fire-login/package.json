@@ -1,6 +1,6 @@
 {
   "name": "fire-login",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "The login panel for Fireball Engine",
   "author": "KamiSama <kamisama.lwh@qq.com>",
   "fireball": {
@@ -21,8 +21,7 @@
         "height": 450,
         "min-width": 400,
         "min-height": 350,
-        "messages": [
-        ]
+        "messages": []
       }
     }
   }
