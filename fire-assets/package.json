@@ -29,7 +29,12 @@
           "selection:asset:unselected",
           "selection:asset:activated",
           "selection:asset:deactivated"
-        ]
+        ],
+        "profiles": {
+          "local": {
+              "CollapsesStatus": []
+          }
+        }
       }
     }
   }
