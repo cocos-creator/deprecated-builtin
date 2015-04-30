@@ -15,9 +15,9 @@ Polymer({
         'password': 'inputChanged',
         'rememberPasswd': 'rememberChanged',
     },
-
-    domReady: function () {
-
+    
+    domReady: function () { 
+    
         this.$.password.addEventListener('keypress',function (event) {
             if (event.keyCode !== 13) {
                 return;
@@ -33,7 +33,7 @@ Polymer({
             if ( !this.rememberPasswd ) {
                 return;
             }
-            
+
             this.password = info.password;
 
             if ( this.account && this.password ) {
@@ -194,7 +194,13 @@ Polymer({
             }.bind(this));
         }.bind(this));
 
-        var win = new BrowserWindow({ width: 800, height: 600, show: false,"always-on-top": true,title: "Github Authored" });
+        var win = new BrowserWindow({
+                width: 800,
+                height: 600, 
+                show: false,
+                "always-on-top": true,
+                title: "Github Authored"
+            });
         win.loadUrl('fire://static/github-login/login-status.html');
         win.show();
     },
