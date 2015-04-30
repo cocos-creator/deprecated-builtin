@@ -10,6 +10,10 @@ Polymer({
         Editor.mainWindow.$.assets = this;
     },
 
+    domReady: function () {
+        this.$.assetsTree.parent = this;
+    },
+
     detached: function () {
         Editor.mainWindow.$.assets = null;
     },
@@ -120,6 +124,15 @@ Polymer({
         menu.popup(Remote.getCurrentWindow(),
                    Math.floor(rect.left + 5),
                    Math.floor(rect.bottom + 10));
+    },
+
+    saveCollapses: function () {
+        this.profiles.local.CollapsesStatus = this.$.assetsTree.dumpCollapses();
+        this.profiles.local.save();
+    },
+
+    restoreCollapses: function () {
+        this.$.assetsTree.restoreCollapses(this.profiles.local.CollapsesStatus);
     },
 
 });

@@ -518,6 +518,8 @@ Polymer({
             this.scrollToItem(newEL);
             Editor.Selection.selectAsset(newEL.userId, true, true);
         }
+        
+        this.parent.restoreCollapses();
     },
 
     moveItem: function ( id, destUrl, destDirId ) {
