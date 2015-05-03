@@ -100,7 +100,7 @@ SpriteAnimationState.prototype.getCurrentIndex = function () {
         }
 
         // search frame info
-        var frameInfoIndex = _binarySearch(this._frameInfoFrames, wrappedIndex + 1);
+        var frameInfoIndex = Fire.binarySearch(this._frameInfoFrames, wrappedIndex + 1);
         if (frameInfoIndex < 0) {
             frameInfoIndex = ~frameInfoIndex;
         }
@@ -114,26 +114,6 @@ SpriteAnimationState.prototype.getCurrentIndex = function () {
         return -1;
     }
 };
-
-// ------------------------------------------------------------------ 
-/// C# Array.BinarySearch
-// ------------------------------------------------------------------ 
-function _binarySearch (array, value) {
-    var l = 0, h = array.length - 1;
-    while (l <= h) {
-        var m = ((l + h) >> 1);
-        if (array[m] === value) {
-            return m;
-        }
-        if (array[m] > value) {
-            h = m - 1;
-        }
-        else {
-            l = m + 1;
-        }
-    }
-    return ~l;
-}
 
 function _wrap (_value, _maxValue, _wrapMode) {
     if (_maxValue === 0) {

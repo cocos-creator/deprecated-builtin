@@ -221,7 +221,7 @@ var SpriteAnimation = Fire.Class({
     _sample: function () {
         if (this._curAnimation !== null) {
             var newIndex = this._curAnimation.getCurrentIndex();
-            if (newIndex >= 0 && newIndex != this._curIndex) {
+            if (newIndex >= 0 && newIndex !== this._curIndex) {
                 this._spriteRenderer.sprite = this._curAnimation.clip.frameInfos[newIndex].sprite;
             }
             this._curIndex = newIndex;
