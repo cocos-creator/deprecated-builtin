@@ -244,6 +244,37 @@
         }
     },
 
+    createInputField: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-input-field', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+            }
+            else {
+                Editor.sendToMainWindow('engine:create-input-field', {
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+            }
+        }
+        else {
+            Editor.sendToMainWindow('engine:create-input-field', {
+                'options': {
+                    'select-in-hierarchy': true
+                }
+            });
+        }
+    },
+
+
     renameEntityFromContextSelect: function () {
         var contextSelection = Editor.Selection.contextEntities;
         if ( contextSelection.length > 0 ) {
