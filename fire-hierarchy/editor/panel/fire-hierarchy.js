@@ -90,6 +90,11 @@ Polymer({
         Editor.sendToMainWindow( 'scene:dirty' );
     },
 
+    'hierarchy-menu:create-input-field': function () {
+        this.$.hierarchyTree.createInputField();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
     'hierarchy-menu:rename': function () {
         this.$.hierarchyTree.renameEntityFromContextSelect();
     },
