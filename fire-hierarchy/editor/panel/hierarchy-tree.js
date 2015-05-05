@@ -256,22 +256,14 @@
                         'select-in-hierarchy': true
                     }
                 });
-            }
-            else {
-                Editor.sendToMainWindow('engine:create-input-field', {
-                    'options': {
-                        'select-in-hierarchy': true
-                    }
-                });
+                return;
             }
         }
-        else {
-            Editor.sendToMainWindow('engine:create-input-field', {
-                'options': {
-                    'select-in-hierarchy': true
-                }
-            });
-        }
+        Editor.sendToMainWindow('engine:create-input-field', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
     },
 
 
