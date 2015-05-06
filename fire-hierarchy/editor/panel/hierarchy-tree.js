@@ -597,8 +597,8 @@
         }
     },
 
-    getSelectElement: function () {
-        var element = this.activeElement;
+    highlightElement: function (ele) {
+        var element = ele;
         var topMask = document.createElement('div');
         var bottomMask = document.createElement('div');
         var centerMask = document.createElement('div');
