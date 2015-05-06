@@ -78,7 +78,9 @@ Polymer({
 
         //
         camera.size = this.view.height;
+        camera.background = new Fire.Color().fromHEX('#303030');
         this.renderContext.camera = camera;
+        this.renderContext.background = camera.background; // FIXME: ask @jare if it fix this line.
         this.grids.setCamera(camera);
         this.svgGizmos.setCamera(camera);
 
