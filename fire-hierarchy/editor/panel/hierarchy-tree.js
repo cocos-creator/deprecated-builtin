@@ -6,7 +6,7 @@
         this.dragenterCnt = 0;
         this.curDragoverEL = null;
         this.lastDragoverEL = null;
-
+        this.stopMask = false;
         // debug
         hierarchy = this;
     },
@@ -595,6 +595,76 @@
                 }
             }
         }
+    },
+
+    getSelectElement: function () {
+        var element = this.activeElement;
+        var topMask = document.createElement('div');
+        var bottomMask = document.createElement('div');
+        var centerMask = document.createElement('div');
+
+        topMask.style.pointerEvents = "none";
+        topMask.style.position = 'absolute';
+        topMask.style.background = 'black';
+        topMask.style.opacity = 0.5;
+        topMask.style.zIndex = 999;
+        topMask.setAttribute('name','EDIT_MASK');
+
+        bottomMask.style.background = 'black';
+        bottomMask.style.opacity = 0.5;
+        bottomMask.style.zIndex = 999;
+        bottomMask.style.position = 'absolute';
+        bottomMask.style.pointerEvents = "none";
+        bottomMask.setAttribute('name','EDIT_MASK');
+
+        centerMask.style.zIndex = 999;
+        centerMask.style.position = 'absolute';
+        centerMask.style.pointerEvents = "none";
+        centerMask.style.border = '1px dotted white';
+        centerMask.setAttribute('name','EDIT_MASK');
+
+        document.body.appendChild(topMask);
+        document.body.appendChild(bottomMask);
+        document.body.appendChild(centerMask);
+
+        this.stopMask = false;
+        this.updateMask(topMask,centerMask,bottomMask,element);
+    },
+
+    updateMask: function (topMask,centerMask,bottomMask,element) {
+        if ( this.stopMask ) {
+            return;
+        }
+
+        window.requestAnimationFrame( function() {
+            var rootRect = this.getBoundingClientRect();
+            var selectRect = element.getBoundingClientRect();
+            topMask.style.width = rootRect.width;
+            topMask.style.height = selectRect.top - rootRect.top;
+            topMask.style.top = rootRect.top;
+            topMask.style.left = rootRect.left;
+
+            bottomMask.style.width = rootRect.width;
+            bottomMask.style.top = selectRect.top + selectRect.height;
+            bottomMask.style.height = rootRect.height - selectRect.height - (selectRect.top - rootRect.top);
+            bottomMask.style.left = rootRect.left;
+
+            centerMask.style.top = selectRect.top -1;
+            centerMask.style.left = rootRect.left+1;
+            centerMask.style.width = rootRect.width-2;
+            centerMask.style.height = selectRect.height -2;
+            this.updateMask(topMask,centerMask,bottomMask,element);
+        }.bind(this) );
+    },
+
+    clearMask: function () {
+        var count = document.getElementsByName('EDIT_MASK').length;
+        for (var i = 0; i < count; i++) {
+            var child = document.getElementsByName('EDIT_MASK')[0];
+            document.body.removeChild(child);
+        }
+
+        this.stopMask = true;
     },
 
 });
