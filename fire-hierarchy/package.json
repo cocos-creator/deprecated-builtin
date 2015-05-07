@@ -9,6 +9,18 @@
       {
         "path": "View/Panels/Hierarchy",
         "message": "fire-hierarchy:open"
+      },
+      {
+        "path": "Entity/Create Empty",
+        "message": "main-menu:create-entity"
+      },
+      {
+        "path": "Entity/Create Empty Child",
+        "message": "main-menu:create-child-entity"
+      },
+      {
+        "path": "Entity/Create Input Field",
+        "message": "main-menu:create-input-field"
       }
     ],
     "panels": {

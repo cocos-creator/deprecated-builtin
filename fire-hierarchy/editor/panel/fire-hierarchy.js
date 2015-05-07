@@ -172,9 +172,21 @@ Polymer({
 
     createAction: function () {
         var rect = this.$.addIcon.getBoundingClientRect();
-        Editor.popupMenu(Editor.plugins.hierarchy.getMenuTemplate('main-menu'),
-                       Math.floor(rect.left + 5),
-                       Math.floor(rect.bottom + 10));
+        var template = [
+            {
+                label: 'Create Empty',
+                message: 'hierarchy-menu:create-entity',
+            },
+            {
+                label: 'Create Empty Child',
+                message: 'hierarchy-menu:create-child-entity',
+            },
+            {
+                label: 'Create Input Field',
+                message: 'hierarchy-menu:create-input-field',
+            },
+        ];
+        Editor.popupMenu(template, Math.floor(rect.left + 5), Math.floor(rect.bottom + 10));
     },
 
     reload: function (sceneSnapshot) {

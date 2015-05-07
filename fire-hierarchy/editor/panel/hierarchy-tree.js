@@ -31,7 +31,7 @@
     },
 
     getContextMenuTemplate: function () {
-        var template = [
+        return [
             // Duplicate
             {
                 label: 'Duplicate',
@@ -55,12 +55,20 @@
 
             // =====================
             { type: 'separator' },
+
+            {
+                label: 'Create Empty',
+                message: 'hierarchy-menu:create-entity',
+            },
+            {
+                label: 'Create Empty Child',
+                message: 'hierarchy-menu:create-child-entity',
+            },
+            {
+                label: 'Create Input Field',
+                message: 'hierarchy-menu:create-input-field',
+            },
         ];
-        // append Create menu
-        var createMenu = Editor.plugins.hierarchy.getMenuTemplate('hierarchy-menu');
-        template = template.concat(createMenu);
-        //
-        return template;
     },
 
     newItem: function ( name, id, parentEL ) {
@@ -101,28 +109,6 @@
 
     refresh: function () {
         this.clear();
-
-        // 这里只是直接读取场景，但场景在读取过程中很可能发生改变，也可能在读取之前改变的消息这时并没收到。
-        // 目前先假设在读取之前和读取过程中，场景不会改变。
-
-        if (!Fire.Engine._scene) {
-            return;
-        }
-        var selection = Editor.Selection.entities;
-        function createItem(entity, parentEL) {
-            var el = Editor.plugins.hierarchy.newEntity(entity.name, entity._objFlags, entity.id, parentEL);
-            if (el) {
-                var children = entity._children;
-                for (var i = 0, len = children.length; i < len; i++) {
-                    createItem(children[i], el);
-                }
-                el.selected = selection.indexOf(el.userId) !== -1;
-            }
-        }
-        var entities = Fire.Engine._scene.entities;
-        for (var i = 0, len = entities.length; i < len; i++) {
-            createItem(entities[i]);
-        }
     },
 
     highlightBorder: function ( item ) {
