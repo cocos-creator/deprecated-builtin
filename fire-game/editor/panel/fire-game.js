@@ -139,12 +139,11 @@ Polymer({
 
     showAction: function ( event ) {
         this.repaintScene();
-
-        this._repaintID = setInterval ( this.repaintScene.bind(this), 500 );
+        // this._repaintID = setInterval ( this.repaintScene.bind(this), 500 );
     },
 
     hideAction: function ( event ) {
-        clearInterval (this._repaintID);
+        // clearInterval (this._repaintID);
     },
 
     resizeAction: function ( event ) {
