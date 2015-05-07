@@ -146,7 +146,7 @@ function _addCustomAssetMenu(target, template) {
         return null;
     }
 
-    function onclick() {
+    function onclick(item, fileName) {
         var contextSelection = Editor.Selection.contextAssets;
         if (contextSelection.length > 0) {
             var targetEL = target.idToItem[contextSelection[0]];
@@ -173,7 +173,8 @@ function _addCustomAssetMenu(target, template) {
             Fire.error('Invalid custom asset menu path: ' + item.menuPath);
             continue;
         }
-        var prio = item.priority || 0;
+        //var priority = item.priority || 0;
+
         // enumerate menu path
         var newMenu = null;
         for (var p = 0, parent = template; p < subPathes.length; p++) {
@@ -212,7 +213,7 @@ function _addCustomAssetMenu(target, template) {
             parent = newMenu;
         }
         if (newMenu && !newMenu.submenu) {
-            newMenu.click = onclick;
+            newMenu.click = onclick.bind(this, item, fileName);
         }
         else {
             Fire.error('Invalid custom asset menu path: ' + item.menuPath);
