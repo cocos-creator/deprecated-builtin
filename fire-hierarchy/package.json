@@ -3,55 +3,51 @@
   "version": "0.3.0",
   "description": "Fireball builtin hierarchy view",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "View/Panels/Hierarchy",
-        "message": "fire-hierarchy:open"
-      },
-      {
-        "path": "Entity/Create Empty",
-        "message": "main-menu:create-entity"
-      },
-      {
-        "path": "Entity/Create Empty Child",
-        "message": "main-menu:create-child-entity"
-      },
-      {
-        "path": "Entity/Create Input Field",
-        "message": "main-menu:create-input-field"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "dockable",
-        "view": "editor/panel/fire-hierarchy.html",
-        "ctor": "FireHierarchy",
-        "title": "Hierarchy",
-        "width": 200,
-        "messages": [
-          "scene:launched",
-          "entity:created",
-          "entity:removed",
-          "entity:renamed",
-          "entity:parent-changed",
-          "entity:index-changed",
-          "entity:hint",
-          "hierarchy-menu:create-entity",
-          "hierarchy-menu:create-child-entity",
-          "hierarchy-menu:create-input-field",
-          "hierarchy-menu:rename",
-          "hierarchy-menu:delete",
-          "hierarchy-menu:duplicate",
-          "selection:entity:selected",
-          "selection:entity:unselected",
-          "selection:entity:hover",
-          "selection:entity:hoverout",
-          "selection:entity:activated",
-          "selection:entity:deactivated"
-        ]
-      }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "View/Panels/Hierarchy": {
+      "message": "fire-hierarchy:open"
+    },
+    "Entity/Create Empty": {
+      "message": "main-menu:create-entity"
+    },
+    "Entity/Create Empty Child": {
+      "message": "main-menu:create-child-entity"
+    },
+    "Entity/Create Input Field": {
+      "message": "main-menu:create-input-field"
+    }
+  },
+  "panels": {
+    "panel": {
+      "type": "dockable",
+      "view": "editor/panel/fire-hierarchy.html",
+      "ctor": "FireHierarchy",
+      "title": "Hierarchy",
+      "popable": false,
+      "width": 200,
+      "messages": [
+        "scene:launched",
+        "entity:created",
+        "entity:removed",
+        "entity:renamed",
+        "entity:parent-changed",
+        "entity:index-changed",
+        "entity:hint",
+        "hierarchy-menu:create-entity",
+        "hierarchy-menu:create-child-entity",
+        "hierarchy-menu:create-input-field",
+        "hierarchy-menu:rename",
+        "hierarchy-menu:delete",
+        "hierarchy-menu:duplicate",
+        "selection:entity:selected",
+        "selection:entity:unselected",
+        "selection:entity:hover",
+        "selection:entity:hoverout",
+        "selection:entity:activated",
+        "selection:entity:deactivated"
+      ]
     }
   }
 }

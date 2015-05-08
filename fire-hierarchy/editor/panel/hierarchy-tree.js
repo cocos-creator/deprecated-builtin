@@ -414,7 +414,7 @@
 
         Editor.Selection.setContextEntity(curContextID);
 
-        Editor.popupMenu(this.getContextMenuTemplate());
+        Editor.Menu.popup(this.getContextMenuTemplate());
     },
 
     keydownAction: function (event) {

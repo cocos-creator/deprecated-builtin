@@ -10,7 +10,7 @@ var downloadUrl = '';
 var filename = '';
 
 module.exports = {
-    load: function (plugin) {
+    load: function () {
         //if ( Editor.isDev ) {
         //    plugin.on('auto-updater:open', function () {
         //        Fire.warn('auto-updater only works in release version.');
@@ -81,93 +81,92 @@ module.exports = {
         //});
         //AutoUpdater.setFeedUrl('http://fireball-x.com/api/checkupdate?version=v' + App.getVersion());
 
-        plugin.on('auto-updater:open', function () {
-            ignoreDialog = false;
-            plugin.openPanel('default', {
-                status: 'normal'
-            });
-
-        });
-
-        plugin.on('auto-updater:opened', function(opts) {
-            switch(opts.status) {
-                case 'normal':
-                    plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                        status: 'checking'
-                    });
-                    Updater.checkUpdateFireball(function(result) {
-                        if (result.error) {
-                            plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                                status: 'not-available'
-                            });
-                        } else if (result.downloadUrl && result.filename) {
-                            downloadUrl = result.downloadUrl;
-                            filename = result.filename;
-                            console.log('found new version');
-                            status = 'confirm-download';
-                            plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                                status: 'confirm-download',
-                                filename: result.filename,
-                                newVersion: /-(v\d+\.\d+\.\d+)-/ig.exec(result.filename)[1]
-                            });
-                        } else {
-                            plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                                status: 'not-available'
-                            });
-                        }
-                    });
-                    break;
-                case 'download-complete':
-                    plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                        status: 'confirm-replace'
-                    });
-                    break;
-            }
-        });
-
-        plugin.on('auto-updater:on-confirm', function (opts) {
-            console.log('confirm status: ' + opts.status);
-            switch(opts.status) {
-                case 'confirm-download':
-                    console.log("state change to downloading");
-                    plugin.sendToPanel('default', 'auto-updater:status-changed', {
-                        status: 'downloading'
-                    });
-                    Updater.downloadFireball(downloadUrl, filename, function(result) {
-                        if (result.error) {
-                            Fire.warn('Download new Fireball version failed, please check your connection and retry.');
-                        } else {
-                            plugin.openPanel('default', {
-                                status: 'download-complete'
-                            });
-                        }
-                    });
-                    setTimeout(function() {
-                        console.log('closing auto-updater');
-                        Editor.Panel.close('auto-updater.default');
-                        Fire.info('Downloading new Fireball version in the background, updater will popup when new version is ready.');
-                    }, 3000);
-                    break;
-                case 'confirm-replace':
-                    console.log("state change to confirm-replace");
-                    Updater.quitAndLocateNew();
-            }
-        });
-
-        plugin.on('auto-updater:on-cancel', function (opts) {
-            console.log('cancel status: ' + opts.status);
-            Editor.Panel.close('auto-updater.default');
-            //AutoUpdater.checkForUpdates();
-        });
-        plugin.on('auto-updater:ignore-dialog', function () {
-            ignoreDialog = true;
-        });
     },
 
-    unload: function (plugin) {
+    unload: function () {
         //AutoUpdater.removeAllListeners();
-    }
+    },
+
+    'auto-updater:open': function () {
+        ignoreDialog = false;
+        Editor.Panel.open('auto-updater.panel', {
+            status: 'normal'
+        });
+
+    },
+
+    'auto-updater:opened': function(opts) {
+        switch(opts.status) {
+            case 'normal':
+                Editor.sendToPanel('auto-updater.panel', 'auto-updater:status-changed', {
+                    status: 'checking'
+                });
+                Updater.checkUpdateFireball(function(result) {
+                    if (result.error) {
+                        Editor.sendToPanel('auto-updater.panel', 'auto-updater:status-changed', {
+                            status: 'not-available'
+                        });
+                    } else if (result.downloadUrl && result.filename) {
+                        downloadUrl = result.downloadUrl;
+                        filename = result.filename;
+                        console.log('found new version');
+                        status = 'confirm-download';
+                        Editor.sendToPanel('auto-updater.panel', 'auto-updater:status-changed', {
+                            status: 'confirm-download',
+                            filename: result.filename,
+                            newVersion: /-(v\d+\.\d+\.\d+)-/ig.exec(result.filename)[1]
+                        });
+                    } else {
+                        Editor.Panel.sendToPanel('auto-updater.panel', 'auto-updater:status-changed', {
+                            status: 'not-available'
+                        });
+                    }
+                });
+                break;
+            case 'download-complete':
+                Editor.Panel.sendToPanel('auto-updater.panel', 'auto-updater:status-changed', {
+                    status: 'confirm-replace'
+                });
+                break;
+        }
+    },
+
+    'auto-updater:on-confirm': function (opts) {
+        console.log('confirm status: ' + opts.status);
+        switch(opts.status) {
+            case 'confirm-download':
+                console.log("state change to downloading");
+                Editor.Panel.sendToPanel('auto-updater.panel', 'auto-updater:status-changed', {
+                    status: 'downloading'
+                });
+                Updater.downloadFireball(downloadUrl, filename, function(result) {
+                    if (result.error) {
+                        Fire.warn('Download new Fireball version failed, please check your connection and retry.');
+                    } else {
+                        Editor.Panel.openPanel('auto-updater.panel', {
+                            status: 'download-complete'
+                        });
+                    }
+                });
+                setTimeout(function() {
+                    console.log('closing auto-updater');
+                    Editor.Panel.close('auto-updater.auto-updater.panel');
+                    Fire.info('Downloading new Fireball version in the background, updater will popup when new version is ready.');
+                }, 3000);
+                break;
+            case 'confirm-replace':
+                console.log("state change to confirm-replace");
+                Updater.quitAndLocateNew();
+        }
+    },
+
+    'auto-updater:on-cancel': function (opts) {
+        console.log('cancel status: ' + opts.status);
+        Editor.Panel.close('auto-updater.auto-updater.panel');
+        //AutoUpdater.checkForUpdates();
+    },
+
+    'auto-updater:ignore-dialog': function () {
+        ignoreDialog = true;
+    },
 };
-
-
-

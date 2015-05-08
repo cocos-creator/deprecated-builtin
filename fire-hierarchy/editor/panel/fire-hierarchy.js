@@ -186,7 +186,7 @@ Polymer({
                 message: 'hierarchy-menu:create-input-field',
             },
         ];
-        Editor.popupMenu(template, Math.floor(rect.left + 5), Math.floor(rect.bottom + 10));
+        Editor.Menu.popup(Math.floor(rect.left + 5), Math.floor(rect.bottom + 10), template);
     },
 
     reload: function (sceneSnapshot) {

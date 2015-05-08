@@ -3,36 +3,34 @@
   "version": "0.3.0",
   "description": "The build settings for Fireball Engine",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "File/Build Settings",
-        "message": "build-settings:open"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "fixed-size",
-        "view": "editor/panel/build-settings.html",
-        "ctor": "BuildSettings",
-        "title": "Build Settings",
-        "width": 500,
-        "height": 550,
-        "min-width": 500,
-        "min-height": 500,
-        "messages": [
-          "build-settings:query-scenes-results"
-        ],
-        "profiles": {
-          "project": {
-            "projectName": "",
-            "defaultScene": "",
-            "sceneList": [],
-            "isDebug": true,
-            "platform": "web-mobile",
-            "buildPath": ""
-          }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "File/Build Settings": {
+      "message": "build-settings:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "type": "fixed-size",
+      "view": "editor/panel/build-settings.html",
+      "ctor": "BuildSettings",
+      "title": "Build Settings",
+      "width": 500,
+      "height": 550,
+      "min-width": 500,
+      "min-height": 500,
+      "messages": [
+        "build-settings:query-scenes-results"
+      ],
+      "profiles": {
+        "project": {
+          "projectName": "",
+          "defaultScene": "",
+          "sceneList": [],
+          "isDebug": true,
+          "platform": "web-mobile",
+          "buildPath": ""
         }
       }
     }

@@ -1,9 +1,11 @@
 module.exports = {
-    load: function (plugin) {
-        plugin.on('fire-about:open', function () {
-            plugin.openPanel('default');
-        });
+    load: function () {
     },
-    unload: function (plugin) {
+
+    unload: function () {
+    },
+
+    'fire-about:open': function () {
+        Editor.Panel.open('fire-about.panel');
     },
 };

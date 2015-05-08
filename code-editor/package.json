@@ -3,30 +3,29 @@
   "version": "0.3.0",
   "description": "The code editor plugin for Fireball Editor",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "panels": {
-      "default": {
-        "type": "dockable",
-        "view": "editor/panel/code-editor.html",
-        "ctor": "CodeEditor",
-        "title": "Code Editor",
-        "width": 1200,
-        "height": 600,
-        "min-width": 400,
-        "min-height": 400,
-        "messages": [
-          "asset:changed"
-        ],
-        "profiles": {
-          "global": {
-            "theme": "zenburn",
-            "tabSize": 2,
-            "keyMap": "sublime",
-            "fontSize": 14,
-            "fontFamily": "DejaVu Sans Mono",
-            "autoComplete": true
-          }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "panels": {
+    "panel": {
+      "type": "dockable",
+      "view": "editor/panel/code-editor.html",
+      "ctor": "CodeEditor",
+      "title": "Code Editor",
+      "width": 1200,
+      "height": 600,
+      "min-width": 400,
+      "min-height": 400,
+      "messages": [
+        "asset:changed"
+      ],
+      "profiles": {
+        "global": {
+          "theme": "zenburn",
+          "tabSize": 2,
+          "keyMap": "sublime",
+          "fontSize": 14,
+          "fontFamily": "DejaVu Sans Mono",
+          "autoComplete": true
         }
       }
     }

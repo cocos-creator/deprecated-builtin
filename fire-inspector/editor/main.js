@@ -1,9 +1,11 @@
 module.exports = {
-    load: function (plugin) {
-        plugin.on('fire-inspector:open', function () {
-            plugin.openPanel('default');
-        });
+    load: function () {
     },
-    unload: function (plugin) {
+
+    unload: function () {
+    },
+
+    'fire-inspector:open': function () {
+        Editor.Panel.open('fire-inspector.panel');
     },
 };

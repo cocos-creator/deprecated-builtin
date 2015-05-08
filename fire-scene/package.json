@@ -3,32 +3,31 @@
   "version": "0.3.0",
   "description": "Fireball builtin scene view",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "View/Panels/Scene",
-        "message": "fire-scene:open"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "dockable",
-        "view": "editor/panel/fire-scene.html",
-        "ctor": "FireScene",
-        "title": "Scene",
-        "width": "auto",
-        "height": "auto",
-        "messages": [
-          "scene:repaint",
-          "component:enabled",
-          "component:disabled",
-          "selection:entity:selected",
-          "selection:entity:unselected",
-          "selection:entity:hover",
-          "selection:entity:hoverout"
-        ]
-      }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "View/Panels/Scene": {
+      "message": "fire-scene:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "type": "dockable",
+      "view": "editor/panel/fire-scene.html",
+      "ctor": "FireScene",
+      "title": "Scene",
+      "popable": false,
+      "width": "auto",
+      "height": "auto",
+      "messages": [
+        "scene:repaint",
+        "component:enabled",
+        "component:disabled",
+        "selection:entity:selected",
+        "selection:entity:unselected",
+        "selection:entity:hover",
+        "selection:entity:hoverout"
+      ]
     }
   }
 }

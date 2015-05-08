@@ -56,6 +56,7 @@ Polymer({
 
     clear: function () {
         this.logs = [];
+        this.$.detail.clear();
     },
 
     applyFilter: function ( logs, filterText, option, useRegex ) {
@@ -147,6 +148,5 @@ Polymer({
 
     clearAction: function (event) {
         this.clear();
-        this.$.detail.clear();
     },
 });
