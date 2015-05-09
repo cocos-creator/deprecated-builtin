@@ -12,8 +12,8 @@
   },
   "panels": {
     "panel": {
+      "frame": "editor/panel/build-settings.html",
       "type": "fixed-size",
-      "view": "editor/panel/build-settings.html",
       "ctor": "BuildSettings",
       "title": "Build Settings",
       "width": 500,

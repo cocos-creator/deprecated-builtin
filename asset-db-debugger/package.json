@@ -12,8 +12,8 @@
   },
   "panels": {
     "panel": {
+      "frame": "editor/panel/asset-db-debugger.html",
       "type": "dockable",
-      "view": "editor/panel/asset-db-debugger.html",
       "ctor": "AssetDBDebugger",
       "title": "AssetDB Debugger",
       "width": 500,

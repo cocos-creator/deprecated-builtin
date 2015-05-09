@@ -12,8 +12,8 @@
   },
   "panels": {
     "panel": {
+      "frame": "editor/panel/auto-updater.html",
       "type": "fixed-size",
-      "view": "editor/panel/auto-updater.html",
       "ctor": "AutoUpdater",
       "title": "AutoUpdater",
       "width": 400,

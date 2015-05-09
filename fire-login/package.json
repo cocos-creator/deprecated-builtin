@@ -12,8 +12,8 @@
   },
   "panels": {
     "panel": {
+      "frame": "editor/panel/fire-login.html",
       "type": "fixed-size",
-      "view": "editor/panel/fire-login.html",
       "ctor": "FireLogin",
       "title": "Login",
       "width": 400,

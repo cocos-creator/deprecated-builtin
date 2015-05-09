@@ -7,8 +7,8 @@
   "main": "editor/main.js",
   "panels": {
     "panel": {
+      "frame": "editor/panel/atlas-editor.html",
       "type": "dockable",
-      "view": "editor/panel/atlas-editor.html",
       "ctor": "AtlasEditor",
       "title": "Atlas Editor",
       "width": 800,

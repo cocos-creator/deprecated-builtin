@@ -6,7 +6,7 @@
   "type": "fireball",
   "main": "editor/main.js",
   "menus": {
-    "View/Panels/Hierarchy": {
+    "Panels/Hierarchy": {
       "message": "fire-hierarchy:open"
     },
     "Entity/Create Empty": {
@@ -21,8 +21,8 @@
   },
   "panels": {
     "panel": {
+      "frame": "editor/panel/fire-hierarchy.html",
       "type": "dockable",
-      "view": "editor/panel/fire-hierarchy.html",
       "ctor": "FireHierarchy",
       "title": "Hierarchy",
       "popable": false,

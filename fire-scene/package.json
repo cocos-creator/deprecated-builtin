@@ -6,14 +6,14 @@
   "type": "fireball",
   "main": "editor/main.js",
   "menus": {
-    "View/Panels/Scene": {
+    "Panels/Scene": {
       "message": "fire-scene:open"
     }
   },
   "panels": {
     "panel": {
+      "frame": "editor/panel/fire-scene.html",
       "type": "dockable",
-      "view": "editor/panel/fire-scene.html",
       "ctor": "FireScene",
       "title": "Scene",
       "popable": false,

@@ -7,8 +7,8 @@
   "main": "editor/main.js",
   "panels": {
     "panel": {
+      "frame": "editor/panel/code-editor.html",
       "type": "dockable",
-      "view": "editor/panel/code-editor.html",
       "ctor": "CodeEditor",
       "title": "Code Editor",
       "width": 1200,

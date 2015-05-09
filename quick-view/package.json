@@ -7,8 +7,8 @@
   "main": "editor/main.js",
   "panels": {
     "panel": {
+      "frame": "editor/panel/quick-view.html",
       "type": "quick",
-      "view": "editor/panel/quick-view.html",
       "ctor": "QuickView",
       "title": "Quick View",
       "width": 800,
