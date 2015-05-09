@@ -16,7 +16,7 @@ function _fieldSection ( name, target, closable ) {
     if (klass.__props__) {
         for (var p = 0; p < klass.__props__.length; p++) {
             var propName = klass.__props__[p];
-            var attrs = Fire.attr(klass, propName);
+            var attrs = Fire.attr(target, propName);
 
             // skip hide-in-inspector
             if ( attrs.hideInInspector ) {
