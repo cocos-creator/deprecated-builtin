@@ -26,7 +26,8 @@
         "console:failed",
         "console:info",
         "console:warn",
-        "console:error"
+        "console:error",
+        "console:clear"
       ]
     }
   }

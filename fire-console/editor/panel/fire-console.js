@@ -21,6 +21,15 @@ Polymer({
         this._curSelected = null;
     },
 
+    ready: function () {
+        Editor.sendRequestToCore( 'console:query', function ( results ) {
+            for ( var i = 0; i < results.length; ++i ) {
+                var item = results[i];
+                this.add( item.type, item.message );
+            }
+        }.bind(this));
+    },
+
     'console:log': function ( message ) {
         this.add( 'log', message );
     },
@@ -43,6 +52,10 @@ Polymer({
 
     'console:error': function ( message ) {
         this.add( 'error', message );
+    },
+
+    'console:clear': function () {
+        this.clear();
     },
 
     add: function ( type, text ) {
