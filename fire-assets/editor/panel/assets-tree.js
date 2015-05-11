@@ -384,6 +384,56 @@ Polymer({
             },
 
             { type: 'separator' },
+
+            {
+                label: 'New Spine Skeleton Data',
+                click: function () {
+                    var targetEL = null;
+                    var contextSelection = Editor.Selection.contextAssets;
+                    if ( contextSelection.length > 0 ) {
+                        targetEL = this.idToItem[contextSelection[0]];
+                        if (targetEL && targetEL.extname === '.json') {
+                            var url = this.getUrl(targetEL);
+                            var uuid = targetEL.userId;
+                            var scope = this;
+                            Fire.Spine.SkeletonDataAsset.import(url, uuid, function (newAsset, destUrl) {
+                                Editor.AssetDB.generateUniqueUrl(destUrl, function (uniqueUrl) {
+                                    Editor.AssetDB.save(uniqueUrl, Editor.serialize(newAsset));
+                                    scope._focusUrl = uniqueUrl;
+                                });
+                            });
+                            return;
+                        }
+                    }
+                    Fire.warn("Can not create Spine.SkeletonDataAsset from non-json element, please select a json first.");
+                }.bind(this)
+            },
+
+            {
+                label: 'New Spine Atlas Data',
+                click: function () {
+                    var targetEL = null;
+                    var contextSelection = Editor.Selection.contextAssets;
+                    if ( contextSelection.length > 0 ) {
+                        targetEL = this.idToItem[contextSelection[0]];
+                        if (targetEL && targetEL.extname === '.txt') {
+                            var url = this.getUrl(targetEL);
+                            var uuid = targetEL.userId;
+                            var scope = this;
+                            Fire.Spine.AtlasAsset.import(url, uuid, function (newAsset, destUrl) {
+                                Editor.AssetDB.generateUniqueUrl(destUrl, function (uniqueUrl) {
+                                    Editor.AssetDB.save(uniqueUrl, Editor.serialize(newAsset));
+                                    scope._focusUrl = uniqueUrl;
+                                });
+                            });
+                            return;
+                        }
+                    }
+                    Fire.warn("Can not create Spine.AtlasAsset from non-atlas element, please select a atlas first.");
+                }.bind(this)
+            },
+
+            { type: 'separator' },
         ];
     },
 
@@ -461,6 +511,7 @@ Polymer({
             // Show in library
             {
                 label: 'Show in Library',
+                visible: Editor.isDev,
                 click: function () {
                     var contextSelection = Editor.Selection.contextAssets;
                     if ( contextSelection.length > 0 ) {
@@ -473,6 +524,7 @@ Polymer({
             // Print uuid
             {
                 label: 'Show Uuid',
+                visible: Editor.isDev,
                 click: function () {
                     var contextSelection = Editor.Selection.contextAssets;
                     for ( var i = 0; i < contextSelection.length; ++i ) {
