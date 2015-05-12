@@ -29,10 +29,10 @@ Polymer({
     init: function () {
         var clientRect = this.getBoundingClientRect();
         this.view = {
-            left: clientRect.left,
-            top: clientRect.top,
-            width: clientRect.width,
-            height: clientRect.height,
+            left: Math.round(clientRect.left),
+            top: Math.round(clientRect.top),
+            width: Math.round(clientRect.width),
+            height: Math.round(clientRect.height),
         };
 
         // init interaction context
@@ -92,10 +92,10 @@ Polymer({
         if ( this.renderContext ) {
             var clientRect = this.getBoundingClientRect();
             this.view = {
-                left: clientRect.left,
-                top: clientRect.top,
-                width: clientRect.width,
-                height: clientRect.height,
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height),
             };
             this.renderContext.size = new Fire.Vec2( this.view.width, this.view.height );
             this.grids.resize( this.view.width, this.view.height );
