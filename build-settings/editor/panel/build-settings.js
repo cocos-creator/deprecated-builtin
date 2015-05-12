@@ -144,7 +144,7 @@ Polymer({
             buildUuidList[firstSceneIndex] = toSwap;
 
             Editor.sendToCore('build-project', profile.platform, profile.buildPath, buildUuidList, profile);
-            Editor.Metrics.trackBuild( profile.platform );
+            Editor.sendToCore('metrics:build', { target: profile.platform });
         }
         else {
             this.$.tip.style.display = 'block';
