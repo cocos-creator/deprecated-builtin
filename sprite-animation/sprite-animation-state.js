@@ -67,6 +67,15 @@ var SpriteAnimationState = function (animClip) {
 };
 
 /**
+ * Recompute a new speed to make the duration of this animation equals to specified value.
+ * @method setDuration
+ * @param {number} duration - The expected duration.
+ */
+SpriteAnimationState.prototype.setDuration = function (duration) {
+    this.speed = duration / this.length;
+};
+
+/**
  * The current frame info index.
  * @method getCurrentIndex
  * @return {number}
