@@ -1,0 +1,31 @@
+<link rel="import" href="timeline-bar.html">
+<link rel="import" href="curve-view.html">
+<link rel="import" href="drop-sheet.html">
+
+<polymer-element
+name="anim-view"
+constructor="AnimView"
+>
+    <template>
+        <link rel="stylesheet" href="anim-view.css">
+
+        <div class="border" fit flex-col flex-stretch>
+            <timline-bar id="timeline"></timline-bar>
+            <div class="view" flex-1>
+                <curve-view id="curveview" fit
+                    on-mousedown="{{_onMouseDown}}"
+                    on-mousewheel="{{_onMouseWheel}}"
+                >
+                </curve-view>
+
+                <drop-sheet id="dropsheet" fit
+                    on-mousedown="{{_onMouseDown}}"
+                    on-mousewheel="{{_onMouseWheel}}"
+                >
+                </drop-sheet>
+            </div>
+        </div>
+    </template>
+
+    <script type="text/javascript" src="anim-view.js"></script>
+</polymer-element>

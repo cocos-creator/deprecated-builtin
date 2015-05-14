@@ -1,0 +1,25 @@
+{
+  "name": "fire-animation",
+  "version": "0.3.0",
+  "description": "Fireball builtin animation editor",
+  "author": "Firebox Technology",
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "Panels/Animation": {
+      "message": "fire-animation:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "frame": "editor/panel/fire-animation.html",
+      "type": "dockable",
+      "ctor": "FireAnimation",
+      "title": "Animation",
+      "popable": true,
+      "height": 300,
+      "messages": [
+      ]
+    }
+  }
+}

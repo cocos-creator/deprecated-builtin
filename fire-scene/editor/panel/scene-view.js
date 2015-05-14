@@ -428,6 +428,7 @@ Polymer({
 
                 EditorUI.removeDragGhost();
                 event.stopPropagation();
+                this.style.cursor = '';
             }.bind(this);
 
             var keyupHandle = function(event) {
@@ -439,13 +440,15 @@ Polymer({
 
                     EditorUI.removeDragGhost();
                     event.stopPropagation();
+                    this.style.cursor = '';
                 }
             }.bind(this);
 
             //
             this._lastClientX = event.clientX;
             this._lastClientY = event.clientY;
-            EditorUI.addDragGhost("cell");
+            EditorUI.addDragGhost('-webkit-grabbing');
+            this.style.cursor = '-webkit-grabbing';
             document.addEventListener ( 'mousemove', mousemoveHandle );
             document.addEventListener ( 'mouseup', mouseupHandle );
             document.addEventListener ( 'keyup', keyupHandle );

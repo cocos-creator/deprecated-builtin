@@ -1,0 +1,23 @@
+<polymer-element
+    name="anim-props"
+    constructor="AnimProps"
+    >
+    <template>
+        <link rel="stylesheet" href="anim-props.css">
+
+        <fire-ui-toolbar justify-between>
+            <div flex-row>
+                <fire-ui-button><i class="fa fa-play"></i></fire-ui-button>
+            </div>
+
+            <div flex-row>
+                <fire-ui-button-group id="modes">
+                    <fire-ui-bi on-active="{{_onDropSheet}}"><i class="fa fa-bars"></i></fire-ui-bi>
+                    <fire-ui-bi on-active="{{_onCurve}}"><i class="fa fa-area-chart"></i></fire-ui-bi>
+                </fire-ui-button-group>
+            </div>
+        </fire-ui-toolbar>
+    </template>
+
+    <script type="text/javascript" src="anim-props.js"></script>
+</polymer-element>
