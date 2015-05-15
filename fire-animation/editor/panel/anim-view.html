@@ -10,7 +10,9 @@ constructor="AnimView"
         <link rel="stylesheet" href="anim-view.css">
 
         <div class="border" fit flex-col flex-stretch>
-            <timline-bar id="timeline"></timline-bar>
+            <timline-bar id="timeline"
+                on-mousedown="{{_onMouseDown}}"
+            ></timline-bar>
             <div class="view" flex-1>
                 <curve-view id="curveview" fit
                     on-mousedown="{{_onMouseDown}}"
@@ -19,12 +21,23 @@ constructor="AnimView"
                 </curve-view>
 
                 <drop-sheet id="dropsheet" fit
-                    on-mousedown="{{_onMouseDown}}"
+                    on-click="{{_clickMoveNeedle}}"
                     on-mousewheel="{{_onMouseWheel}}"
                 >
                 </drop-sheet>
             </div>
         </div>
+        <div id="needle">
+            <div class="cube" id="mousecube" on-mousedown="{{dragNeedleAction}}">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width:10px;height:40px;">
+                    <polygon points="0,0 10,0 4.5,8"
+                        style="fill:white;"/>
+                    <line x1="4.5" y1="0" x2="4.5" y2="100%" style="fill:white;stroke:white;"/>
+                </svg>
+            </div>
+        </div>
+        <div id="mask"></div>
+        <div id="tip">{{frame}}</div>
     </template>
 
     <script type="text/javascript" src="anim-view.js"></script>
