@@ -142,12 +142,22 @@ Polymer(EditorUI.mixin({
             this.$.curveview.style.display = 'none';
             this.$.dropsheet.style.display = '';
 
+            this.$.dropsheet.$.view.xAxisSync(
+                this.$.timeline.$.ticks.xAxisOffset,
+                this.$.timeline.$.ticks.xAxisScale
+            );
+
             this.$.dropsheet.resize();
             this.$.dropsheet.repaint();
         }
         else if ( this.mode === 'curve' ) {
             this.$.curveview.style.display = '';
             this.$.dropsheet.style.display = 'none';
+
+            this.$.curveview.$.view.xAxisSync(
+                this.$.timeline.$.ticks.xAxisOffset,
+                this.$.timeline.$.ticks.xAxisScale
+            );
 
             this.$.curveview.resize();
             this.$.curveview.repaint();
