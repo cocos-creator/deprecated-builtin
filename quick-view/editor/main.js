@@ -6,6 +6,6 @@ module.exports = {
     },
 
     'quick-view:open': function (detail) {
-        Editor.Panel.openPanel('quick-view.panel', detail);
+        Editor.Panel.open('quick-view.panel', detail);
     },
 };

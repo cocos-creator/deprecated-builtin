@@ -385,6 +385,28 @@ Polymer({
 
             { type: 'separator' },
 
+            // New Animation Clip
+            {
+                label: 'New Animation Clip',
+                click: function () {
+                    var url = "assets://";
+                    var contextSelection = Editor.Selection.contextAssets;
+                    if ( contextSelection.length > 0 ) {
+                        var targetEL = this.idToItem[contextSelection[0]];
+                        if ( !targetEL.isFolder )
+                            targetEL = targetEL.parentElement;
+                        url = this.getUrl(targetEL);
+                    }
+
+                    var newAsset = new Fire.AnimationClip();
+                    var newAssetUrl = Url.join( url, 'New AnimationClip.anim' );
+                    Editor.AssetDB.generateUniqueUrl( newAssetUrl, function ( uniqueUrl ) {
+                        this._focusUrl = uniqueUrl;
+                        Editor.AssetDB.save( uniqueUrl, Editor.serialize(newAsset) );
+                    }.bind(this));
+                }.bind(this)
+            },
+
             {
                 label: 'New Spine Skeleton Data',
                 click: function () {
