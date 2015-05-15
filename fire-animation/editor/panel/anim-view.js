@@ -177,7 +177,7 @@ Polymer(EditorUI.mixin({
         var nextFrames = this.$.dropsheet.view.pixelToValueH(offsetX);
         var integerPixel = this.$.dropsheet.view.valueToPixelH(Math.round(nextFrames));
         this.frame = Math.round(nextFrames);
-        this.$.needle.style.left = integerPixel - 0.5;
+        this.$.needle.style.left = integerPixel;
         this.$.mask.style.width = integerPixel < 0 ? 0 : integerPixel;
         return this.frame;
     },
@@ -185,32 +185,51 @@ Polymer(EditorUI.mixin({
     dragNeedleAction: function (event) {
         EditorUI.addDragGhost("col-resize");
         var forward = false;
-        var rollBack = false;
-        var step = 0;
-        var time;
-        time = setInterval(function () {
+        var rollback = false;
+        var oldFrame = 0;
+        var timer = setInterval(function () {
             if (forward) {
-                this.$.timeline.pan( -step, 0 );
-                this.$.dropsheet.pan( -step, 0 );
-                this.$.curveview.pan( -step, 0 );
-                this.frame += 3;
+                this.$.needle.style.left = this.getBoundingClientRect().width - 50;
+                this.$.mask.style.width = this.getBoundingClientRect().width - 50;
+                this.moveNeedle(this.$.needle.getBoundingClientRect().left - this.getBoundingClientRect().left);
+                this.$.timeline.pan( -3, 0 );
+                this.$.dropsheet.pan( -3, 0 );
+                this.$.curveview.pan( -3, 0 );
                 this.repaint();
             }
-        }.bind(this), 20 * this.$.dropsheet.xAxisScale);
+            if (rollback) {
+                this.$.needle.style.left = 50;
+                this.$.mask.style.width = 50;
+                this.moveNeedle(50);
+                this.$.timeline.pan( 3, 0 );
+                this.$.dropsheet.pan( 3, 0 );
+                this.$.curveview.pan( 3, 0 );
+                this.repaint();
+            }
+        }.bind(this), 5);
 
         var left = this.$.needle.getBoundingClientRect().left - this.getBoundingClientRect().left;
-        var dragWidth = this.getBoundingClientRect().width;
+        var dropSheetWidth = this.getBoundingClientRect().width;
+
         var mousemoveHandle =  function (event) {
+            forward = false;
+            rollback = false;
             var dx = event.clientX - this._lastClientX;
-            if ( (left + dx) <= 0) {
+
+            if ((left + dx) <= 50 && this.$.dropsheet.view.xAxisOffset < -50) {
+                rollback = true;
+                return;
+            }
+
+            if ( (left + dx) <= 0 && this.$.dropsheet.view.xAxisOffset >= -50) {
                 this.$.needle.style.left = 0;
                 this.$.mask.style.width = 0;
                 this.frame = 0;
                 return;
             }
 
-            if ( (left + dx) >= dragWidth - 50) {
-                step = (this.$.dropsheet.view.valueToPixelH(1) - this.$.dropsheet.view.valueToPixelH(0)) * 3;
+            if ( (left + dx) >= dropSheetWidth - 50) {
+                oldFrame = this.frame;
                 forward = true;
                 return;
             }
@@ -227,6 +246,8 @@ Polymer(EditorUI.mixin({
             document.removeEventListener('mouseup', mouseupHandle);
             this.$.tip.style.display = 'none';
             forward = false;
+            rollback = false;
+            clearInterval(timer);
             EditorUI.removeDragGhost();
         }.bind(this);
 
