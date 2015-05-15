@@ -1,5 +1,9 @@
 Polymer({
 
+    get view () {
+        return this.$.view;
+    },
+
     init: function () {
         this.$.view.setScaleH( [5,2,3,2], 1, 1000, 'frame' );
         this.$.view.setMappingH( 0, 100, 100 );
