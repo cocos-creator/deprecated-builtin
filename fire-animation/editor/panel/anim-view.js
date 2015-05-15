@@ -7,6 +7,7 @@ Polymer(EditorUI.mixin({
 
     observe: {
         'mode': 'modeChanged',
+        'frame': 'frameChanged'
     },
 
     eventDelegates: {
