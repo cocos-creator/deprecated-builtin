@@ -123,7 +123,7 @@ Polymer({
         if ( !this.renderContext )
             return;
 
-        Fire._Runtime.render(this.renderContext);
+        Fire.Engine.tickInEditMode(this.renderContext);
     },
 
     delayRepaintScene: function () {
