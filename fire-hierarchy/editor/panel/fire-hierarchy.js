@@ -95,6 +95,21 @@ Polymer({
         Editor.sendToMainWindow( 'scene:dirty' );
     },
 
+    'hierarchy-menu:create-particle-system': function () {
+        this.$.hierarchyTree.createParticleSystem();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'hierarchy-menu:create-text': function () {
+        this.$.hierarchyTree.createText();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'hierarchy-menu:create-sprite-animation': function () {
+        this.$.hierarchyTree.createSpriteAnimation();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
     'hierarchy-menu:rename': function () {
         this.$.hierarchyTree.renameEntityFromContextSelect();
     },
@@ -184,6 +199,18 @@ Polymer({
             {
                 label: 'Create Input Field',
                 message: 'hierarchy-menu:create-input-field',
+            },
+            {
+                label: 'Create Particle System',
+                message: 'hierarchy-menu:create-particle-system',
+            },
+            {
+                label: 'Create Text',
+                message: 'hierarchy-menu:create-text',
+            },
+            {
+                label: 'Create Sprite Animation',
+                message: 'hierarchy-menu:create-sprite-animation',
             },
         ];
         Editor.Menu.popup(Math.floor(rect.left + 5), Math.floor(rect.bottom + 10), template);
