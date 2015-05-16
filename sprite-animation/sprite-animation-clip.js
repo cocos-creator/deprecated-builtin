@@ -2,13 +2,9 @@
 /**
  * @class SpriteAnimationClip
  */
-/**
- * @namespace SpriteAnimationClip
- */
 
 /**
- * @class WrapMode
- * @static
+ * @enum SpriteAnimationClip.WrapMode
  */
 var WrapMode = Fire.defineEnum({
     /**
@@ -39,8 +35,7 @@ var WrapMode = Fire.defineEnum({
 });
 
 /**
- * @class StopAction
- * @static
+ * @enum SpriteAnimationClip.StopAction
  */
 var StopAction = Fire.defineEnum({
     /**
