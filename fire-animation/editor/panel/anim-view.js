@@ -2,12 +2,12 @@ Polymer(EditorUI.mixin({
 
     publish: {
         'mode': 'dropsheet', // curveview, dropsheet
-        frame: 0
+        'curFrame': 0
     },
 
     observe: {
         'mode': 'modeChanged',
-        'frame': 'frameChanged'
+        'curFrame': 'curFrameChanged'
     },
 
     eventDelegates: {
@@ -15,6 +15,7 @@ Polymer(EditorUI.mixin({
     },
 
     ready: function () {
+        this._initFocusable(this.$.border);
         this._initResizable();
     },
 
@@ -28,9 +29,8 @@ Polymer(EditorUI.mixin({
         // timline
         this.$.timeline.init();
 
-        this.frameChanged();
-
         this.modeChanged();
+        this.curFrameChanged();
     },
 
     _onResize: function ( event ) {
@@ -48,20 +48,6 @@ Polymer(EditorUI.mixin({
     },
 
     _onMouseWheel: function ( event ) {
-        // if (  Polymer.dom(event).localTarget === this.$.timeline ) {
-        //     var newScale = Editor.Utils.smoothScale(this.$.timeline.xAxisScale, event.wheelDelta);
-        //     this.$.timeline.xAxisScaleAt ( event.offsetX, newScale );
-        //     this.$.timeline.repaint();
-
-        //     newScale = Editor.Utils.smoothScale(this.$.curveview.xAxisScale, event.wheelDelta);
-        //     this.$.curveview.xAxisScaleAt ( event.offsetX, newScale );
-        //     this.$.curveview.repaint();
-        // }
-        // else {
-        //     this.$.curveview.scaleAction(event);
-        //     this.$.timeline.scaleAction(event);
-        // }
-
         if ( this.mode === 'dropsheet' ) {
             this.$.dropsheet.scaleAction(event);
         }
@@ -69,56 +55,79 @@ Polymer(EditorUI.mixin({
             this.$.curveview.scaleAction(event);
         }
         this.$.timeline.scaleAction(event);
-        this.moveNeedle(this.$.dropsheet.view.valueToPixelH(this.frame));
+        this.updateNeedle( this.curFrame );
     },
 
     _onMouseDown: function ( event ) {
+        event.stopPropagation();
+        this.focus();
+
         if ( event.which === 1 ) {
-            event.stopPropagation();
+            if ( event.shiftKey ) {
+                var mousemoveHandle = function(event) {
+                    event.stopPropagation();
 
-            var mousemoveHandle = function(event) {
-                event.stopPropagation();
+                    var dx = event.clientX - this._lastClientX;
+                    var dy = event.clientY - this._lastClientY;
 
-                var dx = event.clientX - this._lastClientX;
-                var dy = event.clientY - this._lastClientY;
+                    this._lastClientX = event.clientX;
+                    this._lastClientY = event.clientY;
 
+                    if ( this.mode === 'dropsheet' ) {
+                        this.$.dropsheet.pan( dx, dy );
+                        this.$.dropsheet.repaint();
+                    }
+                    else {
+                        this.$.curveview.pan( dx, dy );
+                        this.$.curveview.repaint();
+                    }
+
+                    this.$.timeline.pan( dx );
+                    this.$.timeline.repaint();
+
+                    this.updateNeedle( this.curFrame );
+                }.bind(this);
+
+                var mouseupHandle = function(event) {
+                    event.stopPropagation();
+
+                    document.removeEventListener('mousemove', mousemoveHandle);
+                    document.removeEventListener('mouseup', mouseupHandle);
+
+                    EditorUI.removeDragGhost();
+
+                    if ( event.shiftKey )
+                        this.style.cursor = '-webkit-grab';
+                    else
+                        this.style.cursor = '';
+                }.bind(this);
+
+                //
                 this._lastClientX = event.clientX;
                 this._lastClientY = event.clientY;
 
-                if ( this.mode === 'dropsheet' ) {
-                    this.$.dropsheet.pan( dx, dy );
-                    this.$.dropsheet.repaint();
-                }
-                else {
-                    this.$.curveview.pan( dx, dy );
-                    this.$.curveview.repaint();
-                }
+                //
+                EditorUI.addDragGhost('-webkit-grabbing');
+                this.style.cursor = '-webkit-grabbing';
+                document.addEventListener ( 'mousemove', mousemoveHandle );
+                document.addEventListener ( 'mouseup', mouseupHandle );
 
-                this.$.timeline.pan( dx );
-                this.$.timeline.repaint();
-            }.bind(this);
+                return;
+            }
+        }
+    },
 
-            var mouseupHandle = function(event) {
-                event.stopPropagation();
+    _onKeydown: function (event) {
+        // process shift
+        if ( event.which === 16 ) {
+            this.style.cursor = '-webkit-grab';
+        }
+    },
 
-                document.removeEventListener('mousemove', mousemoveHandle);
-                document.removeEventListener('mouseup', mouseupHandle);
-
-                EditorUI.removeDragGhost();
-                this.style.cursor = '';
-            }.bind(this);
-
-            //
-            this._lastClientX = event.clientX;
-            this._lastClientY = event.clientY;
-
-            //
-            EditorUI.addDragGhost('-webkit-grabbing');
-            this.style.cursor = '-webkit-grabbing';
-            document.addEventListener ( 'mousemove', mousemoveHandle );
-            document.addEventListener ( 'mouseup', mouseupHandle );
-
-            return;
+    _onKeyup: function (event) {
+        // process shift
+        if ( event.which === 16 ) {
+            this.style.cursor = '';
         }
     },
 
@@ -142,8 +151,8 @@ Polymer(EditorUI.mixin({
         this.$.timeline.repaint();
     },
 
-    frameChanged: function () {
-        this.moveNeedle(this.$.dropsheet.view.valueToPixelH(this.frame));
+    curFrameChanged: function () {
+        this.updateNeedle( this.curFrame );
     },
 
     modeChanged: function () {
@@ -173,93 +182,48 @@ Polymer(EditorUI.mixin({
         }
     },
 
-    moveNeedle: function (offsetX) {
-        var nextFrames = this.$.dropsheet.view.pixelToValueH(offsetX);
-        var integerPixel = this.$.dropsheet.view.valueToPixelH(Math.round(nextFrames));
-        this.frame = Math.round(nextFrames);
-        this.$.needle.style.left = integerPixel;
-        this.$.mask.style.width = integerPixel < 0 ? 0 : integerPixel;
-        return this.frame;
-    },
-
-    dragNeedleAction: function (event) {
+    _onNeedleMouseDown: function (event) {
+        event.stopPropagation();
         EditorUI.addDragGhost("col-resize");
-        var forward = false;
-        var rollback = false;
-        var oldFrame = 0;
-        var timer = setInterval(function () {
-            if (forward) {
-                this.$.needle.style.left = this.getBoundingClientRect().width - 50;
-                this.$.mask.style.width = this.getBoundingClientRect().width - 50;
-                this.moveNeedle(this.$.needle.getBoundingClientRect().left - this.getBoundingClientRect().left);
-                this.$.timeline.pan( -3, 0 );
-                this.$.dropsheet.pan( -3, 0 );
-                this.$.curveview.pan( -3, 0 );
-                this.repaint();
-            }
-            if (rollback) {
-                this.$.needle.style.left = 50;
-                this.$.mask.style.width = 50;
-                this.moveNeedle(50);
-                this.$.timeline.pan( 3, 0 );
-                this.$.dropsheet.pan( 3, 0 );
-                this.$.curveview.pan( 3, 0 );
-                this.repaint();
-            }
-        }.bind(this), 5);
+        this.$.needle.classList.add('active');
 
-        var left = this.$.needle.getBoundingClientRect().left - this.getBoundingClientRect().left;
-        var dropSheetWidth = this.getBoundingClientRect().width;
-
+        var rect = this.$.timeline.getBoundingClientRect();
         var mousemoveHandle =  function (event) {
-            forward = false;
-            rollback = false;
-            var dx = event.clientX - this._lastClientX;
+            var offsetX = Math.clamp( event.clientX - rect.left, 0, rect.width-1 );
+            var newFrame = this.$.timeline.ticks.pixelToValueH(offsetX);
 
-            if ((left + dx) <= 50 && this.$.dropsheet.view.xAxisOffset < -50) {
-                rollback = true;
-                return;
-            }
-
-            if ( (left + dx) <= 0 && this.$.dropsheet.view.xAxisOffset >= -50) {
-                this.$.needle.style.left = 0;
-                this.$.mask.style.width = 0;
-                this.frame = 0;
-                return;
-            }
-
-            if ( (left + dx) >= dropSheetWidth - 50) {
-                oldFrame = this.frame;
-                forward = true;
-                return;
-            }
-
-            this.moveNeedle(left + dx);
+            this.updateNeedle(newFrame);
             this.$.tip.style.display = 'block';
-            this.$.tip.style.left = left + dx + 20;
+            this.$.tip.style.left = offsetX + 20;
             this.$.tip.style.top = event.clientY - 20;
-            this.$.tip.innerHTML = this.frame;
+            this.$.tip.innerHTML = this.curFrame;
         }.bind(this);
 
         var mouseupHandle = function (event) {
             document.removeEventListener('mousemove', mousemoveHandle);
             document.removeEventListener('mouseup', mouseupHandle);
+
+            this.$.needle.classList.remove('active');
             this.$.tip.style.display = 'none';
-            forward = false;
-            rollback = false;
-            clearInterval(timer);
+
             EditorUI.removeDragGhost();
         }.bind(this);
-
-        this._lastClientX = event.clientX;
 
         document.addEventListener ( 'mousemove', mousemoveHandle );
         document.addEventListener ( 'mouseup', mouseupHandle );
     },
 
-    _clickMoveNeedle: function (event) {
+    _onMouseClick: function (event) {
         var offsetX = event.clientX - this.getBoundingClientRect().left;
-        this.moveNeedle(offsetX);
+        var frame = this.$.timeline.ticks.pixelToValueH(offsetX);
+        this.updateNeedle(frame);
     },
 
-}, EditorUI.resizable));
+    updateNeedle: function ( frame ) {
+        this.curFrame = Math.round(frame);
+        var pixel = this.$.timeline.ticks.valueToPixelH(this.curFrame);
+        this.$.needle.style.left = pixel;
+        this.$.mask.style.width = Math.max( 0, pixel );
+    },
+
+}, EditorUI.resizable, EditorUI.focusable));

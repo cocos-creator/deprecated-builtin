@@ -3,41 +3,42 @@
 <link rel="import" href="drop-sheet.html">
 
 <polymer-element
-name="anim-view"
-constructor="AnimView"
+    name="anim-view"
+    constructor="AnimView"
+    on-focus="{{_focusAction}}"
+    on-blur="{{_blurAction}}"
+    on-focusin="{{_focusInAction}}"
+    on-focusout="{{_focusOutAction}}"
 >
     <template>
         <link rel="stylesheet" href="anim-view.css">
 
-        <div class="border" fit flex-col flex-stretch>
-            <timline-bar id="timeline"
-                on-mousedown="{{_onMouseDown}}"
-            ></timline-bar>
+        <div id="border" class="border" fit flex-col flex-stretch
+            on-mousedown="{{_onMouseDown}}"
+            on-mousewheel="{{_onMouseWheel}}"
+            on-click="{{_onMouseClick}}"
+            on-keydown="{{_onKeydown}}"
+            on-keyup="{{_onKeyup}}"
+            >
+            <timline-bar id="timeline"></timline-bar>
             <div class="view" flex-1>
-                <curve-view id="curveview" fit
-                    on-mousedown="{{_onMouseDown}}"
-                    on-mousewheel="{{_onMouseWheel}}"
-                >
+                <curve-view id="curveview" fit>
                 </curve-view>
 
-                <drop-sheet id="dropsheet" fit
-                    on-click="{{_clickMoveNeedle}}"
-                    on-mousewheel="{{_onMouseWheel}}"
-                >
+                <drop-sheet id="dropsheet" fit>
                 </drop-sheet>
             </div>
-        </div>
-        <div id="needle">
-            <div class="cube" id="mousecube" on-mousedown="{{dragNeedleAction}}">
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width:10px;height:40px;">
-                    <polygon points="0,0 10,0 4.5,8"
-                        style="fill:white;"/>
-                    <line x1="4.5" y1="0" x2="4.5" y2="100%" style="fill:white;stroke:white;"/>
-                </svg>
+
+            <div id="needle">
+                <div id="mousecube" on-mousedown="{{_onNeedleMouseDown}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width:10px;height:40px;">
+                        <polygon points="0,0 10,0 4.5,8" style="fill:white;"/>
+                    </svg>
+                </div>
             </div>
+            <div id="mask"></div>
+            <div id="tip">{{curFrame}}</div>
         </div>
-        <div id="mask"></div>
-        <div id="tip">{{frame}}</div>
     </template>
 
     <script type="text/javascript" src="anim-view.js"></script>
