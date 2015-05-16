@@ -195,7 +195,7 @@ Polymer(EditorUI.mixin({
             this.updateNeedle(newFrame);
             this.$.tip.style.display = 'block';
             this.$.tip.style.left = offsetX + 20;
-            this.$.tip.style.top = event.clientY - 20;
+            this.$.tip.style.top = event.clientY - rect.top;
             this.$.tip.innerHTML = this.curFrame;
         }.bind(this);
 
@@ -220,7 +220,7 @@ Polymer(EditorUI.mixin({
     },
 
     updateNeedle: function ( frame ) {
-        this.curFrame = Math.round(frame);
+        this.curFrame = Math.max( 0, Math.round(frame) );
         var pixel = this.$.timeline.ticks.valueToPixelH(this.curFrame);
         this.$.needle.style.left = pixel;
         this.$.mask.style.width = Math.max( 0, pixel );

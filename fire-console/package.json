@@ -16,6 +16,7 @@
       "type": "dockable",
       "ctor": "FireConsole",
       "title": "Console",
+      "popable": false,
       "height": 300,
       "shortcuts": {
         "command+k": "clear"

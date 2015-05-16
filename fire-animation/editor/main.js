@@ -11,15 +11,15 @@ module.exports = {
         Editor.Panel.open('fire-animation.panel');
     },
 
-    'asset:open': function (detail) {
-        var uuid = detail.uuid;
-        var url = detail.url;
-        var ext = Url.extname(url);
+    // 'asset:open': function (detail) {
+    //     var uuid = detail.uuid;
+    //     var url = detail.url;
+    //     var ext = Url.extname(url);
 
-        if ( ['.anim'].indexOf(ext.toLowerCase()) !== -1 ) {
-            Editor.Panel.open('fire-animation.panel', {
-                uuid: uuid,
-            });
-        }
-    },
+    //     if ( ['.anim'].indexOf(ext.toLowerCase()) !== -1 ) {
+    //         Editor.Panel.open('fire-animation.panel', {
+    //             uuid: uuid,
+    //         });
+    //     }
+    // },
 };

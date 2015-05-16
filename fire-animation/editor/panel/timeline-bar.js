@@ -7,7 +7,7 @@ Polymer({
     init: function () {
         this.$.ticks.setScaleH( [5,2,3,2], 1, 1000, 'frame' );
         this.$.ticks.setMappingH( 0, 100, 100 );
-        this.$.ticks.setRangeH( 0, null );
+        this.$.ticks.setRangeH( -10, null );
 
         this.$.ticks.setAnchor( 0.0, 0.0 );
     },

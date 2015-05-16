@@ -16,9 +16,13 @@
       "type": "dockable",
       "ctor": "FireAnimation",
       "title": "Animation",
+      "popable": false,
       "popable": true,
       "height": 300,
       "messages": [
+        "selection:entity:activated",
+        "selection:entity:deactivated",
+        "fire-animation:add-prop"
       ]
     }
   }

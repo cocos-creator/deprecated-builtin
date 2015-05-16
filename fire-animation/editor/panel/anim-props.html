@@ -5,9 +5,12 @@
     <template>
         <link rel="stylesheet" href="anim-props.css">
 
+        <div>
         <fire-ui-toolbar justify-between>
             <div flex-row>
+                <fire-ui-button><i class="fa fa-circle"></i></fire-ui-button>
                 <fire-ui-button><i class="fa fa-play"></i></fire-ui-button>
+                <fire-ui-select value="{{curClipIdx}}" options="{{animations}}"></fire-ui-select>
             </div>
 
             <div flex-row>
@@ -15,14 +18,24 @@
                     <fire-ui-bi on-active="{{_onDropSheet}}"><i class="fa fa-bars"></i></fire-ui-bi>
                     <fire-ui-bi on-active="{{_onCurve}}"><i class="fa fa-area-chart"></i></fire-ui-bi>
                 </fire-ui-button-group>
+                <fire-ui-button on-click="{{_onAddProp}}"><i class="fa fa-plus"></i></fire-ui-button>
             </div>
         </fire-ui-toolbar>
 
-        <fire-ui-toolbar justify-between>
+        <fire-ui-toolbar id="event-bar" justify-between>
+            <span>Events</span>
+            <div flex-row>
+                <fire-ui-button><i class="fa fa-plus"></i></fire-ui-button>
+            </div>
         </fire-ui-toolbar>
+        </div>
 
-        <!-- <ul class="actions"> -->
-        <!-- </ul>                -->
+        <template repeat="{{frame in clip.frames}}">
+            <div class="prop">
+                <span>{{frame.property}}</span>
+                <span class="comp">({{frame.component}})</span>
+            </div>
+        </template>
     </template>
 
     <script type="text/javascript" src="anim-props.js"></script>
