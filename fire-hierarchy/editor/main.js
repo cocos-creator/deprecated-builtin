@@ -39,4 +39,37 @@ module.exports = {
         });
         Editor.sendToMainWindow( 'scene:dirty' );
     },
+
+    'main-menu:create-particle-system': function () {
+        var activeId = Editor.Selection.activeEntityId;
+        Editor.sendToMainWindow('engine:create-particle-system', {
+            'parent-id': activeId,
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'main-menu:create-text': function () {
+        var activeId = Editor.Selection.activeEntityId;
+        Editor.sendToMainWindow('engine:create-text', {
+            'parent-id': activeId,
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'main-menu:create-sprite-animation': function () {
+        var activeId = Editor.Selection.activeEntityId;
+        Editor.sendToMainWindow('engine:create-sprite-animation', {
+            'parent-id': activeId,
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
 };

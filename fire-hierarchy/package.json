@@ -17,6 +17,15 @@
     },
     "Entity/Create Input Field": {
       "message": "main-menu:create-input-field"
+    },
+    "Entity/Create Particle System": {
+      "message": "main-menu:create-particle-system"
+    },
+    "Entity/Create Text": {
+      "message": "main-menu:create-text"
+    },
+    "Entity/Create Sprite Animation": {
+      "message": "main-menu:create-sprite-animation"
     }
   },
   "panels": {
@@ -38,6 +47,9 @@
         "hierarchy-menu:create-entity",
         "hierarchy-menu:create-child-entity",
         "hierarchy-menu:create-input-field",
+        "hierarchy-menu:create-particle-system",
+        "hierarchy-menu:create-text",
+        "hierarchy-menu:create-sprite-animation",
         "hierarchy-menu:rename",
         "hierarchy-menu:delete",
         "hierarchy-menu:duplicate",
