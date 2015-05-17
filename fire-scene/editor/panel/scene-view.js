@@ -126,7 +126,7 @@ Polymer({
             return;
 
         this.grids.update();
-        Fire._Runtime.render(this.renderContext);
+        Fire.Engine.tickInEditMode(this.renderContext);
         this.interactionContext.update(Fire.Engine._scene.entities);
     },
 

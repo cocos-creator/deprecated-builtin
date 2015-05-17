@@ -68,6 +68,18 @@
                 label: 'Create Input Field',
                 message: 'hierarchy-menu:create-input-field',
             },
+            {
+                label: 'Create Particle System',
+                message: 'hierarchy-menu:create-particle-system',
+            },
+            {
+                label: 'Create Text',
+                message: 'hierarchy-menu:create-text',
+            },
+            {
+                label: 'Create Sprite Animation',
+                message: 'hierarchy-menu:create-sprite-animation',
+            },
         ];
     },
 
@@ -246,6 +258,72 @@
             }
         }
         Editor.sendToMainWindow('engine:create-input-field', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
+    createParticleSystem: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-particle-system', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-particle-system', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
+    createText: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-text', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-text', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
+    createSpriteAnimation: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-sprite-animation', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-sprite-animation', {
             'options': {
                 'select-in-hierarchy': true
             }

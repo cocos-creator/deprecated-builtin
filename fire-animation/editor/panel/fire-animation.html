@@ -8,7 +8,10 @@
     <template>
         <link rel="stylesheet" href="fire-animation.css">
 
-        <anim-props id="props" width="200" min-width="200"></anim-props>
+        <anim-props id="props" width="250" min-width="250"
+            entity="{{entity}}"
+            clip="{{clip}}"
+            ></anim-props>
         <fire-ui-splitter id="splitter" vertical></fire-ui-splitter>
         <anim-view id="view" width="auto" min-width="200"></anim-view>
     </template>

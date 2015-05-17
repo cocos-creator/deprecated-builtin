@@ -7,7 +7,7 @@ Polymer({
     init: function () {
         this.$.view.setScaleH( [5,2,3,2], 1, 1000, 'frame' );
         this.$.view.setMappingH( 0, 100, 100 );
-        this.$.view.setRangeH( 0, null );
+        this.$.view.setRangeH( -10, null );
 
         this.$.view.setScaleV( [5,2], 0.01, 1000 );
         this.$.view.setMappingV( 100, -100, 200 );
