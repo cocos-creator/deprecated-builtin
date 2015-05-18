@@ -117,7 +117,7 @@ Polymer({
 
         this.renderContext.camera.size = this.view.height / this.sceneCamera.scale;
         this.renderContext.camera.transform.position =
-            new Vec2 ( this.sceneCamera.position.x,
+            new Fire.Vec2 ( this.sceneCamera.position.x,
                        this.sceneCamera.position.y );
     },
 
