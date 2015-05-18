@@ -1,6 +1,11 @@
 :host {
     background-color: #555
     margin: 1px
+
+    display: flex
+    flex-wrap: nowrap
+    align-items: stretch
+    flex-direction: column
 }
 
 fire-ui-toolbar {
@@ -14,8 +19,16 @@ fire-ui-toolbar {
     background-color: #244a61
 }
 
-.editing {
-    color: #900
+.editing i {
+    color: red
+}
+.editing i:hover {
+    color: red
+}
+
+.props {
+    overflow-y: auto
+    overflow-x: hidden
 }
 
 .prop {
@@ -23,7 +36,7 @@ fire-ui-toolbar {
 
     height: 30px
     font-size: 15px
-    padding: 6px 10px
+    padding: 6px 10px 6px 5px
 
     background: #282828
     color: #aaa
@@ -35,4 +48,29 @@ fire-ui-toolbar {
 
 .comp {
     font-size: 12px
+}
+
+.prop-name {
+    overflow: hidden
+    text-overflow: ellipsis
+}
+
+.fa-plus-circle {
+    font-size: 12px
+    cursor: pointer
+}
+.fa-plus-circle:active {
+    color: #333
+}
+
+.fa-close {
+    margin-right: 10px
+    cursor: pointer
+    color: #555
+}
+.fa-close:hover {
+    color: #900
+}
+.fa-close:active {
+    color: #300
 }

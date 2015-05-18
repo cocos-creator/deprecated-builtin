@@ -22,7 +22,8 @@
       "messages": [
         "selection:entity:activated",
         "selection:entity:deactivated",
-        "fire-animation:add-prop"
+        "fire-animation:add-prop",
+        "fire-animation:state-changed"
       ]
     }
   }
