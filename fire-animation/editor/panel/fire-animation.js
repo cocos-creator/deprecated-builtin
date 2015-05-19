@@ -13,6 +13,7 @@ Polymer({
         this.clip = null;
         this.editing = false;
         this._snapshot = null;
+        this.popup();
     },
 
     domReady: function () {
@@ -122,5 +123,11 @@ Polymer({
         var propName = event.detail.property;
         this.clip.removeProperty( compName, propName );
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
+    },
+
+    popup: function () {
+        var curve = new BezierPop();
+        curve.bezier = [1,1,1,0];
+        document.body.appendChild(curve);
     },
 });
