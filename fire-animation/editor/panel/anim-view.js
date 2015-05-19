@@ -2,12 +2,15 @@ Polymer(EditorUI.mixin({
 
     publish: {
         'mode': 'dropsheet', // curveview, dropsheet
-        'curFrame': 0
+        'curFrame': 0,
+        'entity': null,
+        'clip': null,
     },
 
     observe: {
         'mode': 'modeChanged',
-        'curFrame': 'curFrameChanged'
+        'curFrame': 'curFrameChanged',
+        'entity': 'entityChanged',
     },
 
     eventDelegates: {
@@ -182,10 +185,18 @@ Polymer(EditorUI.mixin({
         }
     },
 
+    entityChanged: function () {
+        if ( !this.entity ) {
+            this.curFrame = 0;
+        }
+    },
+
+
     _onNeedleMouseDown: function (event) {
         event.stopPropagation();
         EditorUI.addDragGhost("col-resize");
         this.$.needle.classList.add('active');
+        this.fire('start-editing');
 
         var rect = this.$.timeline.getBoundingClientRect();
         var mousemoveHandle =  function (event) {
@@ -217,6 +228,7 @@ Polymer(EditorUI.mixin({
         var offsetX = event.clientX - this.getBoundingClientRect().left;
         var frame = this.$.timeline.ticks.pixelToValueH(offsetX);
         this.updateNeedle(frame);
+        this.fire('start-editing');
     },
 
     updateNeedle: function ( frame ) {
@@ -224,6 +236,15 @@ Polymer(EditorUI.mixin({
         var pixel = this.$.timeline.ticks.valueToPixelH(this.curFrame);
         this.$.needle.style.left = pixel;
         this.$.mask.style.width = Math.max( 0, pixel );
+    },
+
+    applyKeyFrame: function () {
+        var newKeyInfos = this.clip.applyKeyFrame( this.entity, this.curFrame );
+
+        // dropsheet
+        if ( this.mode === 'dropsheet' ) {
+            this.$.dropsheet.addKeyInfos(newKeyInfos);
+        }
     },
 
 }, EditorUI.resizable, EditorUI.focusable));

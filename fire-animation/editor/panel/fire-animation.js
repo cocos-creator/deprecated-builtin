@@ -4,8 +4,9 @@ Polymer({
         'panel-show': '_onPanelShow',
         'mode-changed': '_onModeChanged',
         'clip-index-changed': '_onClipIndexChanged',
-        'toggle-editing': '_onToggleEditing',
         'remove-prop': '_onRemoveProp',
+        'toggle-editing': '_onToggleEditing',
+        'start-editing': '_onStartEditing',
     },
 
     created: function () {
@@ -41,7 +42,9 @@ Polymer({
 
     'selection:entity:activated': function ( detail ) {
         var entity = Editor.getInstanceById(detail.id);
-        this.entity = entity;
+        if ( entity && entity.getComponent(Fire.Animation) ) {
+            this.entity = entity;
+        }
     },
 
     'selection:entity:deactivated': function ( detail ) {
@@ -57,6 +60,22 @@ Polymer({
 
     'fire-animation:state-changed': function ( state ) {
         this.state = state;
+    },
+
+    'entity:inspector-dirty': function () {
+        if ( !this.editing )
+            return;
+
+        this.$.view.applyKeyFrame();
+        Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
+    },
+
+    'gizmos:dirty': function () {
+        if ( !this.editing )
+            return;
+
+        this.$.view.applyKeyFrame();
+        Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
     setEditing: function ( editing ) {
@@ -116,6 +135,13 @@ Polymer({
             return;
 
         this.setEditing(!this.editing);
+    },
+
+    _onStartEditing: function () {
+        if ( !this.entity )
+            return;
+
+        this.setEditing(true);
     },
 
     _onRemoveProp: function ( event ) {

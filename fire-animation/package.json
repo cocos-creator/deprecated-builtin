@@ -23,7 +23,9 @@
         "selection:entity:activated",
         "selection:entity:deactivated",
         "fire-animation:add-prop",
-        "fire-animation:state-changed"
+        "fire-animation:state-changed",
+        "entity:inspector-dirty",
+        "gizmos:dirty"
       ]
     }
   }

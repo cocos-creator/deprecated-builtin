@@ -1,5 +1,9 @@
 Polymer({
 
+    publish: {
+        clip: null,
+    },
+
     get view () {
         return this.$.view;
     },
@@ -10,6 +14,9 @@ Polymer({
         this.$.view.setRangeH( -10, null );
 
         this.$.view.setAnchor( 0.0, 0.0 );
+
+        // init gizmos
+        this.svg = SVG( this.$.keys );
     },
 
     resize: function () {
@@ -26,5 +33,15 @@ Polymer({
 
     scaleAction: function ( event ) {
         this.$.view.scaleAction( event );
+    },
+
+    addKeyInfos: function ( infos ) {
+        for ( var i = 0; i < infos.length; ++i ) {
+            this.addKeyInfo(infos[i]);
+        }
+    },
+
+    addKeyInfo: function ( info ) {
+        // TODO
     },
 });
