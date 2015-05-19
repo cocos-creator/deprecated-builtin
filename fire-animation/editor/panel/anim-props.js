@@ -19,7 +19,17 @@ function _getProperties ( entity ) {
                     continue;
                 }
 
-                results.push( { compName: compName, propName: propName } );
+                var value = comp[propName];
+                if ( Fire.isValueType(value) ) {
+                    var klass2 = value.constructor;
+                    for (var p2 = 0; p2 < klass2.__props__.length; p2++) {
+                        var propName2 = klass2.__props__[p2];
+                        results.push( { compName: compName, propName: propName + '.' + propName2 } );
+                    }
+                }
+                else {
+                    results.push( { compName: compName, propName: propName } );
+                }
             }
         }
     }
@@ -30,6 +40,7 @@ function _getProperties ( entity ) {
 Polymer(EditorUI.mixin({
 
     publish: {
+        'editing': false,
         'mode': 'dropsheet', // curve, dropsheet
         'entity': null,
         'clip': null,
@@ -115,6 +126,22 @@ Polymer(EditorUI.mixin({
 
     curClipIdxChanged: function () {
         this.fire('clip-index-changed', { index: this.curClipIdx });
+    },
+
+    _onEditClick: function () {
+        this.fire('toggle-editing');
+    },
+
+    _onRemoveProp: function ( event ) {
+        var target = event.target;
+        var el = target.parentElement;
+        var compName = el.getAttribute('comp');
+        var propName = el.getAttribute('prop');
+
+        this.fire('remove-prop', {
+            component: compName,
+            property: propName,
+        });
     },
 
 }, EditorUI.resizable));
