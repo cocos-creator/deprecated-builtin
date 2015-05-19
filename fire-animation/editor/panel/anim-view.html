@@ -7,8 +7,6 @@
     constructor="AnimView"
     on-focus="{{_focusAction}}"
     on-blur="{{_blurAction}}"
-    on-focusin="{{_focusInAction}}"
-    on-focusout="{{_focusOutAction}}"
 >
     <template>
         <link rel="stylesheet" href="anim-view.css">
@@ -25,7 +23,9 @@
                 <curve-view id="curveview" fit>
                 </curve-view>
 
-                <drop-sheet id="dropsheet" fit>
+                <drop-sheet id="dropsheet" fit
+                    clip="{{clip}}"
+                >
                 </drop-sheet>
             </div>
 
