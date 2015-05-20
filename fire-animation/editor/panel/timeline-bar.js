@@ -10,6 +10,7 @@ Polymer({
         this.$.ticks.setRangeH( -10, null );
 
         this.$.ticks.setAnchor( 0.0, 0.0 );
+        this.$.ticks.xAxisScaleAt( 0.0, 10 );
     },
 
     resize: function () {

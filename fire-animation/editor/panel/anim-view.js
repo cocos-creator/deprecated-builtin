@@ -5,12 +5,14 @@ Polymer(EditorUI.mixin({
         'curFrame': 0,
         'entity': null,
         'clip': null,
+        'offsetY': 0.0,
     },
 
     observe: {
         'mode': 'modeChanged',
         'curFrame': 'curFrameChanged',
         'entity': 'entityChanged',
+        'offsetY': 'offsetYChanged',
     },
 
     eventDelegates: {
@@ -191,6 +193,12 @@ Polymer(EditorUI.mixin({
         }
     },
 
+    offsetYChanged: function () {
+        // dropsheet
+        if ( this.mode === 'dropsheet' ) {
+            this.$.dropsheet.updateOffsetY(this.offsetY);
+        }
+    },
 
     _onNeedleMouseDown: function (event) {
         event.stopPropagation();
@@ -235,7 +243,7 @@ Polymer(EditorUI.mixin({
         this.curFrame = Math.max( 0, Math.round(frame) );
         var pixel = this.$.timeline.ticks.valueToPixelH(this.curFrame);
         this.$.needle.style.left = pixel;
-        this.$.mask.style.width = Math.max( 0, pixel );
+        // this.$.mask.style.width = Math.max( 0, pixel );
     },
 
     applyKeyFrame: function () {
@@ -244,6 +252,20 @@ Polymer(EditorUI.mixin({
         // dropsheet
         if ( this.mode === 'dropsheet' ) {
             this.$.dropsheet.addKeyInfos(newKeyInfos);
+        }
+    },
+
+    addProperty: function ( comp, prop ) {
+        // dropsheet
+        if ( this.mode === 'dropsheet' ) {
+            this.$.dropsheet.addProperty( comp, prop );
+        }
+    },
+
+    removeProperty: function ( comp, prop ) {
+        // dropsheet
+        if ( this.mode === 'dropsheet' ) {
+            this.$.dropsheet.removeProperty( comp, prop );
         }
     },
 

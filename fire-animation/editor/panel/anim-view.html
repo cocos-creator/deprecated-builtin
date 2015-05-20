@@ -14,11 +14,12 @@
         <div id="border" class="border" fit flex-col flex-stretch
             on-mousedown="{{_onMouseDown}}"
             on-mousewheel="{{_onMouseWheel}}"
-            on-click="{{_onMouseClick}}"
             on-keydown="{{_onKeydown}}"
             on-keyup="{{_onKeyup}}"
             >
-            <timline-bar id="timeline"></timline-bar>
+            <timline-bar id="timeline"
+                on-click="{{_onMouseClick}}"
+            ></timline-bar>
             <div class="view" flex-1>
                 <curve-view id="curveview" fit>
                 </curve-view>
@@ -36,7 +37,7 @@
                     </svg>
                 </div>
             </div>
-            <div id="mask"></div>
+            <!-- <div id="mask"></div> -->
             <div id="tip">{{curFrame}}</div>
         </div>
     </template>

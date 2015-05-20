@@ -18,7 +18,6 @@ Polymer(EditorUI.mixin({
 
     repaint: function () {
         if ( this._fieldEL ) {
-            this._fieldEL.resize();
             this._fieldEL.repaint();
         }
     },
