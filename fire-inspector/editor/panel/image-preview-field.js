@@ -65,6 +65,12 @@ Polymer({
                               0, 0, this.$.canvas.width, this.$.canvas.height
                              );
             }
+
+            this.$.dragleft.style.display = 'block';
+            this.$.dragtop.style.display = 'block';
+            this.$.dragbottom.style.display = 'block';
+            this.$.dragright.style.display = 'block';
+            
             this.updateLine();
         }
     },
