@@ -16,7 +16,7 @@ Polymer({
         this.editing = false;
         this.offsetY = 0.0;
         this._snapshot = null;
-        this.popup();
+        // this.popup();
     },
 
     domReady: function () {
