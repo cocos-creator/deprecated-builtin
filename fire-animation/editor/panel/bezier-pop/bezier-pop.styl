@@ -11,6 +11,7 @@
     padding-right: 1px
     padding-bottom: 1px
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+    cursor: default
 }
 
 .title {
@@ -44,21 +45,13 @@
             text-align: right
             padding-right: 15px
             background: #424242
+            border-bottom: 1px solid #616161
             border-right: 1px solid #3b3b3b
-
             color: #A9A9A9
-
-            &:nth-child(even) {
-                background: #282828
-            }
 
             &[select] {
                 border-left: 1px solid red
-                background: rgb(51,51,51) + 20%
-            }
-
-            &:hover {
-                background: gray
+                background: rgb(51,51,51) - 40%
             }
         }
     }
@@ -189,4 +182,8 @@
     text-align: center
     font-size: 12px
     line-height: 20px
+}
+
+.point {
+    cursor: all-scroll
 }

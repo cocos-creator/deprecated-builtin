@@ -215,6 +215,7 @@ Polymer({
             this.move = true;
             this.onmousemove = function (event) {
                 if (this.move) {
+                    this.$.svg.style.cursor = 'all-scroll';
                     var x = event.clientX - this.$.curve.getBoundingClientRect().left + this.ofX;
                     var y = event.clientY - this.$.curve.getBoundingClientRect().top + this.ofY;
                     c1point.setAttribute("cx",x);
@@ -230,6 +231,7 @@ Polymer({
                 }
             };
             this.onmouseup = function () {
+                this.$.svg.style.cursor = 'default';
                 this.move = false;
             };
         }.bind(this);
@@ -238,6 +240,7 @@ Polymer({
             this.move = true;
             this.onmousemove = function (event) {
                 if (this.move) {
+                    this.$.svg.style.cursor = 'all-scroll';
                     var x = event.clientX - this.$.curve.getBoundingClientRect().left + this.ofX;
                     var y = event.clientY - this.$.curve.getBoundingClientRect().top + this.ofY;
                     c2point.setAttribute("cx",x);
@@ -254,6 +257,7 @@ Polymer({
             };
 
             this.onmouseup = function () {
+                this.$.svg.style.cursor = 'default';
                 this.move = false;
             };
         }.bind(this);
