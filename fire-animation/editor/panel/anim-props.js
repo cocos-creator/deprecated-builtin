@@ -44,6 +44,7 @@ Polymer(EditorUI.mixin({
         'mode': 'dropsheet', // curve, dropsheet
         'entity': null,
         'clip': null,
+        'offsetY': 0.0,
     },
 
     observe: {
@@ -142,6 +143,10 @@ Polymer(EditorUI.mixin({
             component: compName,
             property: propName,
         });
+    },
+
+    _onScroll: function ( event ) {
+        this.offsetY = this.$.props.scrollTop;
     },
 
 }, EditorUI.resizable));

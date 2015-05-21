@@ -13,6 +13,7 @@ Polymer({
         this.entity = null;
         this.clip = null;
         this.editing = false;
+        this.offsetY = 0.0;
         this._snapshot = null;
         this.popup();
     },
@@ -55,6 +56,7 @@ Polymer({
     'fire-animation:add-prop': function ( compName, propName ) {
         this.clip.addProperty( compName, propName );
         this.clip.sort();
+        this.$.view.addProperty( compName, propName );
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
@@ -148,6 +150,7 @@ Polymer({
         var compName = event.detail.component;
         var propName = event.detail.property;
         this.clip.removeProperty( compName, propName );
+        this.$.view.removeProperty( compName, propName );
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 

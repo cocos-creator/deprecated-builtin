@@ -30,7 +30,9 @@
         </fire-ui-toolbar>
         </div>
 
-        <div class="props" flex-1>
+        <div id="props" flex-1
+            on-scroll="{{_onScroll}}"
+            >
             <template repeat="{{frame in clip.frames}}">
                 <div class="prop" comp="{{frame.component}}" prop="{{frame.property}}" flex-row>
                     <i class="fa fa-close" on-click="{{_onRemoveProp}}"></i>

@@ -13,6 +13,7 @@ Polymer({
         this.$.view.setMappingV( 100, -100, 200 );
 
         this.$.view.setAnchor( 0.0, 0.5 );
+        this.$.view.xAxisScaleAt( 0.0, 10 );
     },
 
     resize: function () {
