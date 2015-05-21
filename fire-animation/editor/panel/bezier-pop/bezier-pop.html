@@ -25,12 +25,14 @@
                 [{{bezierBinding}}]
             </div>
             <svg id="svg"></svg>
-            <div class="preview">
-                <div id="animate1" class="rowline {{_preview_animat1}}" style="transition: all 1s cubic-bezier({{bezier[0]}}, {{bezier[1]}}, {{bezier[2]}}, {{bezier[3]}})"></div>
-                <div id="animate2" class="colline {{_preview_animat2}}" style="transition: all 1s cubic-bezier({{bezier[0]}}, {{bezier[1]}}, {{bezier[2]}}, {{bezier[3]}})">
+            <div class="preview" id="preview">
+                <div id="animate1" class="rowline" >
+                    <div class="radiu"></div>
+                </div>
+                <div id="animate2" class="colline" ></div>
             </div>
         </div>
-    </div>
+        </div>
 </template>
 <script type="text/javascript" src="fire://ext/svg.js/dist/svg.min.js"></script>
 <script type="text/javascript" src="bezier-pop.js"></script>

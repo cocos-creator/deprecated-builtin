@@ -7,9 +7,9 @@
     box-shadow: 0 0 15px 2px rgba(0,0,0,0.5)
     z-index: 999
     left: 650px
-    top: 250px
+    top: 270px
     padding-right: 1px
-    padding-bottom: 2px
+    padding-bottom: 1px
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
 }
 
@@ -26,8 +26,7 @@
 
 .left {
     width: 129px
-    height: 100%
-    background: #414141
+    background: #555555
     float: left
     border-bottom: 1px solid black;
     .beziers {
@@ -35,24 +34,30 @@
         float: left
         margin: 0px
         padding: 0px
-
+        height: 264px
+        border-left: 1px solid black;
         li {
             list-style: none
             font-size: 12px
             line-height: 24px
             height: 24px
             text-align: right
-            background: #242424
             padding-right: 15px
+            background: #424242
             border-right: 1px solid #3b3b3b
-            border-bottom: 1px solid #3b3b3b
-            color: #ABABAB
-            &:hover {
-                background: gray
+
+            color: #A9A9A9
+
+            &:nth-child(even) {
+                background: #282828
             }
 
             &[select] {
-                border-left: 1px solid white
+                border-left: 1px solid red
+                background: rgb(51,51,51) + 20%
+            }
+
+            &:hover {
                 background: gray
             }
         }
@@ -60,9 +65,10 @@
 }
 
 .right {
-    width: 369px
-    height: 100%
+    width: 370px
     float: left
+    border-bottom: 1px solid black
+    padding-right: 1px
     .tobar {
         height: 35px
         width: 100%
@@ -76,6 +82,7 @@
         height: 264px
         background: rgb(51,51,51)
         float: left
+        border-bottom: none
 
         #curve {
             width: 200px
@@ -112,6 +119,7 @@
                 bottom: 0px
                 right: 0px
                 background: white
+                opacity: 0.4
             }
 
             .colline {
@@ -121,16 +129,16 @@
                 left: 0px
                 top: 0px
                 background: white
+                opacity: 0.4
             }
-
-            .gotop {
-                bottom: 200px !important
-                width: 0px !important
-            }
-
-            .goright {
-                left: 200px !important
-                height: 0px !important
+            .radiu {
+                width: 8px
+                height: 8px
+                background: #76e309
+                border-radius: 4px
+                float: right
+                margin-right: -15px
+                margin-top: -4px
             }
         }
     }
@@ -140,10 +148,8 @@
     box-sizing: border-box
     position: relative
     font-size: 10px
-    margin-left: auto
-    margin-right: auto
     margin-top: 5px
-    display: table
+    display: inline-block
     background: #232323
     border-radius: 2px
     border: 1px solid black
@@ -154,13 +160,15 @@
         font-size: 10px
         border: none
         padding: 4px
-        margin-right: -1px
-        background: #656565
+        border-right: 1px solid #232323
+        background: #424242
         color: rgb(170,170,170)
         &:hover {
             background: #5E5E5E + 20%
         }
-
+        &:last-child {
+            border-right: none
+        }
         &:active {
             background: #5E5E5E - 40%
             color: #DFDFDF - 20%

@@ -8,9 +8,8 @@ Polymer({
     selectCurves: [],
     typeIndex: 0,
     move: false,
-
-    _preview_animat1: 'gotop',
-    _preview_animat2: 'goright',
+    _previewProgress: 0,
+    _stopPreview: false,
 
     curves: [
         {
@@ -149,8 +148,7 @@ Polymer({
             this.loadCustomBezier();
             this.drawBezier();
         }
-
-        this.previewAnimation();
+        this.playPreview();
     },
 
     changeBezier: function(event) {
@@ -373,19 +371,58 @@ Polymer({
         this.drawBezier();
     },
 
-    previewAnimation: function () {
-        var forward = true;
-        var animate = setInterval(function () {
-            if (forward) {
-                this.$.animate1.className = 'rowline gotop';
-                this.$.animate2.className = 'colline goright';
-                forward = false;
-            }else {
-                this.$.animate1.className = 'rowline';
-                this.$.animate2.className = 'colline';
-                forward = true;
+    updateAnimate: function () {
+        if (this._stopPreview) {
+            this.$.animate1.style.bottom = -1;
+            this.$.animate2.style.left = -1;
+            this._previewProgress = 0;
+            return;
+        }
+
+        window.requestAnimationFrame(function() {
+            if (this._previewProgress >= 1) {
+                this._previewProgress = 0;
             }
-        }.bind(this),1000);
+
+            var coord = this.bezierToCoord(this.bezier,this._previewProgress);
+            this.$.animate1.style.bottom = coord.y * this.distance;
+            this.$.animate2.style.left = coord.x * this.distance;
+            this._previewProgress += 0.008;
+            this.updateAnimate();
+        }.bind(this));
     },
+
+    playPreview: function() {
+        this._stopPreview = false;
+        this.updateAnimate();
+    },
+
+    stopPreview: function () {
+        this._stopPreview = true;
+    },
+
+    bezierToCoord: function (cp,t) {
+        function Point2D(x,y){
+            this.x=x||0.0;
+            this.y=y||0.0;
+        }
+
+        var ax, bx, cx;
+        var ay, by, cy;
+        var tSquared, tCubed;
+
+        cx = 3.0 * cp[0];
+        bx = 3.0 * (cp[2] - cp[0]) - cx;
+        ax = 1 - cx - bx;
+
+        cy = 3.0 * (cp[1]);
+        by = 3.0 * (cp[3] - cp[1]) - cy;
+        ay = 1 - cy - by;
+
+        var x = (ax * Math.pow(t,2) * t) + (bx * Math.pow(t,2)) + (cx * t) + 0,
+            y = (ay * Math.pow(t,2) * t) + (by * Math.pow(t,2)) + (cy * t) + 0;
+
+        return new Point2D(x,y);
+    }
 
 });
