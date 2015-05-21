@@ -64,9 +64,9 @@ Polymer({
     },
 
     updateSVGProps: function () {
-        for ( var i = 0; i < this.clip.frames.length; ++i ) {
-            var frameInfo = this.clip.frames[i];
-            var groupInfo = this.propGroups[frameInfo.component + '.' + frameInfo.property];
+        for ( var i = 0; i < this.clip.curveData.length; ++i ) {
+            var curveInfo = this.clip.curveData[i];
+            var groupInfo = this.propGroups[curveInfo.component + '.' + curveInfo.property];
             if ( groupInfo ) {
                 groupInfo.svg.translate( 0.0, i * 30 );
             }
@@ -92,18 +92,18 @@ Polymer({
         }
 
         this.svgScene.clear();
-        for ( var i = 0; i < this.clip.frames.length; ++i ) {
-            var frameInfo = this.clip.frames[i];
+        for ( var i = 0; i < this.clip.curveData.length; ++i ) {
+            var curveInfo = this.clip.curveData[i];
 
             var group = this.svgScene.group();
             group.translate( 0, i * 30 );
-            this.propGroups[frameInfo.component + '.' + frameInfo.property] = {
+            this.propGroups[curveInfo.component + '.' + curveInfo.property] = {
                 svg: group,
                 keyNodes: [],
             };
 
-            for ( var k = 0; k < frameInfo.keys.length; ++k ) {
-                this.addKeyNode( frameInfo.component, frameInfo.property, frameInfo.keys[k] );
+            for ( var k = 0; k < curveInfo.keys.length; ++k ) {
+                this.addKeyNode( curveInfo.component, curveInfo.property, curveInfo.keys[k] );
             }
             // group.rect( 300, 30 )
             // .fill({ color: '#f00', opacity: 0.1 })

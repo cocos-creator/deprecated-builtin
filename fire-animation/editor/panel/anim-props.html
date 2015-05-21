@@ -33,12 +33,12 @@
         <div id="props" flex-1
             on-scroll="{{_onScroll}}"
             >
-            <template repeat="{{frame in clip.frames}}">
-                <div class="prop" comp="{{frame.component}}" prop="{{frame.property}}" flex-row>
+            <template repeat="{{curveInfo in clip.curveData}}">
+                <div class="prop" comp="{{curveInfo.component}}" prop="{{curveInfo.property}}" flex-row>
                     <i class="fa fa-close" on-click="{{_onRemoveProp}}"></i>
                     <div class="prop-name" flex-1>
-                        <span>{{frame.property}}</span>
-                        <span class="comp">({{frame.component}})</span>
+                        <span>{{curveInfo.property}}</span>
+                        <span class="comp">({{curveInfo.component}})</span>
                     </div>
                     <i class="fa fa-plus-circle"></i>
                 </div>
