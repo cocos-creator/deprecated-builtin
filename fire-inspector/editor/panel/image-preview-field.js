@@ -147,7 +147,7 @@ Polymer({
                         return;
                     }
                     else if (lastTop + (dy / yRatio) >= this.asset.height) {
-                        direction.style.top = top + this.$.canvas.getBoundingClientRect().height + (this.asset.height / yRatio) ;
+                        direction.style.top = top + this.$.canvas.getBoundingClientRect().height;
                         this.asset.borderTop = this.asset.height;
                         return;
                     }
@@ -161,7 +161,7 @@ Polymer({
                         return;
                     }
                     else if (lastBottom - (dy / yRatio) >= this.asset.height) {
-                        direction.style.top = top + this.$.canvas.getBoundingClientRect().height - (this.asset.height / yRatio) ;
+                        direction.style.top = top;
                         this.asset.borderBottom = this.asset.height;
                         return;
                     }
@@ -176,7 +176,7 @@ Polymer({
                         return;
                     }
                     else if (lastleft + (dx / xRatio) >= this.asset.width) {
-                        direction.style.left = left + this.$.canvas.getBoundingClientRect().width + (this.asset.width / xRatio);
+                        direction.style.left = left + this.$.canvas.getBoundingClientRect().width;
                         this.asset.borderLeft = this.asset.width;
                         return;
                     }
@@ -191,7 +191,7 @@ Polymer({
                         return;
                     }
                     else if (lastRight - (dx / xRatio) >= this.asset.width) {
-                        direction.style.left = left + this.$.canvas.getBoundingClientRect().width - (this.asset.width / xRatio);
+                        direction.style.left = left;
                         this.asset.borderRight = this.asset.width;
                         return;
                     }
