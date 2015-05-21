@@ -4,6 +4,7 @@ Polymer({
         'panel-show': '_onPanelShow',
         'mode-changed': '_onModeChanged',
         'clip-index-changed': '_onClipIndexChanged',
+        'clip-changed': '_onClipChanged',
         'remove-prop': '_onRemoveProp',
         'toggle-editing': '_onToggleEditing',
         'start-editing': '_onStartEditing',
@@ -130,6 +131,10 @@ Polymer({
             this.clip = null;
             this.url = null;
         }
+    },
+
+    _onClipChanged: function ( event ) {
+        Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
     _onToggleEditing: function ( event ) {
