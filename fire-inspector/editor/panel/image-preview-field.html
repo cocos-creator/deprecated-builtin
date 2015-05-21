@@ -9,6 +9,21 @@
             <div id="content" class="content">
                 <canvas id="canvas"></canvas>
             </div>
+            <div class="subline col" id="dragtop">
+                <div class="ellipse" on-mousedown="{{drawDragCircle}}"></div>
+            </div>
+
+            <div class="subline col" id="dragbottom">
+                <div class="ellipse" on-mousedown="{{drawDragCircle}}"></div>
+            </div>
+
+            <div class="subline row" id="dragleft">
+                <div class="ellipse" on-mousedown="{{drawDragCircle}}"></div>
+            </div>
+
+            <div class="subline row" id="dragright">
+                <div class="ellipse" on-mousedown="{{drawDragCircle}}"></div>
+            </div>
             <div class="label">
                 <fire-ui-label>{{info}}</fire-ui-label>
             </div>
