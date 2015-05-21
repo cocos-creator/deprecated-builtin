@@ -16,6 +16,7 @@ Polymer({
         this.editing = false;
         this.offsetY = 0.0;
         this._snapshot = null;
+        this.popup();
     },
 
     domReady: function () {
@@ -156,5 +157,11 @@ Polymer({
         this.clip.removeProperty( compName, propName );
         this.$.view.removeProperty( compName, propName );
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
+    },
+
+    popup: function () {
+        var curve = new BezierPop();
+        curve.bezier = [1,1,1,0];
+        document.body.appendChild(curve);
     },
 });
