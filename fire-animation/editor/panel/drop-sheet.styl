@@ -2,14 +2,22 @@
     position: relative
 }
 
-svg {
-    position: relative
-    z-index: 999
-}
-
 .key-node {
     cursor: pointer
 }
+
 .key-node.selected {
     stroke: #0f0
+}
+
+svg {
+    position: relative
+    z-index: 999
+    shape-rendering: geometricPrecision
+}
+
+svg .rect-select {
+    fill: rgba( 0, 128, 255, 0.4 )
+    stroke-width: 1
+    stroke: #09f
 }
