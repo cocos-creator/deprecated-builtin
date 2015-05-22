@@ -130,7 +130,7 @@ Polymer({
 
         if ( clipIdx !== -1 ) {
             var animComp = this.entity.getComponent(Fire.Animation);
-            this.clip = animComp.animations[clipIdx];
+            this.clip = animComp._clips[clipIdx];
             this.url = Editor.AssetDB.uuidToUrl(this.clip._uuid);
         }
         else {

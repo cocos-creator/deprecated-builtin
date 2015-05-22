@@ -56,7 +56,7 @@ Polymer(EditorUI.mixin({
         this._initResizable();
         this.$.modes.select(0);
 
-        this.animations = [];
+        this.clips = [];
         this.curClipIdx = -1;
     },
 
@@ -107,20 +107,20 @@ Polymer(EditorUI.mixin({
         this.curClipIdx = -1;
 
         if ( !this.entity ) {
-            this.animations = [];
+            this.clips = [];
             return;
         }
 
         var animComp = this.entity.getComponent(Fire.Animation);
         if ( !animComp ) {
-            this.animations = [];
+            this.clips = [];
             return;
         }
 
-        this.animations = animComp.animations.map( function ( item, index ) {
+        this.clips = animComp._clips.map( function ( item, index ) {
             return { name: item.name, value: index };
         });
-        if ( this.animations.length > 0 ) {
+        if ( this.clips.length > 0 ) {
             this.curClipIdx = 0;
         }
     },
