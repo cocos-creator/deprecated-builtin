@@ -276,11 +276,11 @@ Polymer({
 
     getPath: function (points)　{
         var dstart = "M"+ this.ofX + ',' + (this.ofY + this.distance) + ' ';
-        var controlPoint = "C" + points[0]
-                        + ',' + points[1] + ','
-                        + points[2] + ','
-                        + points[3] + ','
-                        + (this.ofX + this.distance) + ',' + (this.ofY) + ' ';
+        var controlPoint = "C" + points[0] +
+            ',' + points[1] +
+            ',' + points[2] +
+            ',' + points[3] +
+            ',' + (this.ofX + this.distance) + ',' + (this.ofY) + ' ';
         var p = dstart + controlPoint;
         return p;
     },

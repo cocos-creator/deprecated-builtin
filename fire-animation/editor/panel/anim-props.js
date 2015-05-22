@@ -83,9 +83,9 @@ Polymer(EditorUI.mixin({
 
         var props = _getProperties(this.entity);
         props = props.filter ( function ( item ) {
-            var result = this.clip.frames.some( function ( frame ) {
-                return frame.component === item.compName &&
-                    frame.property === item.propName;
+            var result = this.clip.curveData.some( function ( item ) {
+                return item.component === item.compName &&
+                    item.property === item.propName;
             });
             return !result;
         }.bind(this));

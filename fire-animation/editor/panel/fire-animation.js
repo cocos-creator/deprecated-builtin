@@ -16,7 +16,7 @@ Polymer({
         this.editing = false;
         this.offsetY = 0.0;
         this._snapshot = null;
-        this.popup();
+        // this.popup();
     },
 
     domReady: function () {
@@ -58,6 +58,8 @@ Polymer({
         this.clip.addProperty( compName, propName );
         this.clip.sort();
         this.$.view.addProperty( compName, propName );
+        this.clip.updateLength();
+
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
@@ -70,6 +72,8 @@ Polymer({
             return;
 
         this.$.view.applyKeyFrame();
+        this.clip.updateLength();
+
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
@@ -78,6 +82,8 @@ Polymer({
             return;
 
         this.$.view.applyKeyFrame();
+        this.clip.updateLength();
+
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
@@ -134,6 +140,7 @@ Polymer({
     },
 
     _onClipChanged: function ( event ) {
+        this.clip.updateLength();
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
@@ -156,6 +163,8 @@ Polymer({
         var propName = event.detail.property;
         this.clip.removeProperty( compName, propName );
         this.$.view.removeProperty( compName, propName );
+
+        this.clip.updateLength();
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
