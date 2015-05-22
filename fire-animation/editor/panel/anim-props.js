@@ -145,6 +145,18 @@ Polymer(EditorUI.mixin({
         });
     },
 
+    _onAddKey: function ( event ) {
+        var target = event.target;
+        var el = target.parentElement;
+        var compName = el.getAttribute('comp');
+        var propName = el.getAttribute('prop');
+
+        this.fire('add-key', {
+            component: compName,
+            property: propName,
+        });
+    },
+
     _onScroll: function ( event ) {
         this.offsetY = this.$.props.scrollTop;
     },

@@ -461,4 +461,22 @@ Polymer({
         }
         this.selection = [];
     },
+
+    deleteSelection: function () {
+        for ( var i = 0; i < this.selection.length; ++i ) {
+            var item = this.selection[i];
+            this.clip.removeKey( item.component, item.property, item.frame );
+
+            var groupInfo = this.propGroups[item.component + '.' + item.property];
+            if ( groupInfo ) {
+                for ( var k = groupInfo.keyNodes.length-1; k >= 0; --k ) {
+                    var keyNode = groupInfo.keyNodes[k];
+                    if ( keyNode === item ) {
+                        groupInfo.keyNodes[k].remove();
+                        groupInfo.keyNodes.splice( k, 1 );
+                    }
+                }
+            }
+        }
+    },
 });

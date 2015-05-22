@@ -8,6 +8,7 @@ Polymer({
         'remove-prop': '_onRemoveProp',
         'toggle-editing': '_onToggleEditing',
         'start-editing': '_onStartEditing',
+        'add-key': '_onAddKey',
     },
 
     created: function () {
@@ -163,6 +164,13 @@ Polymer({
         var propName = event.detail.property;
         this.clip.removeProperty( compName, propName );
         this.$.view.removeProperty( compName, propName );
+
+        this.clip.updateLength();
+        Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
+    },
+
+    _onAddKey: function ( event ) {
+        this.$.view.addKey( event.detail.component, event.detail.property );
 
         this.clip.updateLength();
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
