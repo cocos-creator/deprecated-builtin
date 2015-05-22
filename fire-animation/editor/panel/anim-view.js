@@ -304,7 +304,7 @@ Polymer(EditorUI.mixin({
         keyInfo = {
             frame: this.curFrame,
             value: value,
-            curve: 'linear',
+            curve: [0.5,0.5,0.5,0.5], // linear
         };
 
         //

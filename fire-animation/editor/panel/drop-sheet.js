@@ -146,6 +146,23 @@ Polymer({
         keyNode.on('mousedown', function ( event ) {
             event.stopPropagation();
 
+            if ( event.which === 3 ) {
+                var keyInfo = this.clip.findKey( keyNode.component, keyNode.property, keyNode.frame );
+                if ( keyInfo ) {
+                    this.fire( 'show-curve', {
+                        component: keyNode.component,
+                        property: keyNode.property,
+                        frame: keyInfo.frame,
+                        curve: keyInfo.curve
+                    } );
+                }
+                return;
+            }
+
+            if ( event.which !== 1 ) {
+                return;
+            }
+
             if ( this.selection.indexOf(keyNode) === -1 ) {
                 this.clearSelect();
                 this.select( [keyNode] );

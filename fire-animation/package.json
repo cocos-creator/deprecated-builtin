@@ -17,7 +17,6 @@
       "ctor": "FireAnimation",
       "title": "Animation",
       "popable": false,
-      "popable": true,
       "height": 300,
       "messages": [
         "selection:entity:activated",
