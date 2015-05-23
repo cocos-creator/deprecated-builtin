@@ -146,6 +146,23 @@ Polymer({
         keyNode.on('mousedown', function ( event ) {
             event.stopPropagation();
 
+            if ( event.which === 3 ) {
+                var keyInfo = this.clip.findKey( keyNode.component, keyNode.property, keyNode.frame );
+                if ( keyInfo ) {
+                    this.fire( 'show-curve', {
+                        component: keyNode.component,
+                        property: keyNode.property,
+                        frame: keyInfo.frame,
+                        curve: keyInfo.curve
+                    } );
+                }
+                return;
+            }
+
+            if ( event.which !== 1 ) {
+                return;
+            }
+
             if ( this.selection.indexOf(keyNode) === -1 ) {
                 this.clearSelect();
                 this.select( [keyNode] );
@@ -460,5 +477,23 @@ Polymer({
             item.removeClass('selected');
         }
         this.selection = [];
+    },
+
+    deleteSelection: function () {
+        for ( var i = 0; i < this.selection.length; ++i ) {
+            var item = this.selection[i];
+            this.clip.removeKey( item.component, item.property, item.frame );
+
+            var groupInfo = this.propGroups[item.component + '.' + item.property];
+            if ( groupInfo ) {
+                for ( var k = groupInfo.keyNodes.length-1; k >= 0; --k ) {
+                    var keyNode = groupInfo.keyNodes[k];
+                    if ( keyNode === item ) {
+                        groupInfo.keyNodes[k].remove();
+                        groupInfo.keyNodes.splice( k, 1 );
+                    }
+                }
+            }
+        }
     },
 });

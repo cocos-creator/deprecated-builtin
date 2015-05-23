@@ -122,14 +122,27 @@ Polymer(EditorUI.mixin({
         }
     },
 
-    _onKeydown: function (event) {
-        // process shift
-        if ( event.which === 16 ) {
-            this.style.cursor = '-webkit-grab';
+    _onKeyDown: function (event) {
+        switch ( event.which ) {
+            // shift
+            case 16:
+                event.stopPropagation();
+                this.style.cursor = '-webkit-grab';
+            break;
+
+            // delete
+            case 8:
+            case 46:
+                event.stopPropagation();
+                if ( this.mode === 'dropsheet' ) {
+                    this.$.dropsheet.deleteSelection();
+                    this.fire('clip-changed');
+                }
+            break;
         }
     },
 
-    _onKeyup: function (event) {
+    _onKeyUp: function (event) {
         // process shift
         if ( event.which === 16 ) {
             this.style.cursor = '';
@@ -252,6 +265,54 @@ Polymer(EditorUI.mixin({
         // dropsheet
         if ( this.mode === 'dropsheet' ) {
             this.$.dropsheet.addKeyInfos(newKeyInfos);
+        }
+    },
+
+    addKey: function ( compName, propName ) {
+        //
+        var keyInfo = this.clip.findKey( compName, propName, this.curFrame );
+        if ( keyInfo ) {
+            return;
+        }
+
+        var comp = this.entity.getComponent(compName);
+        if ( !comp ) {
+            return;
+        }
+
+        var splits = propName.split('.');
+        var value;
+
+        if ( splits.length === 1 ) {
+            value = comp[propName];
+            if ( value === undefined ) {
+                return;
+            }
+        }
+        // get value type properties
+        else {
+            value = comp[splits[0]];
+            if ( value === undefined ) {
+                return;
+            }
+            value = value[splits[1]];
+            if ( value === undefined ) {
+                return;
+            }
+        }
+
+        keyInfo = {
+            frame: this.curFrame,
+            value: value,
+            curve: [0.5,0.5,0.5,0.5], // linear
+        };
+
+        //
+        this.clip.addKey( compName, propName, keyInfo );
+
+        // dropsheet
+        if ( this.mode === 'dropsheet' ) {
+            this.$.dropsheet.addKeyNode(compName, propName, keyInfo);
         }
     },
 

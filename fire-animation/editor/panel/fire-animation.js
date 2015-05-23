@@ -8,6 +8,8 @@ Polymer({
         'remove-prop': '_onRemoveProp',
         'toggle-editing': '_onToggleEditing',
         'start-editing': '_onStartEditing',
+        'add-key': '_onAddKey',
+        'show-curve': '_onShowCurve',
     },
 
     created: function () {
@@ -130,7 +132,7 @@ Polymer({
 
         if ( clipIdx !== -1 ) {
             var animComp = this.entity.getComponent(Fire.Animation);
-            this.clip = animComp.animations[clipIdx];
+            this.clip = animComp._clips[clipIdx];
             this.url = Editor.AssetDB.uuidToUrl(this.clip._uuid);
         }
         else {
@@ -168,9 +170,32 @@ Polymer({
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
 
-    popup: function () {
-        var curve = new BezierPop();
-        curve.bezier = [1,1,1,0];
-        document.body.appendChild(curve);
+    _onAddKey: function ( event ) {
+        this.$.view.addKey( event.detail.component, event.detail.property );
+
+        this.clip.updateLength();
+        Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
+    },
+
+    _onShowCurve: function ( event ) {
+        var bezier = event.detail.curve;
+        var frame = event.detail.frame;
+        var component = event.detail.component;
+        var property = event.detail.property;
+
+        var curvePopup = new BezierPop();
+        curvePopup.bezier = bezier;
+        document.body.appendChild(curvePopup);
+
+        EditorUI.addHitGhost('cursor', '998', function () {
+            var keyInfo = this.clip.findKey( component, property, frame );
+            if ( keyInfo ) {
+                keyInfo.curve = curvePopup.bezier;
+            }
+            curvePopup.remove();
+            EditorUI.removeHitGhost();
+
+            Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
+        }.bind(this), true);
     },
 });
