@@ -6,7 +6,10 @@
         <link rel="stylesheet" href="custom-asset-inspector.css">
 
         <fire-ui-toolbar class="toolbar" justify-end>
-            <span class="asset-name" flex-1>{{asset.name}}</span>
+            <div class="name" flex-1>
+                <span class="asset-name">{{asset.name}}</span>
+                <span class="class-name">({{assetClassName}})</span>
+            </div>
             <div id="spinner" class="spinner {{saving ? '':'hide'}}"></div>
         </fire-ui-toolbar>
 

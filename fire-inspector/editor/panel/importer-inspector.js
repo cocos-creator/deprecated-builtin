@@ -39,6 +39,11 @@ Polymer({
             this.$.metaFields.refresh();
 
             this.asset = null;
+            this.assetClassName = '';
+            if ( this.meta instanceof Editor.SceneMeta ) {
+                this.assetClassName = 'Fire.Scene';
+            }
+
             this.$.assetFields.target = null;
             this.$.assetFields.refresh();
         }
@@ -49,6 +54,7 @@ Polymer({
                     this.$.metaFields.refresh();
 
                     this.asset = asset;
+                    this.assetClassName = Fire.JS.getClassName(asset);
                     this.$.assetFields.target = this.asset;
                     this.$.assetFields.refresh();
                 }
