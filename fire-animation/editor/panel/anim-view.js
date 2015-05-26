@@ -229,6 +229,13 @@ Polymer(EditorUI.mixin({
             this.$.tip.style.left = offsetX + 20;
             this.$.tip.style.top = event.clientY - rect.top;
             this.$.tip.innerHTML = this.curFrame;
+
+            var animation = this.entity.getComponent(Fire.Animation);
+            if ( animation ) {
+                var animState = animation.play(this.clip.name);
+                animState.time = this.clip.frameToTime(this.curFrame);
+                animation.sample();
+            }
         }.bind(this);
 
         var mouseupHandle = function (event) {
