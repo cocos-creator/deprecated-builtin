@@ -10,6 +10,8 @@ Polymer({
         'start-editing': '_onStartEditing',
         'add-key': '_onAddKey',
         'show-curve': '_onShowCurve',
+        'play-anim': '_onPlayAnim',
+        'stop-anim': '_onStopAnim',
     },
 
     created: function () {
@@ -90,6 +92,10 @@ Polymer({
     },
 
     setEditing: function ( editing ) {
+        if ( this._playing ) {
+            this.stopAnim();
+        }
+
         if ( this.editing === editing )
             return;
 
@@ -204,4 +210,70 @@ Polymer({
             Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
         }.bind(this), true);
     },
+
+    _onPlayAnim: function () {
+        this.playAnim();
+    },
+
+    _onStopAnim: function () {
+        this.stopAnim();
+    },
+
+    playAnim: function () {
+        this._playing = true;
+        this._startTime = null;
+        this._animState = null;
+        this._animation = null;
+        this._snapshot = Editor.snapshotEntity(this.entity);
+
+        var animation = this.entity.getComponent(Fire.Animation);
+        if ( animation ) {
+            this._animation = animation;
+            this._animState = animation.play(this.clip.name);
+        }
+
+        window.requestAnimationFrame( this.stepAnim.bind(this) );
+    },
+
+    stopAnim: function () {
+        this._playing = false;
+        this._startTime = null;
+        this._animState = null;
+        this._animation = null;
+
+        this.$.props.playing = false;
+
+        if ( this._snapshot ) {
+            Editor.applyFromSnapshot(this.entity, this._snapshot);
+            this._snapshot = null;
+
+            var animation = this.entity.getComponent(Fire.Animation);
+            if ( animation ) {
+                animation.stop();
+            }
+
+            Editor.sendToMainWindow( 'scene:repaint' );
+        }
+    },
+
+    stepAnim: function ( timestamp ) {
+        if ( !this._playing )
+            return;
+
+        if ( !this._startTime ) {
+            this._startTime = timestamp;
+        }
+
+        var curTime = (timestamp - this._startTime)/1000;
+        curTime = curTime % this._animState.clip.length;
+
+        this._animState.time = curTime;
+        this._animation.sample();
+        Editor.sendToMainWindow( 'scene:repaint' );
+
+        this.$.view.updateNeedle( curTime * this._animState.clip.frameRate );
+
+        window.requestAnimationFrame ( this.stepAnim.bind(this) );
+    },
+
 });

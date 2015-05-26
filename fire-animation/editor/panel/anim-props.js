@@ -49,6 +49,7 @@ Polymer(EditorUI.mixin({
         'entity': null,
         'clip': null,
         'offsetY': 0.0,
+        'playing': false,
     },
 
     observe: {
@@ -165,4 +166,16 @@ Polymer(EditorUI.mixin({
         this.offsetY = this.$.props.scrollTop;
     },
 
+    _onPlay: function ( event ) {
+        if ( !this.entity )
+            return;
+
+        this.playing = !this.playing;
+        if ( this.playing ) {
+            this.fire('play-anim');
+        }
+        else {
+            this.fire('stop-anim');
+        }
+    },
 }, EditorUI.resizable));

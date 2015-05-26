@@ -9,7 +9,7 @@
         <fire-ui-toolbar justify-between>
             <div flex-row>
                 <fire-ui-button class="{{editing ? 'editing' : ''}}" on-click="{{_onEditClick}}"><i class="fa fa-circle"></i></fire-ui-button>
-                <fire-ui-button><i class="fa fa-play"></i></fire-ui-button>
+                <fire-ui-button on-click="{{_onPlay}}"><i id="playIcon" class="fa fa-play {{playing ? 'blue' : ''}}"></i></fire-ui-button>
                 <fire-ui-select value="{{curClipIdx}}" options="{{clips}}"></fire-ui-select>
             </div>
 
