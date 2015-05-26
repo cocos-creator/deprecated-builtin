@@ -95,5 +95,8 @@ Polymer({
 
             this.appendChild( docfrag );
         }
+        else {
+            console.warn('Unknown object type to inspect:', this.target);
+        }
     },
 });
