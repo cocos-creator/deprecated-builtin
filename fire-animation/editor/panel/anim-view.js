@@ -257,6 +257,13 @@ Polymer(EditorUI.mixin({
         var frame = this.$.timeline.ticks.pixelToValueH(offsetX);
         this.updateNeedle(frame);
         this.fire('start-editing');
+
+        var animation = this.entity.getComponent(Fire.Animation);
+        if ( animation ) {
+            var animState = animation.play(this.clip.name);
+            animState.time = this.clip.frameToTime(this.curFrame);
+            animation.sample();
+        }
     },
 
     updateNeedle: function ( frame ) {
