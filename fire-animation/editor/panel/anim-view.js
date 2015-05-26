@@ -235,6 +235,7 @@ Polymer(EditorUI.mixin({
                 var animState = animation.play(this.clip.name);
                 animState.time = this.clip.frameToTime(this.curFrame);
                 animation.sample();
+                Editor.sendToMainWindow( 'scene:repaint' );
             }
         }.bind(this);
 
@@ -263,6 +264,7 @@ Polymer(EditorUI.mixin({
             var animState = animation.play(this.clip.name);
             animState.time = this.clip.frameToTime(this.curFrame);
             animation.sample();
+            Editor.sendToMainWindow( 'scene:repaint' );
         }
     },
 
