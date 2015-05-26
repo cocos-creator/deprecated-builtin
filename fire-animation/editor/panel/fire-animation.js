@@ -102,6 +102,12 @@ Polymer({
             if ( this._snapshot ) {
                 Editor.applyFromSnapshot(this.entity, this._snapshot);
                 this._snapshot = null;
+
+                var animation = this.entity.getComponent(Fire.Animation);
+                if ( animation ) {
+                    animation.stop();
+                }
+
                 Editor.sendToMainWindow( 'scene:repaint' );
             }
         }

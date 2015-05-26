@@ -19,6 +19,10 @@ function _getProperties ( entity ) {
                     continue;
                 }
 
+                if ( propName === '_scriptUuid' ) {
+                    continue;
+                }
+
                 var value = comp[propName];
                 if ( Fire.isValueType(value) ) {
                     var klass2 = value.constructor;
@@ -83,9 +87,9 @@ Polymer(EditorUI.mixin({
 
         var props = _getProperties(this.entity);
         props = props.filter ( function ( item ) {
-            var result = this.clip.curveData.some( function ( item ) {
-                return item.component === item.compName &&
-                    item.property === item.propName;
+            var result = this.clip.curveData.some( function ( keyItem ) {
+                return keyItem.component === item.compName &&
+                    keyItem.property === item.propName;
             });
             return !result;
         }.bind(this));
