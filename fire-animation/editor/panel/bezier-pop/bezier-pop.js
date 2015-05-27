@@ -274,7 +274,7 @@ Polymer({
         return realCoord;
     },
 
-    getPath: function (points)　{
+    getPath: function (points) {
         var dstart = "M"+ this.ofX + ',' + (this.ofY + this.distance) + ' ';
         var controlPoint = "C" + points[0] +
             ',' + points[1] +
@@ -311,7 +311,7 @@ Polymer({
         return rect;
     },
 
-    drawLine: function (x,y,color,first)　{
+    drawLine: function (x,y,color,first) {
         var svgns = "http://www.w3.org/2000/svg";
         var line = document.createElementNS(svgns,"line");
         if (first) {
@@ -405,12 +405,7 @@ Polymer({
         this._stopPreview = true;
     },
 
-    bezierToCoord: function (cp,t) {
-        function Point2D(x,y){
-            this.x=x||0.0;
-            this.y=y||0.0;
-        }
-
+    bezierToCoord: function (cp, t) {
         var ax, bx, cx;
         var ay, by, cy;
         var tSquared, tCubed;
@@ -419,14 +414,14 @@ Polymer({
         bx = 3.0 * (cp[2] - cp[0]) - cx;
         ax = 1 - cx - bx;
 
-        cy = 3.0 * (cp[1]);
+        cy = 3.0 * cp[1];
         by = 3.0 * (cp[3] - cp[1]) - cy;
         ay = 1 - cy - by;
 
-        var x = (ax * Math.pow(t,2) * t) + (bx * Math.pow(t,2)) + (cx * t) + 0,
-            y = (ay * Math.pow(t,2) * t) + (by * Math.pow(t,2)) + (cy * t) + 0;
+        var x = (ax * t * t * t) + (bx * t * t) + (cx * t),
+            y = (ay * t * t * t) + (by * t * t) + (cy * t);
 
-        return new Point2D(x,y);
+        return {x: x, y: y};
     }
 
 });
