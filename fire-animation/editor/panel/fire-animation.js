@@ -198,6 +198,7 @@ Polymer({
         var curvePopup = new BezierPop();
         curvePopup.bezier = bezier;
         document.body.appendChild(curvePopup);
+        curvePopup.domReady();
 
         EditorUI.addHitGhost('cursor', '998', function () {
             var keyInfo = this.clip.findKey( component, property, frame );
