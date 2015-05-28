@@ -387,11 +387,10 @@ Polymer({
             if (this._previewProgress >= 1) {
                 this._previewProgress = 0;
             }
-
-            var coord = this.bezierToCoord(this.bezier,this._previewProgress);
-            this.$.animate1.style.bottom = coord.y * this.distance;
-            this.$.animate2.style.left = coord.x * this.distance;
-            this._previewProgress += 0.008;
+            var y = Fire._bezier(this.bezier,this._previewProgress);
+            this.$.animate1.style.bottom = y * this.distance;
+            this.$.animate2.style.left = this._previewProgress * this.distance;
+            this._previewProgress += 0.005;
             this.updateAnimate();
         }.bind(this));
     },
@@ -404,29 +403,5 @@ Polymer({
     stopPreview: function () {
         this._stopPreview = true;
     },
-
-    bezierToCoord: function (cp,t) {
-        function Point2D(x,y){
-            this.x=x||0.0;
-            this.y=y||0.0;
-        }
-
-        var ax, bx, cx;
-        var ay, by, cy;
-        var tSquared, tCubed;
-
-        cx = 3.0 * cp[0];
-        bx = 3.0 * (cp[2] - cp[0]) - cx;
-        ax = 1 - cx - bx;
-
-        cy = 3.0 * (cp[1]);
-        by = 3.0 * (cp[3] - cp[1]) - cy;
-        ay = 1 - cy - by;
-
-        var x = (ax * Math.pow(t,2) * t) + (bx * Math.pow(t,2)) + (cx * t) + 0,
-            y = (ay * Math.pow(t,2) * t) + (by * Math.pow(t,2)) + (cy * t) + 0;
-
-        return new Point2D(x,y);
-    }
 
 });
