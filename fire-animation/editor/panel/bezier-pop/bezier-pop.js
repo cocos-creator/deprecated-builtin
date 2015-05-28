@@ -274,7 +274,7 @@ Polymer({
         return realCoord;
     },
 
-    getPath: function (points) {
+    getPath: function (points)　{
         var dstart = "M"+ this.ofX + ',' + (this.ofY + this.distance) + ' ';
         var controlPoint = "C" + points[0] +
             ',' + points[1] +
@@ -311,7 +311,7 @@ Polymer({
         return rect;
     },
 
-    drawLine: function (x,y,color,first) {
+    drawLine: function (x,y,color,first)　{
         var svgns = "http://www.w3.org/2000/svg";
         var line = document.createElementNS(svgns,"line");
         if (first) {
@@ -387,11 +387,10 @@ Polymer({
             if (this._previewProgress >= 1) {
                 this._previewProgress = 0;
             }
-
-            var coord = this.bezierToCoord(this.bezier,this._previewProgress);
-            this.$.animate1.style.bottom = coord.y * this.distance;
-            this.$.animate2.style.left = coord.x * this.distance;
-            this._previewProgress += 0.008;
+            var y = Fire._bezier(this.bezier,this._previewProgress);
+            this.$.animate1.style.bottom = y * this.distance;
+            this.$.animate2.style.left = this._previewProgress * this.distance;
+            this._previewProgress += 0.005;
             this.updateAnimate();
         }.bind(this));
     },
@@ -404,24 +403,5 @@ Polymer({
     stopPreview: function () {
         this._stopPreview = true;
     },
-
-    bezierToCoord: function (cp, t) {
-        var ax, bx, cx;
-        var ay, by, cy;
-        var tSquared, tCubed;
-
-        cx = 3.0 * cp[0];
-        bx = 3.0 * (cp[2] - cp[0]) - cx;
-        ax = 1 - cx - bx;
-
-        cy = 3.0 * cp[1];
-        by = 3.0 * (cp[3] - cp[1]) - cy;
-        ay = 1 - cy - by;
-
-        var x = (ax * t * t * t) + (bx * t * t) + (cx * t),
-            y = (ay * t * t * t) + (by * t * t) + (cy * t);
-
-        return {x: x, y: y};
-    }
 
 });
