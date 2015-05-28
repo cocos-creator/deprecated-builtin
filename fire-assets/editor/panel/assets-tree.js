@@ -492,7 +492,13 @@ Polymer({
               ps.angle = pConfig.angle;
               ps.angleVar = pConfig.angleVariance;
               ps.baseSprite = pConfig.textureFileName;
-              ps.duration = pConfig.duration;
+              if (pConfig.duration === -1) {
+                ps.loop = true;
+              }
+              else{
+                ps.duration = pConfig.duration;
+                ps.loop = false;
+              }
               ps.emitterMode = pConfig.emitterType;
               ps.endColor = Fire.color(pConfig.finishColorRed, pConfig.finishColorGreen, pConfig.finishColorBlue, pConfig.finishColorAlpha);
               ps.endColorVar = Fire.color(pConfig.finishColorVarianceRed, pConfig.finishColorVarianceGreen, pConfig.finishColorVarianceBlue, pConfig.finishColorVarianceAlpha);
@@ -523,7 +529,8 @@ Polymer({
               ps.positionVar = Fire.v2(pConfig.sourcePositionVariancex, pConfig.sourcePositionVariancey);
               ps.tangentialAccel = pConfig.tangentialAcceleration;
               ps.tangentialAccelVar = pConfig.tangentialAccelVariance;
-              ps.totalParticles = pConfig.maxParticles;
+              ps.maxParticles = pConfig.maxParticles;
+              ps.calculateEmissionRate();
             } else {
               Fire.warn("Can not instantiate Particle System without a plist data file.");
             }
