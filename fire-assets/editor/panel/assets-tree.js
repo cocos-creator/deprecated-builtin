@@ -472,12 +472,13 @@ Polymer({
               var plistStr = fs.readFileSync(path, 'utf8');
               var pConfig = Plist.parse(plistStr);
               var scope = this;
-              console.log(Object.keys(targetEL));
+              // console.log(Object.keys(targetEL));
               var entity = new Fire.Entity(targetEL.name);
               var ps = entity.addComponent('Fire.ParticleSystem');
               var urlArr = url.split('/');
               urlArr[urlArr.length - 1] = pConfig.textureFileName;
-              var imageUrl = urlArr.join('/');
+              var spriteName = pConfig.textureFileName.split('.')[0];
+              var imageUrl = urlArr.join('/') + '/' + spriteName + '.sprite';
               var imageUuid = Editor.AssetDB.urlToUuid(imageUrl);
               Fire.AssetLibrary.loadAssetInEditor(imageUuid, function (error, rawAsset) {
                   if (error) {
