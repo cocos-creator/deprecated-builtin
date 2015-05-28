@@ -23,6 +23,7 @@
     "gulp-vulcanize": "",
     "jshint-stylish": "",
     "q": "1.1.2",
-    "source-map": "^0.4.2"
+    "source-map": "^0.4.2",
+    "plist": "1.1.0"
   }
 }
