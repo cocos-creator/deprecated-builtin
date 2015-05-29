@@ -140,6 +140,8 @@ Polymer({
     },
 
     _onClipIndexChanged: function ( event ) {
+        this.setEditing(false);
+
         var clipIdx = event.detail.index;
 
         if ( clipIdx !== -1 ) {
@@ -154,6 +156,8 @@ Polymer({
     },
 
     _onClipChanged: function ( event ) {
+        this.setEditing(false);
+
         this.clip.updateLength();
         Editor.AssetDB.save( this.url, Editor.serialize(this.clip) );
     },
@@ -270,7 +274,8 @@ Polymer({
 
         this._animState.time = curTime;
         this._animation.sample();
-        Editor.sendToMainWindow( 'scene:repaint' );
+
+        Editor.mainWindow.repaint();
 
         this.$.view.updateNeedle( curTime * this._animState.clip.frameRate );
 
