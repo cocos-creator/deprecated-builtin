@@ -123,7 +123,9 @@ Polymer(EditorUI.mixin({
         }
 
         this.clips = animComp._clips.map( function ( item, index ) {
-            return { name: item.name, value: index };
+            if ( item ) {
+                return { name: item.name, value: index };
+            }
         });
         if ( this.clips.length > 0 ) {
             this.curClipIdx = 0;
