@@ -266,7 +266,7 @@ Polymer({
         line1.onmousedown = function () {
             var x1 = this.ofX;
             var y1 = this.ofY + this.distance;
-            EditorUI.addDragGhost("normal");
+            EditorUI.addDragGhost("all-scroll");
             var mousemoveHandle = function( event ) {
                 var x = event.clientX - this.$.curve.getBoundingClientRect().left + this.ofX;
                 var y = event.clientY - this.$.curve.getBoundingClientRect().top + this.ofY;
@@ -306,7 +306,7 @@ Polymer({
         line2.onmousedown = function () {
             var x1 = this.ofX + this.distance;
             var y1 = this.ofY;
-            EditorUI.addDragGhost("normal");
+            EditorUI.addDragGhost("all-scroll");
             var mousemoveHandle = function( event ) {
                 var x = event.clientX - this.$.curve.getBoundingClientRect().left + this.ofX;
                 var y = event.clientY - this.$.curve.getBoundingClientRect().top + this.ofY;
@@ -346,8 +346,6 @@ Polymer({
 
         this.updateValue();
     },
-
-
 
     realCoord: function (bezier) {
         var realCoord = [
@@ -495,6 +493,7 @@ Polymer({
         var y = Math.abs(y1-y2);
         var z = Math.sqrt(x*x+y*y);
         var rotat = Math.round((Math.asin(y/z)/Math.PI*180));
+
         if (x2 >= x1 && y2 <= y1) {
             rotat = rotat;
         }
