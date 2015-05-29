@@ -193,6 +193,7 @@ Polymer({
 
         var svgns = "http://www.w3.org/2000/svg";
         var slash = this.drawLine(this.distance + this.ofX,this.ofY,'#3e3e3e',true);
+        slash.setAttribute('class','eventNone');
         var path = document.createElementNS(svgns,"path");
         var d = this.getPath(realBezier);
 
@@ -261,8 +262,92 @@ Polymer({
                 this.move = false;
             };
         }.bind(this);
+
+        line1.onmousedown = function () {
+            var x1 = this.ofX;
+            var y1 = this.ofY + this.distance;
+            EditorUI.addDragGhost("normal");
+            var mousemoveHandle = function( event ) {
+                var x = event.clientX - this.$.curve.getBoundingClientRect().left + this.ofX;
+                var y = event.clientY - this.$.curve.getBoundingClientRect().top + this.ofY;
+                var newPoint =  this.rotatLine({
+                    x: this.bezier[0],
+                    y: this.bezier[1]
+                },{
+                    x: x1,
+                    y: y1
+                },{
+                    x: x,
+                    y: y,
+                },0);
+
+                line1.setAttribute("x2",newPoint.x * this.distance + this.ofX);
+                line1.setAttribute("y2",(this.ofY + this.distance) - (newPoint.y * this.distance));
+                c1point.setAttribute("cx",newPoint.x * this.distance + this.ofX);
+                c1point.setAttribute("cy",(this.ofY + this.distance) - (newPoint.y * this.distance));
+                realBezier[0] = newPoint.x * this.distance + this.ofX;
+                this.bezier[0] = newPoint.x;
+                realBezier[1] = (this.ofY + this.distance) - (newPoint.y * this.distance);
+                this.bezier[1] = newPoint.y;
+                path.setAttribute("d", this.getPath(realBezier));
+                this.updateValue();
+            }.bind(this);
+
+            var mouseupHandle = function (event) {
+                document.removeEventListener('mousemove', mousemoveHandle);
+                document.removeEventListener('mouseup', mouseupHandle);
+                EditorUI.removeDragGhost();
+            }.bind(this);
+
+            document.addEventListener ( 'mousemove', mousemoveHandle );
+            document.addEventListener ( 'mouseup', mouseupHandle );
+        }.bind(this);
+
+        line2.onmousedown = function () {
+            var x1 = this.ofX + this.distance;
+            var y1 = this.ofY;
+            EditorUI.addDragGhost("normal");
+            var mousemoveHandle = function( event ) {
+                var x = event.clientX - this.$.curve.getBoundingClientRect().left + this.ofX;
+                var y = event.clientY - this.$.curve.getBoundingClientRect().top + this.ofY;
+                var newPoint =  this.rotatLine({
+                    x: this.bezier[2],
+                    y: this.bezier[3]
+                },{
+                    x: x1,
+                    y: y1
+                },{
+                    x: x,
+                    y: y,
+                },1);
+
+                newPoint = {x: newPoint.x + 1, y: newPoint.y + 1};
+                line2.setAttribute("x2",newPoint.x * this.distance + this.ofX);
+                line2.setAttribute("y2",(this.ofY + this.distance) - (newPoint.y * this.distance));
+                c2point.setAttribute("cx",newPoint.x * this.distance + this.ofX);
+                c2point.setAttribute("cy",(this.ofY + this.distance) - (newPoint.y * this.distance));
+                realBezier[2] = newPoint.x * this.distance + this.ofX;
+                this.bezier[2] = newPoint.x;
+                realBezier[3] = (this.ofY + this.distance) - (newPoint.y * this.distance);
+                this.bezier[3] = newPoint.y;
+                path.setAttribute("d", this.getPath(realBezier));
+                this.updateValue();
+            }.bind(this);
+
+            var mouseupHandle = function (event) {
+                document.removeEventListener('mousemove', mousemoveHandle);
+                document.removeEventListener('mouseup', mouseupHandle);
+                EditorUI.removeDragGhost();
+            }.bind(this);
+
+            document.addEventListener ( 'mousemove', mousemoveHandle );
+            document.addEventListener ( 'mouseup', mouseupHandle );
+        }.bind(this);
+
         this.updateValue();
     },
+
+
 
     realCoord: function (bezier) {
         var realCoord = [
@@ -327,7 +412,8 @@ Polymer({
         line.setAttribute("y2",y);
         line.setAttribute("stroke",color);
         line.setAttribute("fill","transparent");
-        line.setAttribute("stroke-width","1");
+        line.setAttribute("stroke-width","2");
+        line.setAttribute("class","point");
         this.svg.appendChild(line);
         return line;
     },
@@ -402,6 +488,42 @@ Polymer({
 
     stopPreview: function () {
         this._stopPreview = true;
+    },
+
+    _getRotat: function (x1,y1,x2,y2) {
+        var x = Math.abs(x1-x2);
+        var y = Math.abs(y1-y2);
+        var z = Math.sqrt(x*x+y*y);
+        var rotat = Math.round((Math.asin(y/z)/Math.PI*180));
+        if (x2 >= x1 && y2 <= y1) {
+            rotat = rotat;
+        }
+        else if (x2 <= x1 && y2 <= y1) {
+            rotat = 180 - rotat;
+        }
+        else if (x2 <= x1 && y2 >= y1) {
+            rotat = 180 + rotat;
+        }else if(x2 >= x1 && y2 >= y1){
+            rotat = 360 - rotat;
+        }
+        return rotat;
+    },
+
+    _getLineWidth: function (points,index) {
+        if (index === 0) {
+            return Math.sqrt(Math.pow(0 - points.x,2) + Math.pow(0 - points.y,2));
+        }
+        else {
+            return Math.sqrt(Math.pow(points.x - 1,2) + Math.pow(points.y - 1,2));
+        }
+    },
+
+    rotatLine: function (controlCoord,oldCoord,newCoord,controlIndex) {
+        var r = this._getLineWidth({x : controlCoord.x , y : controlCoord.y },controlIndex) * this.distance;
+        var rotat = this._getRotat(oldCoord.x,oldCoord.y,newCoord.x,newCoord.y);
+        var newx = (Math.cos(rotat/180 * Math.PI) * r) / this.distance;
+        var newy = (Math.sin(rotat/180 * Math.PI ) * r) / this.distance;
+        return {x: newx, y: newy};
     },
 
 });
