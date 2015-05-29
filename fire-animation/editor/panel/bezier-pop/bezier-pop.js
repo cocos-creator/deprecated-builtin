@@ -496,7 +496,7 @@ Polymer({
         var z = Math.sqrt(x*x+y*y);
         var rotat = Math.round((Math.asin(y/z)/Math.PI*180));
         if (x2 >= x1 && y2 <= y1) {
-            quadrant = 0;
+            rotat = rotat;
         }
         else if (x2 <= x1 && y2 <= y1) {
             rotat = 180 - rotat;
