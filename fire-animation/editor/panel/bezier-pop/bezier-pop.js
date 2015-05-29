@@ -193,6 +193,7 @@ Polymer({
 
         var svgns = "http://www.w3.org/2000/svg";
         var slash = this.drawLine(this.distance + this.ofX,this.ofY,'#3e3e3e',true);
+        slash.setAttribute('class','eventNone');
         var path = document.createElementNS(svgns,"path");
         var d = this.getPath(realBezier);
 
@@ -319,7 +320,7 @@ Polymer({
                     x: x,
                     y: y,
                 },1);
-                
+
                 newPoint = {x: newPoint.x + 1, y: newPoint.y + 1};
                 line2.setAttribute("x2",newPoint.x * this.distance + this.ofX);
                 line2.setAttribute("y2",(this.ofY + this.distance) - (newPoint.y * this.distance));
@@ -411,7 +412,7 @@ Polymer({
         line.setAttribute("y2",y);
         line.setAttribute("stroke",color);
         line.setAttribute("fill","transparent");
-        line.setAttribute("stroke-width","3");
+        line.setAttribute("stroke-width","2");
         line.setAttribute("class","point");
         this.svg.appendChild(line);
         return line;
