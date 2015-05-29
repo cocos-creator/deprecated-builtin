@@ -521,8 +521,8 @@ Polymer({
     rotatLine: function (controlCoord,oldCoord,newCoord,controlIndex) {
         var r = this._getLineWidth({x : controlCoord.x , y : controlCoord.y },controlIndex) * this.distance;
         var rotat = this._getRotat(oldCoord.x,oldCoord.y,newCoord.x,newCoord.y);
-        var newx = (Math.cos(rotat/180 * Math.PI) * r) / this.distance;
-        var newy = (Math.sin(rotat/180 * Math.PI ) * r) / this.distance;
+        var newx = (Math.cos(Math.deg2rad(rotat)) * r) / this.distance;
+        var newy = (Math.sin(Math.deg2rad(rotat)) * r) / this.distance;
         return {x: newx, y: newy};
     },
 
