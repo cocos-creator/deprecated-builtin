@@ -1,0 +1,17 @@
+<polymer-element
+    name="drop-sheet"
+    constructor="DropSheet"
+    on-mousedown="{{_onMouseDown}}"
+>
+    <template>
+        <link rel="stylesheet" href="drop-sheet.css">
+        <fire-ui-pixi-grid id="view" fit></fire-ui-pixi-grid>
+        <svg id="keys"></svg>
+        <pre>
+            Panning: shift + mouse move
+            Edit Curve: right click on keyframe
+        </pre>
+    </template>
+
+    <script type="text/javascript" src="drop-sheet.js"></script>
+</polymer-element>

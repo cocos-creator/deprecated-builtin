@@ -1,0 +1,39 @@
+<polymer-element
+    name="bezier-pop"
+    constructor="BezierPop"
+>
+    <template>
+        <link rel="stylesheet" href="bezier-pop.css">
+        <div class="left">
+            <div class="title">
+            Bezier Template:
+            </div>
+            <ul class="beziers" id="beziers">
+                <template repeat="{{item in curves}}">
+                    <li on-click="{{curveTypeClickAction}}">{{item.name}}</li>
+                </template>
+            </ul>
+        </div>
+        <div class="right">
+            <div class="tobar">
+                <button-group id="btnGrp"></button-group>
+            </div>
+            <div class="curvePanel" fit>
+                <div id="curve">
+                </div>
+                <div class="data">
+                    [{{bezierBinding}}]
+                </div>
+                <svg id="svg"></svg>
+                <div class="preview" id="preview">
+                    <div id="animate1" class="rowline" >
+                        <div class="radiu"></div>
+                    </div>
+                    <div id="animate2" class="colline" ></div>
+                </div>
+            </div>
+            </div>
+    </template>
+
+    <script type="text/javascript" src="bezier-pop.js"></script>
+</polymer-element>

@@ -7,9 +7,12 @@
     <template>
         <link rel="stylesheet" href="importer-inspector.css">
 
-        <fire-ui-resize-wrapper flex-col flex-stretch>
+        <fire-ui-resize-wrapper flex-col flex-stretch height="auto" min-height="200">
             <fire-ui-toolbar class="toolbar" justify-end>
-                <span class="asset-name" flex-1>{{asset.name}}</span>
+                <div class="name" flex-1>
+                    <span class="asset-name">{{asset.name}}</span>
+                    <span class="class-name">({{assetClassName}})</span>
+                </div>
                 <fire-ui-button disabled="{{!asset.dirty && !meta.dirty}}" on-click="{{revertAction}}">
                     <i class="fa fa-close"></i>
                 </fire-ui-button>

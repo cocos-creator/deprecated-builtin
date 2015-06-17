@@ -1,9 +1,11 @@
 module.exports = {
-    load: function (plugin) {
-        plugin.on('fire-game:open', function () {
-            plugin.openPanel('default');
-        });
+    load: function () {
     },
-    unload: function (plugin) {
+
+    unload: function () {
+    },
+
+    'fire-game:open': function () {
+        Editor.Panel.open('fire-game.panel');
     },
 };

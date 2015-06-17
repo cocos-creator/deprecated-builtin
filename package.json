@@ -1,6 +1,6 @@
 {
   "name": "fireball-builtin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fireball Builtin",
   "homepage": "http://github.com/fireball-x/builtin",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "gulp-vulcanize": "",
     "jshint-stylish": "",
     "q": "1.1.2",
-    "source-map": "^0.4.2"
+    "source-map": "^0.4.2",
+    "plist": "1.1.0"
   }
 }

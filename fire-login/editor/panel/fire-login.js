@@ -115,7 +115,7 @@ Polymer({
             this.msg = 'Login succeed!';
 
             var userInfo = detail['user-info'];
-            Editor.Metrics.identifyUser(userInfo);
+            Editor.sendToCore('metrics:identify', { user: userInfo});
 
             Editor.sendToCore('login:succeed', {
                 'account': this.account,
@@ -168,7 +168,7 @@ Polymer({
 
                 if ( typeof(res) === 'object' ) {
                     this.msg = 'Login succeed!';
-                    Editor.Metrics.identifyUser(res);
+                    Editor.sendToCore('metrics:identify', { user: res});
                     Editor.sendToCore( 'login:succeed', {
                         'account': '',
                         'password': '',

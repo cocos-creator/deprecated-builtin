@@ -21,6 +21,15 @@ Polymer({
         this._curSelected = null;
     },
 
+    ready: function () {
+        Editor.sendRequestToCore( 'console:query', function ( results ) {
+            for ( var i = 0; i < results.length; ++i ) {
+                var item = results[i];
+                this.add( item.type, item.message );
+            }
+        }.bind(this));
+    },
+
     'console:log': function ( message ) {
         this.add( 'log', message );
     },
@@ -45,6 +54,10 @@ Polymer({
         this.add( 'error', message );
     },
 
+    'console:clear': function () {
+        this.clear();
+    },
+
     add: function ( type, text ) {
         this.logs.push({
             type: type,
@@ -56,6 +69,7 @@ Polymer({
 
     clear: function () {
         this.logs = [];
+        this.$.detail.clear();
     },
 
     applyFilter: function ( logs, filterText, option, useRegex ) {
@@ -147,6 +161,5 @@ Polymer({
 
     clearAction: function (event) {
         this.clear();
-        this.$.detail.clear();
     },
 });

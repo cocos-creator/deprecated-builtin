@@ -66,7 +66,12 @@ var SpriteAnimation = Fire.Class({
         var initialized = (this._nameToState !== null);
         if (initialized === false) {
             this._spriteRenderer = this.entity.getComponent(Fire.SpriteRenderer);
-            this._defaultSprite = this._spriteRenderer.sprite;
+            if (! this._spriteRenderer) {
+                Fire.error("Can not play sprite animation because SpriteRenderer is not found");
+            }
+            else{
+                this._defaultSprite = this._spriteRenderer.sprite;
+            }
 
             this._nameToState = {};
             var state = null;
@@ -78,12 +83,13 @@ var SpriteAnimation = Fire.Class({
                 }
             }
 
-            if (!this.getAnimState(this.defaultAnimation.name)) {
+            if (this.defaultAnimation && !this.getAnimState(this.defaultAnimation.name)) {
                 state = new SpriteAnimationState(this.defaultAnimation);
                 this._nameToState[state.name] = state;
             }
         }
     },
+
     /**
      * Get Animation State.
      * @method getAnimState
@@ -221,7 +227,7 @@ var SpriteAnimation = Fire.Class({
     _sample: function () {
         if (this._curAnimation !== null) {
             var newIndex = this._curAnimation.getCurrentIndex();
-            if (newIndex >= 0 && newIndex != this._curIndex) {
+            if (newIndex >= 0 && newIndex !== this._curIndex) {
                 this._spriteRenderer.sprite = this._curAnimation.clip.frameInfos[newIndex].sprite;
             }
             this._curIndex = newIndex;

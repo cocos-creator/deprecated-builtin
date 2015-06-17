@@ -1,28 +1,26 @@
 {
   "name": "fire-about",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "The about page for Fireball Engine",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "Fireball/About Fireball",
-        "message": "fire-about:open"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "fixed-size",
-        "view": "editor/panel/fire-about.html",
-        "ctor": "FireAbout",
-        "title": "About Fireball",
-        "width": 400,
-        "height": 160,
-        "min-width": 400,
-        "min-height": 100,
-        "messages": []
-      }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "Fireball/About Fireball": {
+      "message": "fire-about:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "frame": "editor/panel/fire-about.html",
+      "type": "fixed-size",
+      "ctor": "FireAbout",
+      "title": "About Fireball",
+      "width": 400,
+      "height": 160,
+      "min-width": 400,
+      "min-height": 100,
+      "messages": []
     }
   }
 }

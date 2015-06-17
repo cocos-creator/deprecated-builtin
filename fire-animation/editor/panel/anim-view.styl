@@ -1,0 +1,77 @@
+:host {
+    position: relative
+
+    display: flex
+    flex-wrap: nowrap
+    align-items: stretch
+    flex-direction: row
+    overflow: hidden
+}
+
+.border {
+    position: relative
+
+    border: 1px solid #171717
+    background: #333
+    box-sizing: border-box
+}
+
+.view {
+    position: relative
+}
+
+#dropsheet {
+    background: url('img/bg.png')
+}
+
+#curveview {
+}
+
+#mask {
+    height: 100%
+    position: absolute
+    background: white
+    pointer-events: none
+    opacity: 0.1
+    bottom: 0px
+}
+
+#needle {
+    position: absolute
+    top: 0px
+    bottom: 0px
+    left: 0px
+
+    width: 1px
+
+    background: white
+}
+
+#needle:hover {
+    background: #09f
+}
+
+#needle.active {
+    background: #09f
+}
+
+#mousecube {
+    width: 10px
+    height: 100%
+    position: absolute
+    margin-left: -4px
+    cursor: col-resize
+}
+
+#tip {
+    position: absolute
+    width: 40px
+    height: 12px
+    background: gray
+    text-align: center
+    font-size: 10px
+    color: white
+    top: 0px
+    display: none
+    z-index: 999
+}

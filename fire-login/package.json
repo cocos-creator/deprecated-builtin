@@ -1,28 +1,26 @@
 {
   "name": "fire-login",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "The login panel for Fireball Engine",
   "author": "KamiSama <kamisama.lwh@qq.com>",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "Fireball/Login",
-        "message": "fire-login:open"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "fixed-size",
-        "view": "editor/panel/fire-login.html",
-        "ctor": "FireLogin",
-        "title": "Login",
-        "width": 400,
-        "height": 450,
-        "min-width": 400,
-        "min-height": 350,
-        "messages": []
-      }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "Fireball/Login": {
+      "message": "fire-login:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "frame": "editor/panel/fire-login.html",
+      "type": "fixed-size",
+      "ctor": "FireLogin",
+      "title": "Login",
+      "width": 400,
+      "height": 450,
+      "min-width": 400,
+      "min-height": 350,
+      "messages": []
     }
   }
 }

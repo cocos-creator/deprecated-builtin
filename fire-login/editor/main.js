@@ -1,9 +1,11 @@
 module.exports = {
-    load: function (plugin) {
-        plugin.on('fire-login:open', function () {
-            plugin.openPanel('default');
-        });
+    load: function () {
     },
-    unload: function (plugin) {
+
+    unload: function () {
+    },
+
+    'fire-login:open': function () {
+        Editor.Panel.open('fire-login.panel');
     },
 };

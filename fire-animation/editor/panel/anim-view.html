@@ -1,0 +1,46 @@
+<link rel="import" href="timeline-bar.html">
+<link rel="import" href="curve-view.html">
+<link rel="import" href="drop-sheet.html">
+
+<polymer-element
+    name="anim-view"
+    constructor="AnimView"
+    on-focus="{{_focusAction}}"
+    on-blur="{{_blurAction}}"
+>
+    <template>
+        <link rel="stylesheet" href="anim-view.css">
+
+        <div id="border" class="border" fit flex-col flex-stretch
+            on-mousedown="{{_onMouseDown}}"
+            on-mousewheel="{{_onMouseWheel}}"
+            on-keydown="{{_onKeyDown}}"
+            on-keyup="{{_onKeyUp}}"
+            >
+            <timline-bar id="timeline"
+                on-click="{{_onMouseClick}}"
+            ></timline-bar>
+            <div class="view" flex-1>
+                <curve-view id="curveview" fit>
+                </curve-view>
+
+                <drop-sheet id="dropsheet" fit
+                    clip="{{clip}}"
+                >
+                </drop-sheet>
+            </div>
+
+            <div id="needle">
+                <div id="mousecube" on-mousedown="{{_onNeedleMouseDown}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width:10px;height:10px;">
+                        <polygon points="0,0 10,0 4.5,8" style="fill:white;"/>
+                    </svg>
+                </div>
+            </div>
+            <!-- <div id="mask"></div> -->
+            <div id="tip">{{curFrame}}</div>
+        </div>
+    </template>
+
+    <script type="text/javascript" src="anim-view.js"></script>
+</polymer-element>

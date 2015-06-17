@@ -34,6 +34,7 @@ Polymer({
 
             if ( asset && this.meta.uuid === asset._uuid ) {
                 this.asset = asset;
+                this.assetClassName = Fire.JS.getClassName(asset);
 
                 this.$.fields.target = this.asset;
                 this.$.fields.refresh();

@@ -90,6 +90,26 @@ Polymer({
         Editor.sendToMainWindow( 'scene:dirty' );
     },
 
+    'hierarchy-menu:create-input-field': function () {
+        this.$.hierarchyTree.createInputField();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'hierarchy-menu:create-particle-system': function () {
+        this.$.hierarchyTree.createParticleSystem();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'hierarchy-menu:create-text': function () {
+        this.$.hierarchyTree.createText();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
+    'hierarchy-menu:create-sprite-animation': function () {
+        this.$.hierarchyTree.createSpriteAnimation();
+        Editor.sendToMainWindow( 'scene:dirty' );
+    },
+
     'hierarchy-menu:rename': function () {
         this.$.hierarchyTree.renameEntityFromContextSelect();
     },
@@ -167,9 +187,33 @@ Polymer({
 
     createAction: function () {
         var rect = this.$.addIcon.getBoundingClientRect();
-        Editor.popupMenu(Editor.plugins.hierarchy.getMenuTemplate('main-menu'),
-                       Math.floor(rect.left + 5),
-                       Math.floor(rect.bottom + 10));
+        var template = [
+            {
+                label: 'Create Empty',
+                message: 'hierarchy-menu:create-entity',
+            },
+            {
+                label: 'Create Empty Child',
+                message: 'hierarchy-menu:create-child-entity',
+            },
+            {
+                label: 'Create Input Field',
+                message: 'hierarchy-menu:create-input-field',
+            },
+            {
+                label: 'Create Particle System',
+                message: 'hierarchy-menu:create-particle-system',
+            },
+            {
+                label: 'Create Text',
+                message: 'hierarchy-menu:create-text',
+            },
+            {
+                label: 'Create Sprite Animation',
+                message: 'hierarchy-menu:create-sprite-animation',
+            },
+        ];
+        Editor.Menu.popup(Math.floor(rect.left + 5), Math.floor(rect.bottom + 10), template);
     },
 
     reload: function (sceneSnapshot) {

@@ -1,32 +1,35 @@
 {
   "name": "fire-console",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fireball builtin console view",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "View/Panels/Console",
-        "message": "fire-console:open"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "dockable",
-        "view": "editor/panel/fire-console.html",
-        "ctor": "FireConsole",
-        "title": "Console",
-        "height": 300,
-        "messages": [
-          "console:log",
-          "console:success",
-          "console:failed",
-          "console:info",
-          "console:warn",
-          "console:error"
-        ]
-      }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "Panels/Console": {
+      "message": "fire-console:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "frame": "editor/panel/fire-console.html",
+      "type": "dockable",
+      "ctor": "FireConsole",
+      "title": "Console",
+      "popable": false,
+      "height": 300,
+      "shortcuts": {
+        "command+k": "clear"
+      },
+      "messages": [
+        "console:log",
+        "console:success",
+        "console:failed",
+        "console:info",
+        "console:warn",
+        "console:error",
+        "console:clear"
+      ]
     }
   }
 }

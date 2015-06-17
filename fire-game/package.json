@@ -1,29 +1,28 @@
 {
   "name": "fire-game",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fireball builtin game view",
   "author": "Firebox Technology",
-  "fireball": {
-    "main": "editor/main.js",
-    "menus": [
-      {
-        "path": "View/Panels/Game",
-        "message": "fire-game:open"
-      }
-    ],
-    "panels": {
-      "default": {
-        "type": "dockable",
-        "view": "editor/panel/fire-game.html",
-        "ctor": "FireGame",
-        "title": "Game",
-        "width": "auto",
-        "height": "auto",
-        "messages": [
-          "scene:repaint",
-          "gizmos:dirty"
-        ]
-      }
+  "type": "fireball",
+  "main": "editor/main.js",
+  "menus": {
+    "Panels/Game": {
+      "message": "fire-game:open"
+    }
+  },
+  "panels": {
+    "panel": {
+      "frame": "editor/panel/fire-game.html",
+      "type": "dockable",
+      "ctor": "FireGame",
+      "title": "Game",
+      "popable": false,
+      "width": "auto",
+      "height": "auto",
+      "messages": [
+        "scene:repaint",
+        "gizmos:dirty"
+      ]
     }
   }
 }

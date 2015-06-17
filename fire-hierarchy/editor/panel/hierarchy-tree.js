@@ -6,7 +6,7 @@
         this.dragenterCnt = 0;
         this.curDragoverEL = null;
         this.lastDragoverEL = null;
-
+        this.stopMask = false;
         // debug
         hierarchy = this;
     },
@@ -31,7 +31,7 @@
     },
 
     getContextMenuTemplate: function () {
-        var template = [
+        return [
             // Duplicate
             {
                 label: 'Duplicate',
@@ -55,12 +55,32 @@
 
             // =====================
             { type: 'separator' },
+
+            {
+                label: 'Create Empty',
+                message: 'hierarchy-menu:create-entity',
+            },
+            {
+                label: 'Create Empty Child',
+                message: 'hierarchy-menu:create-child-entity',
+            },
+            {
+                label: 'Create Input Field',
+                message: 'hierarchy-menu:create-input-field',
+            },
+            {
+                label: 'Create Particle System',
+                message: 'hierarchy-menu:create-particle-system',
+            },
+            {
+                label: 'Create Text',
+                message: 'hierarchy-menu:create-text',
+            },
+            {
+                label: 'Create Sprite Animation',
+                message: 'hierarchy-menu:create-sprite-animation',
+            },
         ];
-        // append Create menu
-        var createMenu = Editor.plugins.hierarchy.getMenuTemplate('hierarchy-menu');
-        template = template.concat(createMenu);
-        //
-        return template;
     },
 
     newItem: function ( name, id, parentEL ) {
@@ -101,28 +121,6 @@
 
     refresh: function () {
         this.clear();
-
-        // 这里只是直接读取场景，但场景在读取过程中很可能发生改变，也可能在读取之前改变的消息这时并没收到。
-        // 目前先假设在读取之前和读取过程中，场景不会改变。
-
-        if (!Fire.Engine._scene) {
-            return;
-        }
-        var selection = Editor.Selection.entities;
-        function createItem(entity, parentEL) {
-            var el = Editor.plugins.hierarchy.newEntity(entity.name, entity._objFlags, entity.id, parentEL);
-            if (el) {
-                var children = entity._children;
-                for (var i = 0, len = children.length; i < len; i++) {
-                    createItem(children[i], el);
-                }
-                el.selected = selection.indexOf(el.userId) !== -1;
-            }
-        }
-        var entities = Fire.Engine._scene.entities;
-        for (var i = 0, len = entities.length; i < len; i++) {
-            createItem(entities[i]);
-        }
     },
 
     highlightBorder: function ( item ) {
@@ -243,6 +241,95 @@
             });
         }
     },
+
+    createInputField: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-input-field', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-input-field', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
+    createParticleSystem: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-particle-system', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-particle-system', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
+    createText: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-text', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-text', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
+    createSpriteAnimation: function () {
+        var contextSelection = Editor.Selection.contextEntities;
+        if ( contextSelection.length > 0 ) {
+            var targetEL = this.idToItem[contextSelection[0]];
+            var parentEL = targetEL.parentElement;
+            if ( parentEL && parentEL instanceof HierarchyItem ) {
+                Editor.sendToMainWindow('engine:create-sprite-animation', {
+                    'parent-id': parentEL.userId,
+                    'options': {
+                        'select-in-hierarchy': true
+                    }
+                });
+                return;
+            }
+        }
+        Editor.sendToMainWindow('engine:create-sprite-animation', {
+            'options': {
+                'select-in-hierarchy': true
+            }
+        });
+    },
+
 
     renameEntityFromContextSelect: function () {
         var contextSelection = Editor.Selection.contextEntities;
@@ -405,7 +492,7 @@
 
         Editor.Selection.setContextEntity(curContextID);
 
-        Editor.popupMenu(this.getContextMenuTemplate());
+        Editor.Menu.popup(this.getContextMenuTemplate());
     },
 
     keydownAction: function (event) {
@@ -595,6 +682,76 @@
                 }
             }
         }
+    },
+
+    highlightElement: function (ele) {
+        var element = ele;
+        var topMask = document.createElement('div');
+        var bottomMask = document.createElement('div');
+        var centerMask = document.createElement('div');
+
+        topMask.style.pointerEvents = "none";
+        topMask.style.position = 'absolute';
+        topMask.style.background = 'black';
+        topMask.style.opacity = 0.5;
+        topMask.style.zIndex = 999;
+        topMask.setAttribute('name','EDIT_MASK');
+
+        bottomMask.style.background = 'black';
+        bottomMask.style.opacity = 0.5;
+        bottomMask.style.zIndex = 999;
+        bottomMask.style.position = 'absolute';
+        bottomMask.style.pointerEvents = "none";
+        bottomMask.setAttribute('name','EDIT_MASK');
+
+        centerMask.style.zIndex = 999;
+        centerMask.style.position = 'absolute';
+        centerMask.style.pointerEvents = "none";
+        centerMask.style.border = '1px dotted white';
+        centerMask.setAttribute('name','EDIT_MASK');
+
+        document.body.appendChild(topMask);
+        document.body.appendChild(bottomMask);
+        document.body.appendChild(centerMask);
+
+        this.stopMask = false;
+        this.updateMask(topMask,centerMask,bottomMask,element);
+    },
+
+    updateMask: function (topMask,centerMask,bottomMask,element) {
+        if ( this.stopMask ) {
+            return;
+        }
+
+        window.requestAnimationFrame( function() {
+            var rootRect = this.getBoundingClientRect();
+            var selectRect = element.getBoundingClientRect();
+            topMask.style.width = rootRect.width;
+            topMask.style.height = selectRect.top - rootRect.top;
+            topMask.style.top = rootRect.top;
+            topMask.style.left = rootRect.left;
+
+            bottomMask.style.width = rootRect.width;
+            bottomMask.style.top = selectRect.top + selectRect.height;
+            bottomMask.style.height = rootRect.height - selectRect.height - (selectRect.top - rootRect.top);
+            bottomMask.style.left = rootRect.left;
+
+            centerMask.style.top = selectRect.top -1;
+            centerMask.style.left = rootRect.left+1;
+            centerMask.style.width = rootRect.width-2;
+            centerMask.style.height = selectRect.height -2;
+            this.updateMask(topMask,centerMask,bottomMask,element);
+        }.bind(this) );
+    },
+
+    clearMask: function () {
+        var count = document.getElementsByName('EDIT_MASK').length;
+        for (var i = 0; i < count; i++) {
+            var child = document.getElementsByName('EDIT_MASK')[0];
+            document.body.removeChild(child);
+        }
+
+        this.stopMask = true;
     },
 
 });

@@ -29,10 +29,10 @@ Polymer({
     init: function () {
         var clientRect = this.getBoundingClientRect();
         this.view = {
-            left: clientRect.left,
-            top: clientRect.top,
-            width: clientRect.width,
-            height: clientRect.height,
+            left: Math.round(clientRect.left),
+            top: Math.round(clientRect.top),
+            width: Math.round(clientRect.width),
+            height: Math.round(clientRect.height),
         };
 
         // init interaction context
@@ -78,7 +78,9 @@ Polymer({
 
         //
         camera.size = this.view.height;
+        camera.background = new Fire.Color().fromHEX('#303030');
         this.renderContext.camera = camera;
+        this.renderContext.background = camera.background; // FIXME: ask @jare if it fix this line.
         this.grids.setCamera(camera);
         this.svgGizmos.setCamera(camera);
 
@@ -90,10 +92,10 @@ Polymer({
         if ( this.renderContext ) {
             var clientRect = this.getBoundingClientRect();
             this.view = {
-                left: clientRect.left,
-                top: clientRect.top,
-                width: clientRect.width,
-                height: clientRect.height,
+                left: Math.round(clientRect.left),
+                top: Math.round(clientRect.top),
+                width: Math.round(clientRect.width),
+                height: Math.round(clientRect.height),
             };
             this.renderContext.size = new Fire.Vec2( this.view.width, this.view.height );
             this.grids.resize( this.view.width, this.view.height );
@@ -115,7 +117,7 @@ Polymer({
 
         this.renderContext.camera.size = this.view.height / this.sceneCamera.scale;
         this.renderContext.camera.transform.position =
-            new Vec2 ( this.sceneCamera.position.x,
+            new Fire.Vec2 ( this.sceneCamera.position.x,
                        this.sceneCamera.position.y );
     },
 
@@ -124,7 +126,7 @@ Polymer({
             return;
 
         this.grids.update();
-        Fire._Runtime.render(this.renderContext);
+        Fire.Engine.tickInEditMode(this.renderContext);
         this.interactionContext.update(Fire.Engine._scene.entities);
     },
 
@@ -426,6 +428,7 @@ Polymer({
 
                 EditorUI.removeDragGhost();
                 event.stopPropagation();
+                this.style.cursor = '';
             }.bind(this);
 
             var keyupHandle = function(event) {
@@ -437,13 +440,15 @@ Polymer({
 
                     EditorUI.removeDragGhost();
                     event.stopPropagation();
+                    this.style.cursor = '';
                 }
             }.bind(this);
 
             //
             this._lastClientX = event.clientX;
             this._lastClientY = event.clientY;
-            EditorUI.addDragGhost("cell");
+            EditorUI.addDragGhost('-webkit-grabbing');
+            this.style.cursor = '-webkit-grabbing';
             document.addEventListener ( 'mousemove', mousemoveHandle );
             document.addEventListener ( 'mouseup', mouseupHandle );
             document.addEventListener ( 'keyup', keyupHandle );

@@ -1,10 +1,11 @@
 module.exports = {
-    load: function (plugin) {
-        plugin.on('quick-view:open', function (detail) {
-            plugin.openPanel('default', detail);
-        });
+    load: function () {
     },
 
-    unload: function (plugin) {
+    unload: function () {
+    },
+
+    'quick-view:open': function (detail) {
+        Editor.Panel.open('quick-view.panel', detail);
     },
 };
